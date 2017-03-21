@@ -26,9 +26,18 @@ public class LibraryTest {
 	public void testLibraryListOfShelf() {
 		Author olympie = new Author("Olympie", "Suquet");
 		Author merlene = new Author("Merlène", "Lejeune");
-		Book book1 = new Book("Ma VDM", olympie);
-		Book book2 = new Book("Mon chien", merlene);
-		Book book3 = new Book("Moi", olympie);
+		Book book1 = new Book();
+		book1.setAuthor(olympie);
+		book1.setTitle("Titre popo");
+		book1.setYear(2014);
+		Book book2 = new Book();
+		book2.setAuthor(olympie);
+		book2.setTitle("tutitre pam");
+		book2.setYear(202);
+		Book book3 = new Book();
+		book3.setAuthor(merlene);
+		book3.setTitle("Tuto beauté");
+		book3.setYear(2506);
 		List<Book> books = new ArrayList<>();
 		books.add(book1);
 		books.add(book2);
