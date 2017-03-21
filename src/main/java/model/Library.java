@@ -30,9 +30,9 @@ public class Library {
 	public Library(List<Book> books, int booksPerShelf){
 		 List<Shelf> newShelves= new ArrayList<Shelf>();
 		 List<Book> list = new ArrayList<Book>();
-		 for(int index=0; index<books.size(); index++){
-			 list.add(books.get(index));
-			 if ( index%(booksPerShelf-1) == 0 || index == books.size()-1){
+		 for(int index = 1; index <= books.size(); index++){
+			 list.add(books.get(index-1));
+			 if ( index%(booksPerShelf) == 0 || index == books.size()){
 				 newShelves.add(new Shelf(list));
 				 list = new ArrayList<Book>();
 			 }

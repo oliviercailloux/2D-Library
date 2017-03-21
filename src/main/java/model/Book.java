@@ -18,15 +18,25 @@ public class Book {
 	private Author author;
 	
 	/**
+	 * 
+	 */
+	private int year;
+	
+	/**
 	 * Book's constructor with the title and the author of the book.
 	 * @param the title of the book
 	 * @param the author of the book
 	 */
-	public Book(String title, Author author) {
+	public Book(String title, Author author, int year) {
 		this.title = title;
 		this.author = author;
+		this.year=year;
 	}
 	
+	public Book() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Getter of the title of the book
 	 * @return the title of the book
@@ -57,6 +67,22 @@ public class Book {
 	 */
 	public void setAuthor(Author author) {
 		this.author = author;
+	}
+	
+	/**
+	 * Getter of the author of the book
+	 * @return the author of the book
+	 */
+	public int getYear() {
+		return year;
+	}
+	
+	/**
+	 * Setter of the author of the book
+	 * @param the author of the book
+	 */
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 }
