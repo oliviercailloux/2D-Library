@@ -30,8 +30,8 @@ public class SVGDrawable {
 	public static void main(String[] args) throws Exception {
 		SVGDrawable test = new SVGDrawable();
 		Author a= new Author("pierre","dupont");
-		Book b= new Book("FirstBook1",a);
-		Book b2= new Book("FirstBook2",a);;
+		Book b= new Book("FirstBook1",a,1990);
+		Book b2= new Book("FirstBook2",a,1990);;
 		test.CreateBook(b, 400, 200, 50, 1);
 		test.CreateBook(b2, 400, 200, 50, 2);
 		//test.CreateBook("FANNY", "FirstBook2", 400, 200, 50, 3);
