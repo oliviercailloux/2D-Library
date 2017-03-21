@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.io.FileOutputStream;
@@ -16,6 +17,9 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
+import model.Author;
+import model.Book;
+
 /**
  * Based on https://xmlgraphics.apache.org/batik/using/svg-generator.html (with
  * minor modifications).
@@ -25,11 +29,15 @@ public class SVGDrawable {
 
 	public static void main(String[] args) throws Exception {
 		SVGDrawable test = new SVGDrawable();
-		test.CreateBook("Thibaud", "FirstBook1", 400, 200, 50, 1);
-		test.CreateBook("Thibaud", "FirstBook2", 400, 200, 50, 2);
-		test.CreateBook("Thibaud", "FirstBook3", 400, 200, 50, 3);
+		Author a= new Author("pierre","dupont");
+		Book b= new Book("FirstBook1",a);
+		Book b2= new Book("FirstBook2",a);;
+		test.CreateBook(b, 400, 200, 50, 1);
+		test.CreateBook(b2, 400, 200, 50, 2);
+		//test.CreateBook("FANNY", "FirstBook2", 400, 200, 50, 3);
+
 	}
-	
+
 	/**
 	 * @param author
 	 * @param title
@@ -47,7 +55,7 @@ public class SVGDrawable {
 	 * position number 2 is for the profile view
 	 * and position 3 is for the profile view, with the book lying down.
 	 */
-	public void CreateBook(String author, String title, int height , int width, int thickness , int position ) throws IOException, ParserConfigurationException {
+	public void CreateBook(Book b, int height , int width, int thickness , int position ) throws IOException, ParserConfigurationException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 
@@ -62,52 +70,45 @@ public class SVGDrawable {
 		SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
 		ctx.setEmbeddedFontsOn(true);
 		SVGGraphics2D g = new SVGGraphics2D(ctx, false);
-
-		// To positionate our Title and Author
+		
+		//Modification of the color
+		g.fillRect(20, 40, width, height);
+		g.fillRect(40, 80, width, height);
+		g.setColor(Color.cyan);
+		System.out.println(g.getColor());
+		
+		// To positionnate our Title and Author
 		FontMetrics metrics = g.getFontMetrics();
-		author="By " + author;
-		int xT1 = (int)( width - metrics.stringWidth(title)) / 2;
+		String author="By " + b.getAuthor().getFirstName()+" "+ b.getAuthor().getLastName();
+		int xT1 = (int)( width - metrics.stringWidth(b.getTitle())) / 2;
 		int yT1 = (int)(( height - metrics.getHeight()) / 2) + metrics.getAscent();
 		int xA1 = (int)( width - metrics.stringWidth(author)) / 2;
 		int yA1 = (int)(( height- metrics.getHeight())/1.5) + metrics.getAscent();
-		int xT2 = (int)( thickness - metrics.stringWidth(title)) / 2;
-		int yT2 = (int)(( height - metrics.getHeight()) / 2) + metrics.getAscent();
-		int xA2 = (int)( thickness - metrics.stringWidth(author)) / 2;
-		int yA2 = (int)(( height- metrics.getHeight())/1.5) + metrics.getAscent();
-		int xT3 = (int) ( height - metrics.stringWidth(title)) / 3;
+		int xT3 = (int) ( height - metrics.stringWidth(b.getTitle())) / 3;
 		int yT3 = (int) (( thickness - metrics.getHeight()) / 2) +  metrics.getAscent();
 		int xA3 = (int) ((height - metrics.stringWidth(author))/1.5) ;
 		int yA3 = (int) (( thickness - metrics.getHeight())/2) + metrics.getAscent();
-		
-		
-		//g.setPaint(Color.black);
-	
+
 
 		// Creation whether the position is 1 : face view
 		if(position == 1){
-			g.drawString(title,xT1 , yT1);
+			g.drawString(b.getTitle(),xT1 , yT1);
 			g.drawString(author, xA1, yA1);
 			g.setSVGCanvasSize(new Dimension(width, height));
 		}
 
-		// Creation whether the position is 2 : profile view  
-		else if(position == 2){
-			g.drawString(title,xT2 , yT2);
-			g.drawString(author, xA2, yA2);
-			g.setSVGCanvasSize(new Dimension(thickness, height));
-		}
-
 		// Creation whether the position is 3 : profile view lying down
 		else{
-			g.drawString(title,xT3 , yT3);
+			g.drawString(b.getTitle(),xT3 , yT3);
 			g.drawString(author, xA3, yA3);
 			g.setSVGCanvasSize(new Dimension(height, thickness));
 		}
 
 		// Finally, stream out SVG using UTF-8 encoding.
 		boolean useCSS = true; // we want to use CSS style attributes
-		try (Writer out = new OutputStreamWriter(new FileOutputStream(title + ".svg"), "UTF-8")) {
+		try (Writer out = new OutputStreamWriter(new FileOutputStream(b.getTitle() + ".svg"), "UTF-8")) {
 			g.stream(out, useCSS);
 		}
+
 	}
 }
