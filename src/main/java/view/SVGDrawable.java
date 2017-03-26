@@ -1,4 +1,4 @@
-
+package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +19,9 @@ import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+
+import model.Author;
+import model.Book;
 
 
 /**
