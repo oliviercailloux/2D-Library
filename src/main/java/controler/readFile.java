@@ -1,14 +1,13 @@
 package controler;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import org.apache.commons.io.FileUtils;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-
+import model.Author;
 import model.Book;
 
 public class readFile {
@@ -21,34 +20,34 @@ public class readFile {
 	public static List<Book> read() throws IOException{
 		List<Book> books = new ArrayList<Book>();
 		
-		URL resourceURL = readFile.class.getResource("LibraryBooks.txt");
-		if(resourceURL == null){
+		InputStream inputStream = readFile.class.getResourceAsStream("LibraryBooks.txt");
+		if(inputStream == null){
 			return books;
+			// -> exception 
 		}
-		File file = new File(resourceURL.getFile());
+		// -> bytes
 		
-		FileUtils.copyURLToFile(resourceURL, file);
-		
-		
-		try (Scanner input = new Scanner(file)){
+//		int justRead = inputStream.available();
+//		System.out.println(justRead);
+		try (BufferedReader input = new BufferedReader (new InputStreamReader(inputStream, "UTF-8"))){
 			int i = 1;
-			System.out.println("before while");
-			while (input.hasNextLine()) {
-				System.out.println("in wile : " + i);
-				String line = input.nextLine();
+			String line = input.readLine();
+			while (line != null) {
 				Book book = new Book();
-
+				Author author = new Author("", "");
+				book.setAuthor(author);
 				String[] words = line.split(";");
 				for (int position = 0; position < words.length; position++) {
+					
 					String word = "";
 					word = words[position].trim();
 					setBookAttribute(book, position, word);
+
 				}
 				books.add(book);
-				System.out.println(i +")  "+ book.getTitle());
 				i++;
+				line = input.readLine();
 			}
-			System.out.println("end while");
 		}
 		return books;
 	}
@@ -60,6 +59,7 @@ public class readFile {
 	 * @param word word found at the position
 	 */
 	private static void setBookAttribute(Book book, int position, String word) {
+		
 		switch (position) {
 		case 0:
 			book.getAuthor().setLastName(word);
