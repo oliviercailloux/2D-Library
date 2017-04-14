@@ -16,6 +16,10 @@ public class Shelf {
 	 * The list of books in the shelf
 	 */
 	private List<Book> books;
+	/**
+	 * The height of the shelf
+	 */
+	private double heightSize; 
 	
 	/**
 	 * Shelf constructor with a list of books
@@ -40,5 +44,21 @@ public class Shelf {
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
+	
+	/**
+	 * Getter of the height of the shelf
+	 * @return the size
+	 */
+	public double getHeightSize() {
+		return heightSize;
+	}
+	/**
+	 * Setter of the height of the shelf
+	 * @param a height
+	 */
+	public void setHeightSize(double heightSize) {
+		this.heightSize = heightSize;
+	}
+
 
 }

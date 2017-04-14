@@ -14,7 +14,14 @@ public class Library {
 	 * The list of the shelves of the library
 	 */
 	private List<Shelf> shelves;
-	
+	/**
+	 * The Height of the library is define by the size of users's frame
+	 */
+	private double frameSizeH;
+	/**
+	 * The Weigth of the library is define by the size of users's frame
+	 */
+	private double frameSizeW;
 	/**
 	 * Constructor of a library with a list of shelves
 	 */
@@ -22,23 +29,36 @@ public class Library {
 		this.shelves = shelves;
 	}
 	
-	/**
-	 * Constructor of a library, filled from a list of books and a number of books per shelf
-	 * @param a list of books
-	 * @param booksPerShelf, the maximum number of books per shelf in the library
-	 */
-	public Library(List<Book> books, int booksPerShelf){
-		 List<Shelf> newShelves= new ArrayList<Shelf>();
-		 List<Book> list = new ArrayList<Book>();
-		 for(int index = 1; index <= books.size(); index++){
-			 list.add(books.get(index-1));
-			 if ( index%(booksPerShelf) == 0 || index == books.size()){
-				 newShelves.add(new Shelf(list));
-				 list = new ArrayList<Book>();
-			 }
-		 }
-		 this.shelves = newShelves;
+	
+
+	public Library() {
+		super();
 	}
+
+
+	public double getFrameSizeH() {
+		return frameSizeH;
+	}
+
+
+
+	public void setFrameSizeH(double frameSizeH) {
+		this.frameSizeH = frameSizeH;
+	}
+
+
+
+	public double getFrameSizeW() {
+		return frameSizeW;
+	}
+
+
+
+	public void setFrameSizeW(double frameSizeW) {
+		this.frameSizeW = frameSizeW;
+	}
+
+
 
 	/**
 	 * Getter of the list of shelves
