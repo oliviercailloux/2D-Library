@@ -2,10 +2,10 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -36,6 +36,8 @@ import model.Library;
  */
 public class SVGDrawable {
 
+	private static int[][] titleXY = new int[3][2];
+	
 	public static void main(String[] args) throws Exception {
 		System.out.println(
 				"Enter the number corresponding to your name (complete the main if necessary to launch your method:");
@@ -87,11 +89,22 @@ public class SVGDrawable {
 				case 1:
 					weshwesh(library);
 					break;
+				case 6:
+					drawTitle(library);
+					break;
 				default:
 					System.out.println("Please complete the switch in the main to make your method run.");
 					break;
 				}
 			} catch (Exception e) {
+				System.out.println("getmessage");
+				System.out.println(e.getMessage());
+				System.out.println(" ");
+				System.out.println("toString");
+				System.out.println(e.toString());
+				System.out.println(" ");
+				System.out.println("printStackTrace");
+				e.printStackTrace();
 				System.out.println("Please register a number of the list");
 			}
 		}
@@ -410,8 +423,6 @@ public class SVGDrawable {
 				, dimCanvasX
 				, thiknessEdges
 				, nbShelves);
-		
-		
 
 		// add books
 		Random randomGenerator = new Random();
@@ -434,11 +445,11 @@ public class SVGDrawable {
 
 	}
 	/***
-	 * Generate the borders of the librairy.
+	 * Generate the borders of the library.
 	 * @param dimCanvasX
 	 * @param dimCanvasY
 	 * @param thinknessEdges
-	 * @return List of the borders of the librairy.
+	 * @return List of the borders of the library.
 	 */
 	private static List<Shape> getEdges(int dimCanvasX, int dimCanvasY, int thinknessEdges) {
 		List<Shape> res = new ArrayList<Shape>();
@@ -471,7 +482,10 @@ public class SVGDrawable {
 		int spaceBtwnTopBookVsTopEdge = 30;
 		int height = spaceBetweenShelves - spaceBtwnTopBookVsTopEdge;
 
-		int nbBooks = 62;
+		// LE NBBOOKS DOIT ETRE EGAL AU NOMBRE DE LIVRE DANS LA LIBRAIRIE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TO DO
+		int nbBooks = 3;
+		// TOOOOOOOOOOOOOOOOOOOOOOO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+		
 		int placeInOneShelf = dimCanvasX - 2 * thiknessEdges;
 
 		int placeLeftInCurrShelf = placeInOneShelf;
@@ -496,6 +510,8 @@ public class SVGDrawable {
 					,shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBtwnTopBookVsTopEdge + randomHeightGap
 					,randomWidth
 					, height - randomHeightGap);
+			titleXY[i][0] = dimCanvasX - thiknessEdges - placeLeftInCurrShelf;
+			titleXY[i][1] = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBtwnTopBookVsTopEdge + randomHeightGap;
 			books.add(book);
 			if (placeLeftInCurrShelf <= width) {
 				// go to another shelf
@@ -511,4 +527,104 @@ public class SVGDrawable {
 		return books;
 	}
 
+	public static void drawTitle(Library lib) throws IOException, ParserConfigurationException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+
+		// Get a DOMImplementation.
+		DOMImplementation domImpl = db.getDOMImplementation();
+
+		// Create an instance of org.w3c.dom.Document.
+		String svgNS = "http://www.w3.org/2000/svg";
+		Document document = domImpl.createDocument(svgNS, "svg", null);
+
+		// Create an instance of the SVG Generator.
+		SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
+		ctx.setEmbeddedFontsOn(true);
+		SVGGraphics2D g = new SVGGraphics2D(ctx, true);
+
+		
+		int dimCanvasX = 2000;
+		int dimCanvasY = 1500;
+		int thiknessEdges = 20;
+
+		g.setSVGCanvasSize(new Dimension(dimCanvasX, dimCanvasY));
+
+		int nbShelves = lib.getShelves().size();
+		int spaceBetweenShelves = 0;
+		if (nbShelves > 0) {
+			spaceBetweenShelves = (dimCanvasY - thiknessEdges * (2 + nbShelves - 1)) / nbShelves;
+		}
+
+		// define the back and the outlines of the library
+		Shape fond = new Rectangle(0, 0, dimCanvasX, dimCanvasY);
+		List<Shape> edges = getEdges(dimCanvasX, dimCanvasY, thiknessEdges);
+
+		g.setPaint(Color.decode("#565633"));
+		g.fill(fond);
+		g.setPaint(Color.decode("#FFCCEE"));
+		for (Shape edge : edges) {
+			g.fill(edge);
+		}
+		
+		// define the shelves of the library
+		for (int i = 1; i <= nbShelves; i++) {
+			Shape shelf = new Rectangle(0, thiknessEdges * i + (i) * spaceBetweenShelves, dimCanvasX, thiknessEdges);
+			g.fill(shelf);
+		}
+		
+		// list of random colors
+		List<Color> colors = new ArrayList<>();
+		colors.add(Color.pink);
+		colors.add(Color.CYAN);
+		colors.add(Color.BLUE);
+		colors.add(Color.yellow);
+		colors.add(Color.ORANGE);
+
+		// get books
+		List<Shape> books = CreateBooks(spaceBetweenShelves
+				, dimCanvasX
+				, thiknessEdges
+				, nbShelves);
+
+		// add books
+		Random randomGenerator = new Random();
+		int lastColorIndex = -1;
+		int indexShelf = 0;
+		int indexBook = 0;
+		for (Shape book : books) {
+			int colorIndex = -1;
+			
+			do {
+				colorIndex = randomGenerator.nextInt(colors.size());
+			} while (colorIndex == lastColorIndex);
+			
+			lastColorIndex = colorIndex;
+			
+			g.setPaint(colors.get(colorIndex));
+			g.fill(book);
+			g.setPaint(Color.black);
+			
+			// a gerer exception taille texte trop grand Graphics.MeasureString (string text, Font font)
+			g.rotate(Math.toRadians(+90), titleXY[indexBook][0], titleXY[indexBook][1]);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);
+			g.rotate(Math.toRadians(-90), titleXY[indexBook][0], titleXY[indexBook][1]);
+			
+			if (indexShelf + 1 < lib.getShelves().size()){
+				indexShelf++;
+			}
+			if (indexBook + 1 < lib.getShelves().get(indexShelf).getBooks().size()){
+				indexBook++;
+			}
+		}
+
+		// Finally, stream out SVG using UTF-8 encoding.
+		boolean useCSS = true; // we want to use CSS style attributes
+		try (Writer out = new OutputStreamWriter(new FileOutputStream("libraryDroite.svg"), "UTF-8")) {
+			g.stream(out, useCSS);
+		}
+
+	}
+	
 }
