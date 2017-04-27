@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.io.FileOutputStream;
@@ -37,7 +38,7 @@ import model.Library;
 public class SVGDrawable {
 
 	private static int[][] titleXY = new int[3][2];
-	
+	private static int[] heig = new int[3];
 	public static void main(String[] args) throws Exception {
 		System.out.println(
 				"Enter the number corresponding to your name (complete the main if necessary to launch your method:");
@@ -510,6 +511,7 @@ public class SVGDrawable {
 					,shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBtwnTopBookVsTopEdge + randomHeightGap
 					,randomWidth
 					, height - randomHeightGap);
+			heig[i]=height - randomHeightGap;
 			titleXY[i][0] = dimCanvasX - thiknessEdges - placeLeftInCurrShelf;
 			titleXY[i][1] = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBtwnTopBookVsTopEdge + randomHeightGap;
 			books.add(book);
@@ -607,8 +609,18 @@ public class SVGDrawable {
 			
 			// a gerer exception taille texte trop grand Graphics.MeasureString (string text, Font font)
 			g.rotate(Math.toRadians(+90), titleXY[indexBook][0], titleXY[indexBook][1]);
-			g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-			g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);
+			int fo = 50;
+			g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
+		if (g.getFontMetrics().stringWidth(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName()) > heig[indexBook]-15){
+			while( g.getFontMetrics().stringWidth(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName()) > heig[indexBook]-15){
+				fo = fo -2;
+				g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
+			}
+					g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);			
+				
+			}
+		else g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);
+		
 			g.rotate(Math.toRadians(-90), titleXY[indexBook][0], titleXY[indexBook][1]);
 			
 			if (indexShelf + 1 < lib.getShelves().size()){
