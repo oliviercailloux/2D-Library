@@ -611,15 +611,15 @@ public class SVGDrawable {
 			g.rotate(Math.toRadians(+90), titleXY[indexBook][0], titleXY[indexBook][1]);
 			int fo = 50;
 			g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
-		if (g.getFontMetrics().stringWidth(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName()) > heig[indexBook]-15){
-			while( g.getFontMetrics().stringWidth(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName()) > heig[indexBook]-15){
-				fo = fo -2;
-				g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
-			}
-					g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);			
+			if (g.getFontMetrics().stringWidth(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName()) > heig[indexBook]-15){
+				while( g.getFontMetrics().stringWidth(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName()) > heig[indexBook]-15){
+					fo = fo -2;
+					g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
+				}
+				g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);			
 				
 			}
-		else g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);
+			else g.drawString(lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle()+" - "+lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName(), titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);
 		
 			g.rotate(Math.toRadians(-90), titleXY[indexBook][0], titleXY[indexBook][1]);
 			
