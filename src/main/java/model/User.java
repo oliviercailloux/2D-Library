@@ -6,8 +6,8 @@ import java.util.List;
 public class User {
 	
 	/**
-	 * 	Create a user Library
-	 * @param user's books
+	 * 	Create a user's Library 
+	 * @param user's books 
 	 * @param frame size : depend of the window configuration which can be integrate in the main 
 	 */
 	public Library createLibrary(List<Book> books, double frameSizeW, double frameSizeH){
