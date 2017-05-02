@@ -359,7 +359,7 @@ public class SVGDrawable {
 			
 			//draw the title with the same rotation as the book
 			g.rotate(Math.toRadians(+90+bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
-			int fo = 50;
+			int fo = 70;
 			g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
 			
 			String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
@@ -368,12 +368,14 @@ public class SVGDrawable {
 			String bookString = bookTitle+" - "+authorFirstName+" "+authorLastName;
 			
 			// change the size of the title if it is too long
-			if (g.getFontMetrics().stringWidth(bookString) > heig[indexBook]-15){
-				while( g.getFontMetrics().stringWidth(bookString) > heig[indexBook]-15){
-					fo = fo -2;
+			if (g.getFontMetrics().stringWidth(bookString) > heig[indexBook]-25){
+				while( g.getFontMetrics().stringWidth(bookString) > heig[indexBook]-25){
+					fo = fo -3;
 					g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
 				}
-				g.drawString(bookString, titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);			
+				// Y : vers la gauche
+				// X : vers le bas
+				g.drawString(bookString,titleXY[indexBook][0] + 15, (float) (titleXY[indexBook][1] - ((book.getBounds2D().getWidth() - g.getFontMetrics().getHeight()) / 2)));			
 			}
 			else g.drawString(bookString, titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);
 		
@@ -392,7 +394,7 @@ public class SVGDrawable {
 		try (Writer out = new OutputStreamWriter(new FileOutputStream("libraryDroiteWithTitles.svg"), "UTF-8")) {
 			g.stream(out, useCSS);
 		}
-
+		System.out.println("end");
 	}
 	
 }
