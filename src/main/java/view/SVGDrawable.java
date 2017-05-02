@@ -161,7 +161,7 @@ public class SVGDrawable {
 		colors.add(Color.yellow);
 		colors.add(Color.ORANGE);
 
-		// get books
+		// get books.
 		List<Shape> books = CreateBooks(spaceBetweenShelves
 				, dimCanvasX
 				, thiknessEdges
