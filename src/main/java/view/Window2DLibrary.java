@@ -1,5 +1,8 @@
 package view;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class Window2DLibrary extends JFrame {
@@ -32,7 +35,7 @@ public class Window2DLibrary extends JFrame {
 	public void initialise(){
 		Container c=this.getContentPane();
 		c.add(this.getPanelSud(),BorderLayout.SOUTH);
-
+		
 	}
 
 	public JPanel getPanelSud(){
@@ -42,7 +45,17 @@ public class Window2DLibrary extends JFrame {
 		sud.add(generate);
 		return sud;
 	}
-
+	
+	
+	class BoutonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			String s= e.getActionCommand();
+			if(s.equals("Génerer ma librairie")){
+				// Ajout methode
+			}
+		}
+	}
+			
 	public static void main(String[] args) {
 		
 		new Window2DLibrary("2D_LIBRARY");
