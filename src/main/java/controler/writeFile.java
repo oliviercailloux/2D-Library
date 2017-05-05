@@ -11,7 +11,7 @@ public class writeFile {
 
 	private static void write() {
 		try{
-			String Tabl[] = {"Last Name", "First Name","Title","Year"};
+			String Tabl[] = {"Last Name", "First Name","Title","Year","DimX","DimY","Color"};
 			String tr = "";
 			String x = "";
 			

@@ -1,5 +1,10 @@
 package model;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * @author lejema160
  * @author OlympieSuquet
@@ -22,6 +27,18 @@ public class Book {
 	 */
 	private int year;
 	
+	/**
+	 * 
+	 */
+	private int width;
+	/**
+	 * 
+	 */
+	private int height;
+	/**
+	 * 
+	 */
+	private Color color;
 	/**
 	 * Book's constructor with the title and the author of the book.
 	 * @param the title of the book
@@ -76,13 +93,78 @@ public class Book {
 	public int getYear() {
 		return year;
 	}
-	
+
 	/**
-	 * Setter of the author of the book
-	 * @param the author of the book
+	 * Setter of the year of the book
+	 * @param the year of the book
 	 */
 	public void setYear(int year) {
 		this.year = year;
 	}
+	public int getwidth() {
+		return width;
+	}
 
+	public void setwidth(int width) {
+		this.width = width;
+	}
+
+	public int getheight() {
+		return height;
+	}
+
+	public void setheight(int height) {
+		this.height = height;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	public void generatecolor(Book book){
+		Random randomGenerator = new Random();
+		int lastColorIndex = -1;
+		
+		List<Color> colors = new ArrayList<>();
+		colors.add(Color.pink);
+		colors.add(Color.CYAN);
+		colors.add(Color.BLUE);
+		colors.add(Color.yellow);
+		colors.add(Color.ORANGE);
+		
+		int colorIndex = -1;
+		
+		// generate a random color for this book
+		do {
+			colorIndex = randomGenerator.nextInt(colors.size());
+		} while (colorIndex == lastColorIndex);
+		
+		lastColorIndex = colorIndex;
+		
+		//select this color
+		setColor(colors.get(colorIndex));
+		}
+	
+	
+	public void generatesize(Book book){
+		int width = 60;
+		int height =30;
+		Random randomGenerator = new Random();
+		int randomWidth = width + randomGenerator.nextInt(30);
+		int randomHeightGap = randomGenerator.nextInt(100);
+		height = height - randomHeightGap;
+		setheight(height);
+		setwidth(randomWidth);
+	}
 }
+
+
+
+
+
+
+

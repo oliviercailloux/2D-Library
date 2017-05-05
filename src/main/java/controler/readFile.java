@@ -74,6 +74,17 @@ public class readFile {
 			int year = Integer.parseInt(word);
 			book.setYear(year);
 			break;
+		case 4:
+			int dimx = Integer.parseInt(word);
+			book.setwidth(dimx);
+			break;
+		case 5:
+			int dimy = Integer.parseInt(word);
+			book.setheight(dimy);
+			break;
+		case 6:
+			book.setColor(tocolor.word);
+			break;
 		}
 	}
 
