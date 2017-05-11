@@ -375,6 +375,7 @@ public class SVGDrawable {
 				}
 				// Y : vers la gauche
 				// X : vers le bas
+				//g.drawString(bookString,titleXY[indexBook][0] + ((heig[indexBook]-g.getFontMetrics().getHeight())/2) , (float) (titleXY[indexBook][1] - ((book.getBounds2D().getWidth() - g.getFontMetrics().getHeight()) / 2)));
 				g.drawString(bookString,titleXY[indexBook][0] + 15, (float) (titleXY[indexBook][1] - ((book.getBounds2D().getWidth() - g.getFontMetrics().getHeight()) / 2)));			
 			}
 			else g.drawString(bookString, titleXY[indexBook][0] + 15, titleXY[indexBook][1]-15);
