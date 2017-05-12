@@ -1,3 +1,3 @@
-CHUNG;Hugo;Une vie de coccinelle;2015
-ROWLING;JK;Harry Poopper; 2005
-BAUDELAIRE;Charles;Les misérables;1860
+CHUNG,Hugo,Une vie de coccinelle,2015
+ROWLING,JK,Harry Poopper, 2005
+BAUDELAIRE,Charles,Les misérables,1860

@@ -125,7 +125,7 @@ public class Book {
 		this.color = color;
 	}
 	
-	public void generatecolor(Book book){
+	public void generatecolor(){
 		Random randomGenerator = new Random();
 		int lastColorIndex = -1;
 		
@@ -150,15 +150,18 @@ public class Book {
 		}
 	
 	
-	public void generatesize(Book book){
+	public void generatesizeX(){
 		int width = 60;
-		int height =30;
 		Random randomGenerator = new Random();
 		int randomWidth = width + randomGenerator.nextInt(30);
+		setwidth(randomWidth);
+	}
+	public void generatesizeY(){
+		int height =30;
+		Random randomGenerator = new Random();
 		int randomHeightGap = randomGenerator.nextInt(100);
 		height = height - randomHeightGap;
 		setheight(height);
-		setwidth(randomWidth);
 	}
 }
 
