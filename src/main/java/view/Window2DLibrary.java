@@ -2,6 +2,8 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.*;
 
@@ -20,7 +22,7 @@ public class Window2DLibrary extends JFrame {
 	private JLabel opt;
 	private JLabel opt2; //a supp
 	private JLabel opt3; // a supp
-
+	private Image myLyb; // library picture 
 
 	public Window2DLibrary(String title) {
 
@@ -95,7 +97,7 @@ public class Window2DLibrary extends JFrame {
 	public JPanel getPanelCentreOptions(){ // panel qui contient les checkbox des options de generations
 
 		JPanel centre= new JPanel();
-		
+
 		// Premiere Colonne
 		JPanel optName= new JPanel(new GridLayout(0,1,40,40));
 		JLabel titleFirstColumn= new JLabel("Parameters");
@@ -135,8 +137,9 @@ public class Window2DLibrary extends JFrame {
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);;
 			String nom= "/home/titine/Téléchargements/Books.jpg";
-			Image image = Toolkit.getDefaultToolkit().getImage(nom);
-			//this.add(image);
+			myLyb = Toolkit.getDefaultToolkit().getImage(nom);
+			g.drawImage(myLyb, 0, 0, this);
+			
 		}
 	}
 
