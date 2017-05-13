@@ -24,6 +24,10 @@ public class Window2DLibrary extends JFrame {
 	private JLabel opt3; // a supp
 	private Image myLyb; // library picture 
 
+	/**
+	 * constructor of the window
+	 * @param title
+	 */
 	public Window2DLibrary(String title) {
 
 		super(title);
@@ -34,6 +38,10 @@ public class Window2DLibrary extends JFrame {
 
 	}
 
+	/**
+	 * function that sets the dimensions of the window
+	 * takes by default the dimensions of the screen
+	 */
 	public void dimension(){
 		Toolkit atk= Toolkit.getDefaultToolkit();
 		Dimension dim =atk.getScreenSize();
@@ -42,7 +50,10 @@ public class Window2DLibrary extends JFrame {
 		this.setSize(w,h);
 
 	}
-
+	
+	/**
+	 * creates the panels of the window
+	 */
 	public void initialise(){
 		Container c=this.getContentPane();
 		c.add(this.getPanelSud(),BorderLayout.SOUTH);
@@ -50,6 +61,10 @@ public class Window2DLibrary extends JFrame {
 		c.add(this.getPanelCentre(),BorderLayout.CENTER);
 	}
 
+	/**
+	 * creates north panel : title
+	 * @return
+	 */
 	public JPanel getPanelNord(){
 		JPanel nord= new JPanel();
 		JPanel head= new JPanel();
@@ -64,7 +79,10 @@ public class Window2DLibrary extends JFrame {
 		return nord;
 	}
 
-
+	/**
+	 * creates south panel : button to generate the library
+	 * @return
+	 */
 	public JPanel getPanelSud(){
 
 		JPanel sud= new JPanel();
@@ -74,6 +92,10 @@ public class Window2DLibrary extends JFrame {
 		return sud;
 	}
 
+	/**
+	 * creates center panel : options and layout of the library
+	 * @return
+	 */
 	public JTabbedPane getPanelCentre(){ // Une tab d'onglet avec 2 onglets, un pour les options et lautre pour afficher sa librairie
 
 		JTabbedPane tabPane = new JTabbedPane();
@@ -93,7 +115,10 @@ public class Window2DLibrary extends JFrame {
 		return tabPane;
 
 	}
-
+/**
+ * creates panel with the options for the user
+ * @return
+ */
 	public JPanel getPanelCentreOptions(){ // panel qui contient les checkbox des options de generations
 
 		JPanel centre= new JPanel();
@@ -133,6 +158,11 @@ public class Window2DLibrary extends JFrame {
 
 	}
 
+	/**
+	 * creates a panel that contains the layout of the library (not finished)
+	 * @author Olympie
+	 *
+	 */
 	public class PanelLibrary extends JPanel{ // enfait ca c'est un panel complet qui va integrer limage de la librairie si on arrive a coder propre... lol
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);;
@@ -143,7 +173,11 @@ public class Window2DLibrary extends JFrame {
 		}
 	}
 
+
 	class BoutonListener implements ActionListener{
+		/**
+		 * function launched when the user performs an action
+		 */
 		public void actionPerformed(ActionEvent e){
 			String s= e.getActionCommand();
 			if(s.equals("Generate my library")){
