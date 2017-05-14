@@ -1,4 +1,4 @@
-package model;
+package io.github.dauphine.lejema160.model;
 
 import java.util.ArrayList;
 import java.util.List;

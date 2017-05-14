@@ -1,4 +1,4 @@
-package controler;
+package io.github.dauphine.lejema160.controller;
 
 import static org.junit.Assert.*;
 
@@ -8,8 +8,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import model.Author;
-import model.Book;
+import io.github.dauphine.lejema160.controller.readFile;
+import io.github.dauphine.lejema160.model.Author;
+import io.github.dauphine.lejema160.model.Book;
 
 public class readFileTest {
 
@@ -42,11 +43,12 @@ public class readFileTest {
 
 		// act
 		List<Book> actual = new ArrayList<>();
-		try {
+//		try {
 			actual = readFile.read();
-		} catch (IOException e) {
-			fail("IOException " + e);
-		}
+//		} 
+//		catch (IOException e) {
+//			fail("IOException " + e);
+//		}
 
 		// assert
 		boolean correct = compareBook(expected, actual);

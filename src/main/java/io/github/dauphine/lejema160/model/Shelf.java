@@ -1,7 +1,7 @@
 /**
  * 
  */
-package model;
+package io.github.dauphine.lejema160.model;
 
 import java.util.List;
 

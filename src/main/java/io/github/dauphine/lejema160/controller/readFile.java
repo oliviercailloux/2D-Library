@@ -1,18 +1,19 @@
-package controler;
+package io.github.dauphine.lejema160.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.github.dauphine.lejema160.model.Author;
+import io.github.dauphine.lejema160.model.Book;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-
-import model.Author;
-import model.Book;
 
 
 public class readFile {

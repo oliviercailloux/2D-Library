@@ -1,4 +1,4 @@
-package model;
+package io.github.dauphine.lejema160.model;
 
 import static org.junit.Assert.*;
 
@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import model.Author;
-import model.Book;
-import model.Library;
-import model.Shelf;
+import io.github.dauphine.lejema160.model.Author;
+import io.github.dauphine.lejema160.model.Book;
+import io.github.dauphine.lejema160.model.Library;
+import io.github.dauphine.lejema160.model.Shelf;
 
 /**
  * @author lejema160

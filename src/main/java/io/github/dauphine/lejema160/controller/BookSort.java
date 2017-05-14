@@ -1,11 +1,11 @@
-package controler;
+package io.github.dauphine.lejema160.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import model.Book;
+import io.github.dauphine.lejema160.model.Book;
 
 public class BookSort{
 	

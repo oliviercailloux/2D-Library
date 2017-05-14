@@ -1,15 +1,15 @@
-package controler;
+package io.github.dauphine.lejema160.controller;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Author;
-import model.Book;
-import controler.BookSort;
-
 import org.junit.Test;
+
+import io.github.dauphine.lejema160.controller.BookSort;
+import io.github.dauphine.lejema160.model.Author;
+import io.github.dauphine.lejema160.model.Book;
 
 public class BookSortTest {
 

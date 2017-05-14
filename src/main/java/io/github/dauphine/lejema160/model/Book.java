@@ -1,4 +1,4 @@
-package model;
+package io.github.dauphine.lejema160.model;
 
 import java.awt.Color;
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
-package controler;
+package io.github.dauphine.lejema160.controller;
 
 import java.awt.Color;
 
-import model.Book;
-import model.Library;
-import model.Shelf;
+import io.github.dauphine.lejema160.model.Book;
+import io.github.dauphine.lejema160.model.Library;
+import io.github.dauphine.lejema160.model.Shelf;
 
 public class Options {
 	/**

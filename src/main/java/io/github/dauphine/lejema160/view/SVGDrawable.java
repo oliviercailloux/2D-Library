@@ -1,4 +1,4 @@
-package view;
+package io.github.dauphine.lejema160.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,10 +23,10 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import model.Author;
-import model.Book;
-import model.Shelf;
-import model.Library;
+import io.github.dauphine.lejema160.model.Author;
+import io.github.dauphine.lejema160.model.Book;
+import io.github.dauphine.lejema160.model.Library;
+import io.github.dauphine.lejema160.model.Shelf;
 
 /**
  * Based on https://xmlgraphics.apache.org/batik/using/svg-generator.html (with

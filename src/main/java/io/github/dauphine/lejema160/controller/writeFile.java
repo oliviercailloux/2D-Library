@@ -1,4 +1,4 @@
-package controler;
+package io.github.dauphine.lejema160.controller;
 
 import java.io.FileWriter;
 import java.util.Scanner;

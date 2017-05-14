@@ -1,4 +1,4 @@
-package view;
+package io.github.dauphine.lejema160.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
