@@ -38,13 +38,7 @@ public class SVGDrawable {
 	private static int[][] titleXY = new int[3][2];
 	private static int[] heig = new int[3];
 	public static void main(String[] args) throws Exception {
-		System.out.println("Enter the number corresponding to your name (complete the main if necessary to launch your method:");
-		System.out.println("1 : Hugo");
-		System.out.println("2 : Olympie");
-		System.out.println("3 : Fanny");
-		System.out.println("4 : Thibaud");
-		System.out.println("5 : Elie");
-		System.out.println("6 : Merlene");
+		System.out.println("I'm creating the exemple library...");
 
 		Author olympie = new Author("Suquet", "Olympie");
 		Author merlene = new Author("Lejeune", "Merlène");
@@ -73,120 +67,10 @@ public class SVGDrawable {
 		shelves.add(shelf2);
 		shelves.add(shelf3);
 		Library library = new Library(shelves);
-		try (Scanner scan = new Scanner(System.in)) {
-			String s = scan.nextLine();
-			try {
-				int choice = Character.getNumericValue(s.charAt(0));
-				switch (choice) {
-				case 1:
-					weshwesh(library);
-					break;
-				case 6:
-					drawTitle(library);
-					System.out.println("I draw a library with titles");
-					break;
-				default:
-					System.out.println("Please complete the switch in the main to make your method run.");
-					break;
-				}
-			} catch (Exception e) {
-				System.out.println("getmessage");
-				System.out.println(e.getMessage());
-				System.out.println(" ");
-				System.out.println("toString");
-				System.out.println(e.toString());
-				System.out.println(" ");
-				System.out.println("printStackTrace");
-				e.printStackTrace();
-				System.out.println("Please register a number of the list");
-			}
-		}
-		
+		drawTitle(library);
+		System.out.println("I drew a library with titles !");
 	}
 
-
-	public static void weshwesh(Library lib) throws IOException, ParserConfigurationException {
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-
-		// Get a DOMImplementation.
-		DOMImplementation domImpl = db.getDOMImplementation();
-
-		// Create an instance of org.w3c.dom.Document.
-		String svgNS = "http://www.w3.org/2000/svg";
-		Document document = domImpl.createDocument(svgNS, "svg", null);
-
-		// Create an instance of the SVG Generator.
-		SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
-		ctx.setEmbeddedFontsOn(true);
-		SVGGraphics2D g = new SVGGraphics2D(ctx, true);
-
-		
-		int dimCanvasX = 2000;
-		int dimCanvasY = 1500;
-		int thiknessEdges = 20;
-
-		g.setSVGCanvasSize(new Dimension(dimCanvasX, dimCanvasY));
-
-		int nbShelves = lib.getShelves().size();
-		int spaceBetweenShelves = 0;
-		if (nbShelves > 0) {
-			spaceBetweenShelves = (dimCanvasY - thiknessEdges * (2 + nbShelves - 1)) / nbShelves;
-		}
-
-		// define the back and the outlines of the library
-		Shape fond = new Rectangle(0, 0, dimCanvasX, dimCanvasY);
-		List<Shape> edges = getEdges(dimCanvasX, dimCanvasY, thiknessEdges);
-
-		g.setPaint(Color.decode("#565633"));
-		g.fill(fond);
-		g.setPaint(Color.decode("#FFCCEE"));
-		for (Shape edge : edges) {
-			g.fill(edge);
-		}
-		
-		// define the shelves of the library
-		for (int i = 1; i <= nbShelves; i++) {
-			Shape shelf = new Rectangle(0, thiknessEdges * i + (i) * spaceBetweenShelves, dimCanvasX, thiknessEdges);
-			g.fill(shelf);
-		}
-
-		
-		
-		// list of random colors
-		List<Color> colors = new ArrayList<>();
-		colors.add(Color.pink);
-		colors.add(Color.CYAN);
-		colors.add(Color.BLUE);
-		colors.add(Color.yellow);
-		colors.add(Color.ORANGE);
-
-		// get books.
-		List<Shape> books = CreateBooks(spaceBetweenShelves
-				, dimCanvasX
-				, thiknessEdges
-				, nbShelves);
-
-		// add books
-		Random randomGenerator = new Random();
-		int lastColorIndex = -1;
-		for (Shape book : books) {
-			int colorIndex = -1;
-			do {
-				colorIndex = randomGenerator.nextInt(colors.size());
-			} while (colorIndex == lastColorIndex);
-			lastColorIndex = colorIndex;
-			g.setPaint(colors.get(colorIndex));
-			g.fill(book);
-		}
-
-		// Finally, stream out SVG using UTF-8 encoding.
-		boolean useCSS = true; // we want to use CSS style attributes
-		try (Writer out = new OutputStreamWriter(new FileOutputStream("libraryDroite.svg"), "UTF-8")) {
-			g.stream(out, useCSS);
-		}
-
-	}
 	/***
 	 * Generate the borders of the library.
 	 * @param dimCanvasX
@@ -310,10 +194,16 @@ public class SVGDrawable {
 		}
 		
 		// define the shelves of the library
+		List<Shape> shelves = new ArrayList<>();
 		for (int i = 1; i <= nbShelves; i++) {
 			Shape shelf = new Rectangle(0, thiknessEdges * i + (i) * spaceBetweenShelves, dimCanvasX, thiknessEdges);
+			System.out.println("etagere "+i+" avec y : "+shelf.getBounds().getY());
+			shelves.add(shelf);
 			g.fill(shelf);
 		}
+		
+		// get the width of a shelf
+		int shelfWidth = dimCanvasX - 2*thiknessEdges;
 		
 		// list of random colors
 		List<Color> colors = new ArrayList<>();
@@ -328,11 +218,15 @@ public class SVGDrawable {
 				, dimCanvasX
 				, thiknessEdges
 				, nbShelves);
+		double totalBookSize = 0;
+		for (Shape book : books){
+			totalBookSize += book.getBounds().getWidth();
+		}
 
 		// add books
 		Random randomGenerator = new Random();
 		int lastColorIndex = -1;
-		int indexShelf = 0;
+		int indexShelf = 1;
 		int indexBook = 0;
 		
 		for (Shape book : books) {
@@ -350,14 +244,33 @@ public class SVGDrawable {
 			
 			//paint the book with no rotation (TODO)
 			int bookRotation = 0;
-			g.rotate(Math.toRadians(bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
-			g.fill(book);
-			g.rotate(Math.toRadians(-bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
+			if (books.get(books.size()-1)==book){
+				bookRotation = -30;
+				if(shelfWidth-totalBookSize>3*book.getBounds().getWidth()){
+					// Height between the top left corner of the book and the shelf when leaning
+					double hauteurRotation = book.getBounds().getHeight()*Math.cos(Math.toRadians(bookRotation));
+					// The new Y coordinate of the leaning rectangle (so that it is placed on the shelf)
+					double newY = shelves.get(indexShelf -1).getBounds().getY()-hauteurRotation;
+					Rectangle newRectangle = new Rectangle((int)book.getBounds().getX(), (int)newY, (int)book.getBounds().getWidth(), (int)book.getBounds().getHeight());
+					titleXY[indexBook][0] = (int)newRectangle.getBounds().getX();
+					titleXY[indexBook][1] = (int)newRectangle.getBounds().getY();
+					g.rotate(Math.toRadians(bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
+					g.fill(newRectangle);
+					g.rotate(Math.toRadians(-bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
+				}
+				bookRotation = 0;
+			}
+			else {
+				g.fill(book);
+			}
 			
 			//select the black color for the title
 			g.setPaint(Color.black);
 			
 			//draw the title with the same rotation as the book
+			if (book==books.get(books.size()-1)){
+				bookRotation = -30;
+			}
 			g.rotate(Math.toRadians(+90+bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
 			int fo = 70;
 			g.setFont(new Font("TimesRoman", Font.PLAIN, fo));
@@ -384,12 +297,10 @@ public class SVGDrawable {
 			//System.out.println(g.getFontMetrics().stringWidth(bookString));
 			g.rotate(Math.toRadians(-90-bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
 			
-			if (indexShelf + 1 < lib.getShelves().size()){
+			if (indexBook + 1 >= lib.getShelves().get(indexShelf).getBooks().size()){
 				indexShelf++;
 			}
-			if (indexBook + 1 < lib.getShelves().get(indexShelf).getBooks().size()){
-				indexBook++;
-			}
+			indexBook++;
 		}
 
 		// Finally, stream out SVG using UTF-8 encoding.
