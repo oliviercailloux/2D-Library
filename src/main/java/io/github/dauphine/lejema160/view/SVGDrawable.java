@@ -69,6 +69,7 @@ public class SVGDrawable {
 		Library library = new Library(shelves);
 		drawTitle(library);
 		System.out.println("I drew a library with titles !");
+		new Window2DLibrary("2D_LIBRARY PROJECT");
 	}
 
 	/***
@@ -305,7 +306,7 @@ public class SVGDrawable {
 
 		// Finally, stream out SVG using UTF-8 encoding.
 		boolean useCSS = true; // we want to use CSS style attributes
-		try (Writer out = new OutputStreamWriter(new FileOutputStream("libraryDroiteWithTitles.svg"), "UTF-8")) {
+		try (Writer out = new OutputStreamWriter(new FileOutputStream("library.svg"), "UTF-8")) {
 			g.stream(out, useCSS);
 		}
 		System.out.println("end");
