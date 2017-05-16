@@ -78,6 +78,7 @@ public class SVGDrawable {
 		}
 		new Window2DLibrary("2D_LIBRARY PROJECT");
 	}
+	
 
 	/***
 	 * Generate the borders of the library.
