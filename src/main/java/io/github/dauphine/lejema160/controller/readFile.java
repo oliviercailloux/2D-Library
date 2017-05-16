@@ -1,128 +1,62 @@
 package io.github.dauphine.lejema160.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import io.github.dauphine.lejema160.model.Author;
 import io.github.dauphine.lejema160.model.Book;
 
-import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
-
 public class readFile {
-	
-	/**
-	 * Read the file in resources to get a list of the books
-	 * @return the books in the file
-	 * @throws IOException Exception launched under file or scanner
-	 */
-	public static List<Book> read() {
-		List<Book> books = new ArrayList<Book>();
-		
-		
-		String csvFile = "Book1.csv";
-        BufferedReader br = null;
-        String cvsSplitBy = ",";
-        String line = "";
-        
-		/*InputStream inputStream = readFile.class.getResourceAsStream("LibraryBooks.txt");
-		if(inputStream == null){
-			return books;
-			}*/
-        
-			// -> exception 
-		
-		// -> bytes
 
-		
-		 try {
-			 	
-		
-	            br = new BufferedReader(new FileReader(csvFile));
-	            while ((line = br.readLine()) != null) {
+    public static void main(String[] args) {
+        String fileName= "/users/charel16/git/2D_library/src/main/resources/controller/Book1.csv";
+        File file= new File(fileName);
 
-	                // use comma as separator
-	                Book book = new Book();
-					Author author = new Author("", "");
-					book.setAuthor(author);
-					String[] words = line.split(cvsSplitBy);
-					
-					for(int k = 0; k < words.length; k++){
-						if (words.length <= 6 && words[k] != "") {
-							words[k]="";
-						}
-					}
-					
-					for (int position = 0; position < words.length; position++) {
-						
-						String word = "";
-						if (words[position] != ""){
-						word = words[position].trim();
-						} else word = words[position];
-						
-						setBookAttribute(book, position, word);
+        // this gives you a 2-dimensional array of strings
+        List<List<String>> lines = new ArrayList<>();
+        Scanner inputStream;
 
-					}
-					books.add(book);
-				
-					line = br.readLine();
-				}
-			
-	            
+        try{
+            inputStream = new Scanner(file);
 
-	        } catch (FileNotFoundException e) {
-	            e.printStackTrace();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        } finally {
-	            if (br != null) {
-	                try {
-	                    br.close();
-	                } catch (IOException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
-		 return books;
-	    }
+            while(inputStream.hasNext()){
+                String line= inputStream.next();
+                String[] values = line.split(",");
+                // this adds the currently parsed line to the 2-dimensional string array
+                lines.add(Arrays.asList(values));
+            }
 
-		/*try (BufferedReader input = new BufferedReader (new InputStreamReader(inputStream, "UTF-8"))){
-			int i = 1;
-			String line = input.readLine();
-			while (line != null) {
-				Book book = new Book();
-				Author author = new Author("", "");
-				book.setAuthor(author);
-				String[] words = line.split(";");
-				for (int position = 0; position < words.length; position++) {
-					
-					String word = "";
-					word = words[position].trim();
-					setBookAttribute(book, position, word);
+            inputStream.close();
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-				}
-				books.add(book);
-				i++;
-				line = input.readLine();
-			}
-		}
-		return books;
-	}*/
-
-	/**
-	 * Set the right argument of the book depending on position of the word in the file
-	 * @param book Book to set
-	 * @param position position of the word in the file
-	 * @param word word found at the position
-	 */
-	private static void setBookAttribute(Book book, int position, String word) {
+        // the following code lets you iterate through the 2-dimensional array
+        int lineNo = 0;
+        for(List<String> line: lines) {
+            int columnNo = 0;
+            if (lineNo == 0){
+            	lineNo++;
+            	continue;
+            }
+            Book book = new Book();
+			Author author = new Author("", "");
+			book.setAuthor(author);
+            
+            for (String value: line) {
+            	setBookAttribute(book, columnNo, value);
+                System.out.println("Line " + lineNo + " Column " + columnNo + ": " + value);
+                columnNo++;
+            }
+            lineNo++;
+        }
+    }
+private static void setBookAttribute(Book book, int position, String word) {
 		
 		switch (position) {
 		case 0:
@@ -175,9 +109,14 @@ public class readFile {
 			case "jaune":
 				book.setColor(Color.yellow);
 				break;
+			}break;
+		case 7 :
+			if (word == "End"){
+				break;
 			}
-			break;
+			
 		}
 	}
+
 
 }

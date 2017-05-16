@@ -19,22 +19,27 @@ public class writeFile {
 			
 				for ( int i = 0; i < Tabl.length; i++ ) {
 					
-					System.out.print("Enter" + Tabl[i] + " :");
+					System.out.print("Enter " + Tabl[i] + " :\n");
 					x = input.nextLine();
+					if (x=="\n"){
+						x = ",";
+					}
 					if (tr != null && !tr.trim().isEmpty()){
-					tr = tr + ";"+ x;
+					tr = tr + ","+ x;
 					}
 					else {tr = x;}
 				}
 				input.close();
+				tr = tr + ",End";
 				System.out.print(tr);
 			
 		
 		//String fil = "/users/charel16/workspace-mars-2015/Library_Books";
-		String fil = "C:/Users/HP/workspace/re.txt";
+		
+		String fil = "/users/charel16/git/2D_library/src/main/resources/controller/Book1.csv";
 		FileWriter wr = new FileWriter(fil.trim().toString() , true);
-		wr.write(tr); 
-		wr.write("\r\n");
+		wr.append(tr);
+		wr.append("\r\n");
 		wr.close();
 	}
 		catch(Exception e){
