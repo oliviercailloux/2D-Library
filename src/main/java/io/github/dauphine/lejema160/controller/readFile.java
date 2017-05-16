@@ -14,9 +14,15 @@ import io.github.dauphine.lejema160.model.Book;
 public class readFile {
 
     public static void main(String[] args) {
+    	read();
+    }
+    
+    	public static List<Book> read() {
         String fileName= "/users/charel16/git/2D_library/src/main/resources/controller/Book1.csv";
         File file= new File(fileName);
-
+        
+        List<Book> liste = new ArrayList<>();
+        
         // this gives you a 2-dimensional array of strings
         List<List<String>> lines = new ArrayList<>();
         Scanner inputStream;
@@ -49,12 +55,17 @@ public class readFile {
 			book.setAuthor(author);
             
             for (String value: line) {
+            	if (value == "" || value.isEmpty()){
+            		value = "";
+            	}
             	setBookAttribute(book, columnNo, value);
                 System.out.println("Line " + lineNo + " Column " + columnNo + ": " + value);
                 columnNo++;
-            }
+                
+            }liste.add(book);
             lineNo++;
         }
+        return liste;
     }
 private static void setBookAttribute(Book book, int position, String word) {
 		

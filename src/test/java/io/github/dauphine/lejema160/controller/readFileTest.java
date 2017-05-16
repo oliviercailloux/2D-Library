@@ -2,7 +2,6 @@ package io.github.dauphine.lejema160.controller;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
