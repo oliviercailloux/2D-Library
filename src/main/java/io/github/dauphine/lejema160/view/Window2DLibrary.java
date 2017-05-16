@@ -2,6 +2,7 @@ package io.github.dauphine.lejema160.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,11 +12,8 @@ import java.nio.file.Paths;
 
 import javax.swing.*;
 import org.apache.batik.swing.JSVGCanvas;
-import org.apache.batik.transcoder.TranscoderException;
-import org.apache.batik.transcoder.TranscoderInput;
-import org.apache.batik.transcoder.TranscoderOutput;
-import org.apache.batik.transcoder.image.PNGTranscoder;
-
+import org.apache.batik.transcoder.*;
+import org.apache.batik.transcoder.image.JPEGTranscoder;
 
 
 
@@ -29,8 +27,7 @@ public class Window2DLibrary extends JFrame {
 	private JLabel opt;
 	private JLabel opt2; //a supp
 	private JLabel opt3; // a supp
-	private Image myLyb; // library picture 
-	protected JSVGCanvas svgCanvas = new JSVGCanvas();
+	protected Image myLib;
 
 	/**
 	 * constructor of the window
@@ -171,44 +168,23 @@ public class Window2DLibrary extends JFrame {
 	 * creates a panel that contains the layout of the library (not finished)
 	 * 
 	 */
-	public class PanelLibrary extends JPanel{ // enfait ca c'est un panel complet qui va integrer limage de la librairie si on arrive a coder propre... lol
+	public class PanelLibrary extends JPanel { // enfait ca c'est un panel complet qui va integrer limage de la librairie si on arrive a coder propre... lol
 
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			String svg_URI_input;
+			
 			try {
-				svg_URI_input = Paths.get("/users/jammfa16/git/2D_library/library.svg").toUri().toURL().toString();
-				TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);        
-
-				OutputStream png_ostream = new FileOutputStream("/users/jammfa16/git/2D_library/library2.png");
-				TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
-
-				PNGTranscoder my_converter = new PNGTranscoder();        
-
-				my_converter.transcode(input_svg_image, output_png_image);
-
-				png_ostream.flush();
-				png_ostream.close();        
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TranscoderException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
+				svg2jpg.convert();
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			String nom= "/users/jammfa16/git/2D_library/book.png";
-			myLyb = Toolkit.getDefaultToolkit().getImage(nom);
-			g.drawImage(myLyb, 0, 0, this);
+			
+			String nom= "/users/jammfa16/git/2D_library/library.png";
+			myLib = Toolkit.getDefaultToolkit().getImage(nom);
+			g.drawImage(myLib, 0, 0, this);
 		}
 	}
 
@@ -217,7 +193,7 @@ public class Window2DLibrary extends JFrame {
 		/**
 		 * function launched when the user performs an action
 		 */
-		@Override
+
 		public void actionPerformed(ActionEvent e){
 			String s= e.getActionCommand();
 			if(s.equals("Generate my library")){
