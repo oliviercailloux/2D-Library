@@ -175,7 +175,7 @@ public class Window2DLibrary extends JFrame {
 		@Override
 		public void paintComponent(Graphics g){
 			super.paintComponent(g);
-			String nom= "/users/jammfa16/git/2D_library/library.png";
+			String nom= "library.png";
 			myLib = Toolkit.getDefaultToolkit().getImage(nom);
 			g.drawImage(myLib, 0, 0, this);
 		}
