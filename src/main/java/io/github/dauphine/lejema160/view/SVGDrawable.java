@@ -3,11 +3,13 @@ package io.github.dauphine.lejema160.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +38,15 @@ public class SVGDrawable {
 
 	private static int[][] titleXY = new int[3][2];
 	private static int[] heig = new int[3];
+
 	public static void main(String[] args) throws Exception {
 		System.out.println("I'm creating the exemple library...");
 
 		Author olympie = new Author("Suquet", "Olympie");
 		Author merlene = new Author("Lejeune", "Merlène");
-		
+
 		boolean leaning = true;
-		
+
 		Book book1 = new Book();
 		book1.setAuthor(olympie);
 		book1.setTitle("Recette de la soupe qui fait grandir");
@@ -71,14 +74,14 @@ public class SVGDrawable {
 		generate(library, leaning);
 		System.out.println("I drew a library with titles !");
 		try {
-			svg2jpg.convert();
+			Svg2jpg.convert();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		new Window2DLibrary("2D_LIBRARY PROJECT");
 	}
-	
+
 
 	/***
 	 * Generate the borders of the library.
@@ -99,7 +102,7 @@ public class SVGDrawable {
 		res.add(left);
 		return res;
 	}
-	
+
 	/***
 	 * Create random shapes of books placed in the library.
 	 * @param spaceBetweenShelves
@@ -125,8 +128,8 @@ public class SVGDrawable {
 		int placeLeftInCurrShelf = shelfWidth;
 		int shelfNumber = 1;
 		Random randomGenerator = new Random();
-		
-		
+
+
 		for (int i = 0; i < nbBooks; i++) {
 			Shape book = null;
 
@@ -161,7 +164,7 @@ public class SVGDrawable {
 		}
 		return books;
 	}
-	
+
 	/***
 	 * Generate the SVG Library.
 	 * @param leaning 
@@ -171,7 +174,8 @@ public class SVGDrawable {
 	public static void generate(Library lib, boolean leaning) throws IOException, ParserConfigurationException {
 		// Define the SVG Graphics 2D
 		SVGGraphics2D graphics = generateSVG();
-		
+
+
 		int dimCanvasX = 2000;
 		int dimCanvasY = 1500;
 		int thiknessEdges = 20;
@@ -183,10 +187,10 @@ public class SVGDrawable {
 		if (nbShelves > 0) {
 			spaceBetweenShelves = (dimCanvasY - thiknessEdges * (2 + nbShelves - 1)) / nbShelves;
 		}
-		
+
 		// define the back and the outlines of the library
 		drawBackOutlines(graphics, dimCanvasX, dimCanvasY, thiknessEdges);
-		
+
 		// define the shelves of the library
 		List<Shape> shelves = new ArrayList<>();
 		for (int i = 1; i <= nbShelves; i++) {
@@ -194,10 +198,10 @@ public class SVGDrawable {
 			shelves.add(shelf);
 			graphics.fill(shelf);
 		}
-		
+
 		// get the width of a shelf
 		int shelfWidth = dimCanvasX - 2*thiknessEdges;
-	
+
 
 		// get books
 		List<Shape> books = CreateBooks(spaceBetweenShelves
@@ -214,26 +218,30 @@ public class SVGDrawable {
 		Random randomGenerator = new Random();
 		int indexShelf = 1;
 		int indexBook = 0;
-		
+
 		for (Shape book : books) {
-			
+
 			int bookRotation = drawBook(randomGenerator, books, book, graphics, emptySpace, indexBook, indexShelf, shelves, leaning);
-			
+
 			drawTitle(graphics, bookRotation, books, book, lib, indexBook, indexShelf);
-			
+
 			if (indexBook + 1 >= lib.getShelves().get(indexShelf).getBooks().size()){
 				indexShelf++;
 			}
 			indexBook++;
 		}
 
+		// TODO : LINK SVG
+
 		// Finally, stream out SVG using UTF-8 encoding.
 		boolean useCSS = true; // we want to use CSS style attributes
+	
 		try (Writer out = new OutputStreamWriter(new FileOutputStream("library.svg"), "UTF-8")) {
 			graphics.stream(out, useCSS);
+			
 		}
 	}
-	
+
 	/***
 	 * Generate the SVG
 	 * @return the SVGGraphics2D on which we are drawing
@@ -255,7 +263,7 @@ public class SVGDrawable {
 		ctx.setEmbeddedFontsOn(true);
 		return new SVGGraphics2D(ctx, true);
 	}
-	
+
 	/***
 	 * Define the back and the outlines of the library.
 	 * @param dimCanvasX
@@ -274,7 +282,7 @@ public class SVGDrawable {
 			graphics.fill(edge);
 		}
 	}
-	
+
 	/***
 	 * Draw the books
 	 * @param randomGenerator
@@ -296,20 +304,20 @@ public class SVGDrawable {
 		colors.add(Color.BLUE);
 		colors.add(Color.yellow);
 		colors.add(Color.ORANGE);
-		
+
 		int colorIndex = -1;
 		int lastColorIndex = -1;
-		
+
 		// generate a random color for this book
 		do {
 			colorIndex = randomGenerator.nextInt(colors.size());
 		} while (colorIndex == lastColorIndex);
-		
+
 		lastColorIndex = colorIndex;
-		
+
 		//select this color
 		graphics.setPaint(colors.get(colorIndex));
-		
+
 		//paint the book (with rotation if the last book)
 		int bookRotation = 0;
 		if (isLastBook(books, book) && leaning){
@@ -332,7 +340,7 @@ public class SVGDrawable {
 		}
 		return bookRotation;
 	}
-	
+
 	/***
 	 * Draw the title of the book
 	 * @param graphics
@@ -348,18 +356,18 @@ public class SVGDrawable {
 	private static void drawTitle(SVGGraphics2D graphics, int bookRotation, List<Shape> books, Shape book, Library lib, int indexBook, int indexShelf){
 		//select the black color for the title
 		graphics.setPaint(Color.black);
-		
+
 		//draw the title with the same rotation as the book
 
 		graphics.rotate(Math.toRadians(+90+bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
 		int fontSize = 70;
 		graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
-		
+
 		String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
 		String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
 		String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();		
 		String bookString = bookTitle+" - "+authorFirstName+" "+authorLastName;
-		
+
 		// change the size of the title if it is too long
 		if (graphics.getFontMetrics().stringWidth(bookString) > heig[indexBook]-25){
 			while( graphics.getFontMetrics().stringWidth(bookString) > heig[indexBook]-25){
@@ -372,7 +380,7 @@ public class SVGDrawable {
 
 		graphics.rotate(Math.toRadians(-90-bookRotation), titleXY[indexBook][0], titleXY[indexBook][1]);
 	}
-	
+
 	/***
 	 * Assert if the book is the last book of the list books
 	 * @param books
@@ -382,5 +390,6 @@ public class SVGDrawable {
 	private static boolean isLastBook(List<Shape> books, Shape book){
 		return books.get(books.size()-1)==book;
 	}
-	
+
+
 }

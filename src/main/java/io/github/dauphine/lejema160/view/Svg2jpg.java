@@ -10,21 +10,20 @@ import org.apache.batik.transcoder.image.PNGTranscoder;
 
 public class Svg2jpg {
 	public static void convert() throws Exception{
-		 
-		        String svg_URI_input = Paths.get("/users/jammfa16/git/2D_library/library.svg").toUri().toURL().toString();
-		        TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);        
-		      
-		        OutputStream png_ostream = new FileOutputStream("/users/jammfa16/git/2D_library/library.png");
-		        TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
-		       
-		        PNGTranscoder my_converter = new PNGTranscoder();        
-		        my_converter.transcode(input_svg_image, output_png_image);
-		      
-		        png_ostream.flush();
-		        png_ostream.close();        
-		    }
-		     
-	
-}
 
+		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
+		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);        
+
+		OutputStream png_ostream = new FileOutputStream("library.png");
+		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
+
+		PNGTranscoder my_converter = new PNGTranscoder();        
+		my_converter.transcode(input_svg_image, output_png_image);
+
+		png_ostream.flush();
+		png_ostream.close();        
+	}
+
+
+}
 
