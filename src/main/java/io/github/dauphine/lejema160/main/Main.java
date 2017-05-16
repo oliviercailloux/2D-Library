@@ -19,7 +19,7 @@ public class Main {
 	
 		List<Book> books = io.github.dauphine.lejema160.controller.readFile.read();
 		Library Lib = io.github.dauphine.lejema160.model.User.createLibrary(books, 50, 70);
-		io.github.dauphine.lejema160.view.SVGDrawable.drawTitle(Lib);
+		io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, true);
 		System.out.println("Fait");
 		
 		
