@@ -69,6 +69,12 @@ public class SVGDrawable {
 		Library library = new Library(shelves);
 		drawTitle(library);
 		System.out.println("I drew a library with titles !");
+		try {
+			svg2jpg.convert();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		new Window2DLibrary("2D_LIBRARY PROJECT");
 	}
 

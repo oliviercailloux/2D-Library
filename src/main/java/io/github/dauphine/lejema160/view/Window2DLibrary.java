@@ -174,14 +174,7 @@ public class Window2DLibrary extends JFrame {
 
 		@Override
 		public void paintComponent(Graphics g){
-			
-			try {
-				svg2jpg.convert();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			super.paintComponent(g);
 			String nom= "/users/jammfa16/git/2D_library/library.png";
 			myLib = Toolkit.getDefaultToolkit().getImage(nom);
 			g.drawImage(myLib, 0, 0, this);
