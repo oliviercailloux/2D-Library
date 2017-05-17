@@ -32,7 +32,7 @@ public class Library {
 		Toolkit atk= Toolkit.getDefaultToolkit();
 		Dimension dim =atk.getScreenSize();
 		int w=dim.width;
-		this.frameSizeW=w;
+		this.frameSizeW=w-10;
 	}
 
 	

@@ -28,7 +28,8 @@ public class Window2DLibrary extends JFrame {
 	private JLabel opt2; //a supp
 	private JLabel opt3; // a supp
 	protected Image myLib;
-	protected Image optionsBackground;
+	private ImageIcon myLibIcon;
+	private JLabel libImage;
 	/**
 	 * constructor of the window
 	 * @param title
@@ -112,19 +113,50 @@ public class Window2DLibrary extends JFrame {
 		options.setFont(new Font("Arial", Font.BOLD, 60));
 		panOptions.add(options,"Center");
 		tabPane.add("Options for my library",getPanelCentreOptions());
-		
+
 		JPanel panBooks= new JPanel(new BorderLayout());
 		this.visuG=new JTextArea();
 		visuG.setFont(new Font("Arial", Font.BOLD, 60));
 		panBooks.add(visuG,"Center");
-		tabPane.add("My Library",new PanelLibrary()); 
-		JScrollPane _scroll = new JScrollPane();
-		_scroll.setViewportView(panBooks);
+		//tabPane.add("My Library",new PanelLibrary());
+		tabPane.add("My Library",getPanelCentreLib());
 		return tabPane;
 
 	}
+
+	/*public class PanelLibrary extends JPanel { // enfait ca c'est un panel complet qui va integrer limage de la librairie si on arrive a coder propre... lol
+
+		private static final long serialVersionUID = 1L;
+		@Override
+		public void paintComponent(Graphics g){
+			super.paintComponent(g);
+			String nom= "library.png";
+			myLib = Toolkit.getDefaultToolkit().getImage(nom);
+			g.drawImage(myLib, 0, 0, this);
+
+
+		}
+	}*/
 	
-	
+	/**
+	 * creates panel with the last updates library
+	 * @return
+	 */
+	public JPanel getPanelCentreLib(){ 
+
+		JPanel pCenter = new JPanel(new BorderLayout());
+		this.libImage = new JLabel();
+		myLibIcon = new ImageIcon("library.png"); 
+		libImage.setIcon(myLibIcon);
+		JScrollPane asc = new JScrollPane(this.libImage);
+		pCenter.add(asc);
+
+		return pCenter;
+
+	}
+
+
+
 	/**
 	 * creates panel with the options for the user
 	 * @return
@@ -134,7 +166,7 @@ public class Window2DLibrary extends JFrame {
 
 		JPanel centre= new JPanel();
 		centre.setBackground(Color.ORANGE);
-		
+
 		// Premiere Colonne
 		JPanel optName= new JPanel(new GridLayout(0,1,40,40));
 		optName.setBackground(Color.cyan);
@@ -172,23 +204,11 @@ public class Window2DLibrary extends JFrame {
 
 	}
 
+
 	/**
 	 * creates a panel that contains the layout of the library (not finished)
 	 * 
 	 */
-	public class PanelLibrary extends JPanel { // enfait ca c'est un panel complet qui va integrer limage de la librairie si on arrive a coder propre... lol
-
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			String nom= "library.png";
-			myLib = Toolkit.getDefaultToolkit().getImage(nom);
-			g.drawImage(myLib, 0, 0, this);
-			
-		}
-	}
 
 
 	class BoutonListener implements ActionListener{
