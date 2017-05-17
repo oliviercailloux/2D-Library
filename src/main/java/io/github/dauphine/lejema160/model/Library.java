@@ -1,5 +1,7 @@
 package io.github.dauphine.lejema160.model;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +29,12 @@ public class Library {
 	 */
 	public Library(List<Shelf> shelves) {
 		this.shelves = shelves;
+		Toolkit atk= Toolkit.getDefaultToolkit();
+		Dimension dim =atk.getScreenSize();
+		int w=dim.width;
+		this.frameSizeW=w;
 	}
-	
+
 	
 
 	public Library() {

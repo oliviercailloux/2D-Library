@@ -176,7 +176,8 @@ public class SVGDrawable {
 		SVGGraphics2D graphics = generateSVG();
 
 
-		int dimCanvasX = 2000;
+		int dimCanvasX = (int)lib.getFrameSizeW()-80;
+		System.out.println(dimCanvasX);
 		int dimCanvasY = 1500;
 		int thiknessEdges = 20;
 

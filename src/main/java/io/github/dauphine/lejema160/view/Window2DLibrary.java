@@ -28,7 +28,7 @@ public class Window2DLibrary extends JFrame {
 	private JLabel opt2; //a supp
 	private JLabel opt3; // a supp
 	protected Image myLib;
-
+	protected Image optionsBackground;
 	/**
 	 * constructor of the window
 	 * @param title
@@ -101,36 +101,43 @@ public class Window2DLibrary extends JFrame {
 	 * creates center panel : options and layout of the library
 	 * @return
 	 */
+	//TODO: modify color after validate ; horrible color only for help to identify space of
 	public JTabbedPane getPanelCentre(){ // Une tab d'onglet avec 2 onglets, un pour les options et lautre pour afficher sa librairie
 
 		JTabbedPane tabPane = new JTabbedPane();
 
 		JPanel panOptions = new JPanel(new BorderLayout());
 		this.options=new JTextArea();
+		panOptions.setBackground(Color.orange);
 		options.setFont(new Font("Arial", Font.BOLD, 60));
 		panOptions.add(options,"Center");
 		tabPane.add("Options for my library",getPanelCentreOptions());
-
-
+		
 		JPanel panBooks= new JPanel(new BorderLayout());
 		this.visuG=new JTextArea();
 		visuG.setFont(new Font("Arial", Font.BOLD, 60));
 		panBooks.add(visuG,"Center");
 		tabPane.add("My Library",new PanelLibrary()); 
-
+		JScrollPane _scroll = new JScrollPane();
+		_scroll.setViewportView(panBooks);
 		return tabPane;
 
 	}
+	
+	
 	/**
 	 * creates panel with the options for the user
 	 * @return
 	 */
+	//TODO: modify color after validate ; horrible color only for help to identify space of
 	public JPanel getPanelCentreOptions(){ // panel qui contient les checkbox des options de generations
 
 		JPanel centre= new JPanel();
-
+		centre.setBackground(Color.ORANGE);
+		
 		// Premiere Colonne
 		JPanel optName= new JPanel(new GridLayout(0,1,40,40));
+		optName.setBackground(Color.cyan);
 		JLabel titleFirstColumn= new JLabel("Parameters");
 		//faudra faire une boucle ici quand on aura les differentes options
 		opt= new JLabel("TEST                                     ");
@@ -147,6 +154,7 @@ public class Window2DLibrary extends JFrame {
 
 		//Deuxieme Colonne
 		JPanel optCheck= new JPanel(new GridLayout(0,1,40,40));
+		optCheck.setBackground(Color.pink);
 		JLabel titleSecondColumn= new JLabel("Choices");
 		JCheckBox check = new JCheckBox();
 		check.setSelected(true);
@@ -178,6 +186,7 @@ public class Window2DLibrary extends JFrame {
 			String nom= "library.png";
 			myLib = Toolkit.getDefaultToolkit().getImage(nom);
 			g.drawImage(myLib, 0, 0, this);
+			
 		}
 	}
 
