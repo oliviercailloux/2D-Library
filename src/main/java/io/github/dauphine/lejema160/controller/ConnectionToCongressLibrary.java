@@ -6,12 +6,17 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /***
  * RESTConnection to the library of Congress
  * @author lejema160
  *
  */
 public class ConnectionToCongressLibrary {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(ConnectionToCongressLibrary.class);
 	
 	/**
 	 * the code of the book on the site library of the congress

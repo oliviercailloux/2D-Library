@@ -5,12 +5,19 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.github.dauphine.lejema160.controller.BookSort;
+
 /**
  * @author lejema160
  * @author OlympieSuquet
  * Library is a class that describes the library, with several shelves and books.
  */
 public class Library {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(Library.class);
 
 	/**
 	 * The list of the shelves of the library

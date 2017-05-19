@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.github.dauphine.lejema160.model.Book;
 
 public class BookSort{
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(BookSort.class);
 	
 	/**
 	 * Return the list of books sorted according to the boolean rising.

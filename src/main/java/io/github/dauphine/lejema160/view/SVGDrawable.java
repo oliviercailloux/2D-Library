@@ -21,9 +21,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
+import io.github.dauphine.lejema160.controller.BookSort;
 import io.github.dauphine.lejema160.model.Author;
 import io.github.dauphine.lejema160.model.Book;
 import io.github.dauphine.lejema160.model.Library;
@@ -35,6 +38,8 @@ import io.github.dauphine.lejema160.model.Shelf;
  *
  */
 public class SVGDrawable {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(SVGDrawable.class);
 
 	private static int[][] titleXY = new int[3][2];
 	private static int[] heig = new int[3];

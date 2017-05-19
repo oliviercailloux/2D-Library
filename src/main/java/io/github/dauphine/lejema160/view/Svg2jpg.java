@@ -7,8 +7,15 @@ import java.nio.file.Paths;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.github.dauphine.lejema160.controller.BookSort;
 
 public class Svg2jpg {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(Svg2jpg.class);
+	
 	public static void convert() throws Exception{
 
 		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();

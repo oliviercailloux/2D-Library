@@ -5,12 +5,19 @@ package io.github.dauphine.lejema160.model;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.github.dauphine.lejema160.controller.BookSort;
+
 /**
  * @author lejema160
  * @author OlympieSuquet
  * Shelf is the class that describes  a shelf of books in the library
  */
 public class Shelf {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(Shelf.class);
 
 	/**
 	 * The list of books in the shelf

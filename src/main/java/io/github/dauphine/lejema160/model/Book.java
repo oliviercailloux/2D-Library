@@ -5,12 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.github.dauphine.lejema160.controller.BookSort;
+
 /**
  * @author lejema160
  * @author OlympieSuquet
  * Book is a class that describes a book. It has a title and an author.
  */
 public class Book {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(Book.class);
 
 	/**
 	 * The title of the book.

@@ -1,11 +1,18 @@
 package io.github.dauphine.lejema160.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.github.dauphine.lejema160.controller.BookSort;
+
 /**
  * @author lejema160
  * @author OlympieSuquet
  * Author is a class that describes the author of a book.
  */
 public class Author {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(Author.class);
 
 	/**
 	 * The author's first name.

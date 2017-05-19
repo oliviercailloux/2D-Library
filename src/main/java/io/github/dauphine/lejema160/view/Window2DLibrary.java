@@ -14,10 +14,17 @@ import javax.swing.*;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.transcoder.*;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.github.dauphine.lejema160.controller.BookSort;
 
 
 
 public class Window2DLibrary extends JFrame {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(Window2DLibrary.class);
+	
 	//final static Logger logger = Logger.getLogger(Wisndow2DLibrary.class);
 	private static final long serialVersionUID = 1L;
 	private JButton generate;

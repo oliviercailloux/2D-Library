@@ -3,7 +3,12 @@ package io.github.dauphine.lejema160.controller;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class writeFile {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(writeFile.class);
 	
 	public static void main(String[] args) {
 		write();

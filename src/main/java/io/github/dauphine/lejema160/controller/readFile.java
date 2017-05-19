@@ -8,10 +8,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.github.dauphine.lejema160.model.Author;
 import io.github.dauphine.lejema160.model.Book;
 
 public class readFile {
+	
+	public static final Logger LOGGER = LoggerFactory.getLogger(readFile.class);
 
     public static void main(String[] args) {
     	read();
