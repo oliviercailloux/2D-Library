@@ -16,10 +16,10 @@ public class ConnectionToCongressLibrary {
 	/**
 	 * the code of the book on the site library of the congress
 	 */
-	private int bookCodeIdentifier;
+	private String bookCodeIdentifier;
 
 	public void main (String [] args){
-		ConnectionToCongressLibrary connect = new ConnectionToCongressLibrary(2013413127);
+		ConnectionToCongressLibrary connect = new ConnectionToCongressLibrary("2013413127");
 		System.out.println(connect.getResult());
 	}
 	
@@ -27,7 +27,7 @@ public class ConnectionToCongressLibrary {
 	 * Constructor of the connection with the code of the book
 	 * @param code
 	 */
-	public ConnectionToCongressLibrary(int code){
+	public ConnectionToCongressLibrary(String code){
 		this.bookCodeIdentifier = code;
 	}
 
