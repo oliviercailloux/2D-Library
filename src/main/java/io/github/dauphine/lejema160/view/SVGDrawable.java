@@ -210,11 +210,12 @@ public class SVGDrawable {
 		int indexBook = 0;
 		for (Shape book : books){
 			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
-			int[] table = drawBook(randomGenerator, isLastBook(books, book), book, graphics, emptySpace, YOfTheShelf, leaning);
+			boolean isLastBookOfTheShelf = (indexBook+1 == lib.getShelves().get(indexShelf).getBooks().size());
+			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace, YOfTheShelf, leaning);
 			int bookRotation = table[0];
 			double bookX = book.getBounds().getX();
 			double bookY;
-			if (isLastBook(books, book)) {
+			if (isLastBookOfTheShelf) {
 				bookY = table[1];
 			}
 			else {
@@ -393,16 +394,5 @@ public class SVGDrawable {
 
 		graphics.rotate(Math.toRadians(-90-bookRotation), bookX, bookY);
 	}
-
-	/***
-	 * Assert if the book is the last book of the list books
-	 * @param books
-	 * @param book
-	 * @return true if the book is the last book of the list books
-	 */
-	private static boolean isLastBook(List<Shape> books, Shape book){
-		return books.get(books.size()-1)==book;
-	}
-
 
 }
