@@ -36,8 +36,8 @@ public class Library {
 	 */
 
 	
-	public Library(List<Book> books) {
-		this.shelves = createLibrary(books);
+	public Library(List<Book> books, int nbBooksPerShelf) {
+		this.shelves = createLibrary(books, nbBooksPerShelf);
 		Toolkit atk= Toolkit.getDefaultToolkit();
 		Dimension dim =atk.getScreenSize();
 		int w=dim.width;
@@ -90,15 +90,16 @@ public class Library {
 		this.shelves = shelves;
 	}
 	
-	public static List<Shelf> createLibrary(List<Book> books){
-		List<Shelf> newShelves= new ArrayList<Shelf>();
-		List<Book> list = new ArrayList<Book>();
-		for(int index = 1; index <= books.size(); index++){
-			list.add(books.get(index-1));
-			if (index == books.size()){
+	public static List<Shelf> createLibrary(List<Book> books, int nbBooksPerShelf){
+		List<Shelf> newShelves= new ArrayList<>();
+		List<Book> list = new ArrayList<>();
+		for(int index = 0; index < books.size(); index++){
+			list.add(books.get(index));
+			if ((index+1)%nbBooksPerShelf==0 || index+1 == books.size()){
 				newShelves.add(new Shelf(list));
 				list = new ArrayList<Book>();
 			}
+			
 		}
 		return newShelves;
 	}

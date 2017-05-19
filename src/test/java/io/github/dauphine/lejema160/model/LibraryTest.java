@@ -42,10 +42,8 @@ public class LibraryTest {
 		books.add(book1);
 		books.add(book2);
 		books.add(book3);
-		Shelf shelf = new Shelf(books);
-		List<Shelf> shelves = new ArrayList<>();
-		shelves.add(shelf);
-		Library library = new Library(shelves);
+		int nbBooksPerShelf = 4;
+		Library library = new Library(books, nbBooksPerShelf);
 		
 		//Library librarytest = new Library(books, 6);
 		
