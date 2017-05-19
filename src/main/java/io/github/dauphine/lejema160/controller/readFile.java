@@ -23,7 +23,7 @@ public class readFile {
     }
     
     	public static List<Book> read() {
-        String fileName= "/users/charel16/git/2D_library/src/main/resources/controller/Book1.csv";
+        String fileName= "/users/suquol13/git/2D_library/src/main/resources/controller/Book1.csv";
         File file= new File(fileName);
         
         List<Book> liste = new ArrayList<>();

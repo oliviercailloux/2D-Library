@@ -24,10 +24,11 @@ public class Main {
 	public static void main(String[] args) throws IOException, ParserConfigurationException {
 	
 		List<Book> books = io.github.dauphine.lejema160.controller.readFile.read();
-		Library Lib = io.github.dauphine.lejema160.model.User.createLibrary(books, 50, 70);
+		//Library Lib = io.github.dauphine.lejema160.model.User.createLibrary(books, 50, 70);
+		Library Lib = new Library(books);
 		io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, true);
 		System.out.println("Fait");
-		
+
 		
 	}
 

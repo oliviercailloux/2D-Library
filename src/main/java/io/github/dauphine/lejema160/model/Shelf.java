@@ -67,5 +67,13 @@ public class Shelf {
 		this.heightSize = heightSize;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Shelf [books=" + books.toString() + "]";
+	}
+
 
 }

@@ -170,6 +170,14 @@ public class Book {
 		height = height - randomHeightGap;
 		setheight(height);
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Book [title=" + title + "]";
+	}
 }
 
 

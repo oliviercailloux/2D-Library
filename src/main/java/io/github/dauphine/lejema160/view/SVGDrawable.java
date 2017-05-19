@@ -68,14 +68,8 @@ public class SVGDrawable {
 		books.add(book1);
 		books.add(book2);
 		books.add(book3);
-		Shelf shelf = new Shelf(books);
-		Shelf shelf2 = new Shelf(books);
-		Shelf shelf3 = new Shelf(books);
-		List<Shelf> shelves = new ArrayList<>();
-		shelves.add(shelf);
-		shelves.add(shelf2);
-		shelves.add(shelf3);
-		Library library = new Library(shelves);
+		Library library = new Library(books);
+		System.out.println(library.toString());
 		generate(library, leaning);
 		System.out.println("I drew a library with titles !");
 		try {
@@ -231,7 +225,7 @@ public class SVGDrawable {
 
 			drawTitle(graphics, bookRotation, books, book, lib, indexBook, indexShelf);
 
-			if (indexBook + 1 >= lib.getShelves().get(indexShelf).getBooks().size()){
+			if (indexBook + 1 >= lib.getShelves().get(indexShelf-1).getBooks().size()){
 				indexShelf++;
 			}
 			indexBook++;
@@ -369,9 +363,9 @@ public class SVGDrawable {
 		int fontSize = 70;
 		graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 
-		String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
-		String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
-		String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();		
+		String bookTitle = lib.getShelves().get(indexShelf-1).getBooks().get(indexBook).getTitle();
+		String authorFirstName = lib.getShelves().get(indexShelf-1).getBooks().get(indexBook).getAuthor().getFirstName();
+		String authorLastName = lib.getShelves().get(indexShelf-1).getBooks().get(indexBook).getAuthor().getLastName();		
 		String bookString = bookTitle+" - "+authorFirstName+" "+authorLastName;
 
 		// change the size of the title if it is too long

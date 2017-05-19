@@ -34,14 +34,15 @@ public class Library {
 	/**
 	 * Constructor of a library with a list of shelves
 	 */
-	public Library(List<Shelf> shelves) {
-		this.shelves = shelves;
+
+	
+	public Library(List<Book> books) {
+		this.shelves = createLibrary(books);
 		Toolkit atk= Toolkit.getDefaultToolkit();
 		Dimension dim =atk.getScreenSize();
 		int w=dim.width;
 		this.frameSizeW=w-10;
 	}
-
 	
 
 	public Library() {
@@ -87,6 +88,28 @@ public class Library {
 	 */
 	public void setShelves(List<Shelf> shelves) {
 		this.shelves = shelves;
+	}
+	
+	public static List<Shelf> createLibrary(List<Book> books){
+		List<Shelf> newShelves= new ArrayList<Shelf>();
+		List<Book> list = new ArrayList<Book>();
+		for(int index = 1; index <= books.size(); index++){
+			list.add(books.get(index-1));
+			if (index == books.size()){
+				newShelves.add(new Shelf(list));
+				list = new ArrayList<Book>();
+			}
+		}
+		return newShelves;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Library [shelves=" + shelves.toString() + "]";
 	}
 
 }
