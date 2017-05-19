@@ -35,6 +35,10 @@ public class ConnectionToCongressLibrary {
 	 * Make the connection with the site and get the book's datas marcxml in a string
 	 * @return result, the code marcxml of the datas of the book
 	 * @throws ProcessingException
+	 * Dans le marcxml on a : 
+	 * en 100 a) l'auteur
+	 * en 245 a) le titre
+	 * en 260 c) la date de publi
 	 */
 	public String getResult() throws ProcessingException{
 		String result;
