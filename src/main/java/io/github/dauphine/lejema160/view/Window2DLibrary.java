@@ -22,20 +22,23 @@ import io.github.dauphine.lejema160.controller.BookSort;
 
 
 public class Window2DLibrary extends JFrame {
-	
+
 	public static final Logger LOGGER = LoggerFactory.getLogger(Window2DLibrary.class);
-	
+
 	//final static Logger logger = Logger.getLogger(Wisndow2DLibrary.class);
 	private static final long serialVersionUID = 1L;
 	private JButton generate;
 	private JTextField presentation;
 	private JTextArea options;
 	private JTextArea visuG;
-	private JLabel opt;
-	private JLabel opt2; //a supp
-	private JLabel opt3; // a suppb;
 	private ImageIcon myLibIcon;
 	private JLabel libImage;
+	private ButtonGroup bookColor;
+	private ButtonGroup shelveColor;
+	private ButtonGroup backgroundColor;
+	private ButtonGroup lean;
+	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk,bDarkS, bLightS, bAutoS;
+	private JLabel bkL, bL, sL, lL;
 	/**
 	 * constructor of the window
 	 * @param title
@@ -131,7 +134,7 @@ public class Window2DLibrary extends JFrame {
 	}
 
 
-	
+
 	/**
 	 * creates panel with the last updates library
 	 * @return
@@ -155,54 +158,112 @@ public class Window2DLibrary extends JFrame {
 	 * creates panel with the options for the user
 	 * @return
 	 */
-	//TODO: modify color after validate ; horrible color only for help to identify space of
-	public JPanel getPanelCentreOptions(){ // panel qui contient les checkbox des options de generations
+	public JPanel getPanelCentreOptions(){ 
 
 		JPanel centre= new JPanel();
-		centre.setBackground(Color.ORANGE);
 
-		// Premiere Colonne
-		JPanel optName= new JPanel(new GridLayout(0,1,40,40));
-		optName.setBackground(Color.cyan);
+		JPanel optName= new JPanel(new GridLayout(0,2,40,30));
+
+		JPanel param= new JPanel();
+		JPanel choice= new JPanel();
+		optName.add(param);
+		optName.add(choice);
 		JLabel titleFirstColumn= new JLabel("Parameters");
-		//faudra faire une boucle ici quand on aura les differentes options
-		opt= new JLabel("TEST                                     ");
-		opt.setVisible(true);
-		opt2= new JLabel("TEST                                    ");
-		opt.setVisible(true);
-		opt3= new JLabel("TEST                                     ");
-		opt.setVisible(true);
-		centre.add(optName);
-		optName.add(titleFirstColumn);
-		optName.add(opt);
-		optName.add(opt2);//pr test
-		optName.add(opt3);//pr test
+		param.setOpaque(false);
+		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		JPanel bkCT= new JPanel();
+		bkCT.setOpaque(false);
+		JPanel sCT= new JPanel();
+		sCT.setOpaque(false);
+		JPanel bCT= new JPanel();
+		bCT.setOpaque(false);
+		JPanel lT= new JPanel();
+		lT.setOpaque(false);
+		bL = new JLabel("Books Color : ");
+		bkL = new JLabel("Background Color : ");
+		sL = new JLabel("Shelve Color : ");
+		lL = new JLabel("Position of books : ");
 
-		//Deuxieme Colonne
-		JPanel optCheck= new JPanel(new GridLayout(0,1,40,40));
-		optCheck.setBackground(Color.pink);
 		JLabel titleSecondColumn= new JLabel("Choices");
-		JCheckBox check = new JCheckBox();
-		check.setSelected(true);
-		JCheckBox check2 = new JCheckBox();
-		check2.setSelected(true);
-		JCheckBox check3 = new JCheckBox();
-		check3.setSelected(true);
-		centre.add(optCheck);
-		optCheck.add(titleSecondColumn);
-		optCheck.add(check);
-		optCheck.add(check2);
-		optCheck.add(check3);
+		choice.setOpaque(false);
+		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		JPanel bkC= new JPanel();
+		bkC.setOpaque(false);
+		JPanel sC= new JPanel();
+		sC.setOpaque(false);
+		JPanel bC= new JPanel();
+		bC.setOpaque(false);
+		JPanel l= new JPanel();
+		l.setOpaque(false);
+		backgroundColor=new ButtonGroup();
+		lean=new ButtonGroup();
+		bookColor=new ButtonGroup();
+		shelveColor=new ButtonGroup();
+		backgroundColor.add(bAutoBk=new JRadioButton("Auto"));
+		backgroundColor.add(bLightBk=new JRadioButton("Light"));
+		backgroundColor.add(bDarkBk=new JRadioButton("Dark"));
+		bAutoBk.setOpaque(false);
+		bLightBk.setOpaque(false);
+		bDarkBk.setOpaque(false);
+		bAutoBk.setSelected(true);
+		shelveColor.add(bAutoS=new JRadioButton("Auto"));
+		shelveColor.add(bLightS=new JRadioButton("Light"));
+		shelveColor.add(bDarkS=new JRadioButton("Dark"));
+		bAutoS.setOpaque(false);
+		bLightS.setOpaque(false);
+		bDarkS.setOpaque(false);
+		bAutoS.setSelected(true);
+		bookColor.add(bAutoB=new JRadioButton("Auto"));
+		bookColor.add(bLightB=new JRadioButton("Light"));
+		bookColor.add(bDarkB=new JRadioButton("Dark"));
+		bAutoB=new JRadioButton("Auto");
+		bAutoB.setOpaque(false);
+		bLightB.setOpaque(false);
+		bDarkB.setOpaque(false);
+		bAutoB.setSelected(true);
+		lean.add(bLeanS=new JRadioButton("Leaned"));
+		lean.add(bNotLeanS=new JRadioButton("Not leaned"));
+		bLeanS.setOpaque(false);
+		bNotLeanS.setOpaque(false);
+		bLeanS.setSelected(true);
+		bkCT.add(bkL);
+		sCT.add(sL);
+		bCT.add(bL);
+		lT.add(lL);
+		bkC.add(bAutoBk);
+		bkC.add(bLightBk);
+		bkC.add(bDarkBk);
+		sC.add(bAutoS);
+		sC.add(bLightS);
+		sC.add(bDarkS);
+		bC.add(bAutoB);
+		bC.add(bLightB);
+		bC.add(bDarkB);
+		l.add(bLeanS);
+		l.add(bNotLeanS);
+
+
+		param.add(titleFirstColumn);
+		choice.add(titleSecondColumn);
+		optName.add(bkCT);
+		optName.add(bkC);
+		optName.add(sCT);
+		optName.add(sC);
+		optName.add(bCT);
+		optName.add(bC);
+		optName.add(lT);
+		optName.add(l);
+		optName.setOpaque(false);
+		centre.add(optName);
+		centre.setBackground(Color.decode("#51DAA8"));
+
 
 		return centre;
 
 	}
+	
+	
 
-
-	/**
-	 * creates a panel that contains the layout of the library (not finished)
-	 * 
-	 */
 
 
 	class BoutonListener implements ActionListener{
