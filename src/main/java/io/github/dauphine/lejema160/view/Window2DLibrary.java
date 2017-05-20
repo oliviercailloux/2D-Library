@@ -33,8 +33,7 @@ public class Window2DLibrary extends JFrame {
 	private JTextArea visuG;
 	private JLabel opt;
 	private JLabel opt2; //a supp
-	private JLabel opt3; // a supp
-	protected Image myLib;
+	private JLabel opt3; // a suppb;
 	private ImageIcon myLibIcon;
 	private JLabel libImage;
 	/**
@@ -131,19 +130,7 @@ public class Window2DLibrary extends JFrame {
 
 	}
 
-	/*public class PanelLibrary extends JPanel { // enfait ca c'est un panel complet qui va integrer limage de la librairie si on arrive a coder propre... lol
 
-		private static final long serialVersionUID = 1L;
-		@Override
-		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			String nom= "library.png";
-			myLib = Toolkit.getDefaultToolkit().getImage(nom);
-			g.drawImage(myLib, 0, 0, this);
-
-
-		}
-	}*/
 	
 	/**
 	 * creates panel with the last updates library
@@ -155,7 +142,6 @@ public class Window2DLibrary extends JFrame {
 		this.libImage = new JLabel();
 		myLibIcon = new ImageIcon("library.png"); 
 		libImage.setIcon(myLibIcon);
-		System.out.println("IMAGE"+myLibIcon.getIconWidth()); //TODO : a supprimer
 		JScrollPane asc = new JScrollPane(this.libImage);
 		pCenter.add(asc);
 
