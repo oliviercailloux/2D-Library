@@ -155,6 +155,7 @@ public class Window2DLibrary extends JFrame {
 		this.libImage = new JLabel();
 		myLibIcon = new ImageIcon("library.png"); 
 		libImage.setIcon(myLibIcon);
+		System.out.println("IMAGE"+myLibIcon.getIconWidth()); //TODO : a supprimer
 		JScrollPane asc = new JScrollPane(this.libImage);
 		pCenter.add(asc);
 
