@@ -68,8 +68,14 @@ public class Author {
 		this.lastName = lastName;
 	}
 	
-	public int hashcode(){
-		return Objects.hash(lastName, firstName);
+	public int hashCode(){
+		return this.lastName.hashCode() + this.firstName.hashCode();
+		//return Objects.hash(this.lastName, this.firstName);
+		//return this.lastName.length() + this.firstName.length();
+	}
+	
+	public boolean equals(Author author){
+		return this.lastName.equals(author.lastName) && this.firstName.equals(author.firstName);
 	}
 
 }

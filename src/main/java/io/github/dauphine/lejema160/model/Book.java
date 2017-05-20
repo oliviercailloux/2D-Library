@@ -184,6 +184,12 @@ public class Book {
 		return Objects.hash(author, color, height, title, width, year);
 	}
 
+	public boolean equals(Book book){
+		return this.author.equals(book.author) && this.color.equals(book.color)
+				&& this.height == book.height && this.title.equals(book.title)
+				&& this.width == book.width && this.year == book.year;
+	}
+	
 }
 
 
