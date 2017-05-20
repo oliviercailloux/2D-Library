@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,5 +113,10 @@ public class Library {
 	public String toString() {
 		return "Library [shelves=" + shelves.toString() + "]";
 	}
+	
+	public int hashcode(){
+		return Objects.hash(frameSizeH, frameSizeW, shelves);
+	}
+
 
 }

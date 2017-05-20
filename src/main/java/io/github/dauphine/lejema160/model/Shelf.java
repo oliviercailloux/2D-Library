@@ -4,6 +4,7 @@
 package io.github.dauphine.lejema160.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,10 @@ public class Shelf {
 	@Override
 	public String toString() {
 		return "Shelf [books=" + books.toString() + "]";
+	}
+	
+	public int hashcode(){
+		return Objects.hash(books, heightSize);
 	}
 
 

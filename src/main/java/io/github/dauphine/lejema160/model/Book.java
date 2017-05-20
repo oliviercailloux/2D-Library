@@ -3,6 +3,7 @@ package io.github.dauphine.lejema160.model;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -178,6 +179,11 @@ public class Book {
 	public String toString() {
 		return "Book [title=" + title + "]";
 	}
+	
+	public int hashcode(){
+		return Objects.hash(author, color, height, title, width, year);
+	}
+
 }
 
 

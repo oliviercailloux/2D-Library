@@ -1,5 +1,7 @@
 package io.github.dauphine.lejema160.model;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +66,10 @@ public class Author {
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public int hashcode(){
+		return Objects.hash(lastName, firstName);
 	}
 
 }
