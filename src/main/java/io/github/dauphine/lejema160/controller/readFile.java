@@ -23,8 +23,11 @@ public class readFile {
     }
     
     	public static List<Book> read() {
-        String fileName= "/users/suquol13/git/2D_library/src/main/resources/controller/Book1.csv";
-        File file= new File(fileName);
+        //String fileName= "/users/suquol13/git/2D_library/src/main/resources/controller/Book1.csv";
+    		 String path=new File("").getAbsolutePath(); 
+    		  //System.out.println(path);
+    		  String fileName = path + "/src/main/resources/controller/Book1.csv";
+    		File file= new File(fileName);
         
         List<Book> liste = new ArrayList<>();
         

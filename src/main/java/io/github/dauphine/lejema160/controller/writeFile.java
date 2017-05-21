@@ -1,5 +1,6 @@
 package io.github.dauphine.lejema160.controller;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
 
@@ -41,7 +42,9 @@ public class writeFile {
 		
 		//String fil = "/users/charel16/workspace-mars-2015/Library_Books";
 		
-		String fil = "/users/charel16/git/2D_library/src/main/resources/controller/Book1.csv";
+		//String fil = "/users/charel16/git/2D_library/src/main/resources/controller/Book1.csv";
+		String path=new File("").getAbsolutePath(); 
+	    String fil = path + "/src/main/resources/controller/Book1.csv";
 		FileWriter wr = new FileWriter(fil.trim().toString() , true);
 		wr.append(tr);
 		wr.append("\r\n");
