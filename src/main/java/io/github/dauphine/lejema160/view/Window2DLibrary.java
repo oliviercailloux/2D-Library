@@ -195,7 +195,7 @@ public class Window2DLibrary extends JFrame {
 		
 		
 	    tfn=new JTextField();
-	    tfn.setBounds(5, 5, 50, 25);
+	    tfn.setBounds(5, 5, 200, 200);
 	    tln=new JTextField();
 	    tln.setBounds(5, 5, 50, 25);
 	    tti=new JTextField();
@@ -206,8 +206,8 @@ public class Window2DLibrary extends JFrame {
 	    tdx.setBounds(5, 5, 100, 50);
 	    tdy=new JTextField();
 	    tdy.setBounds(5, 5, 100, 50);
-	    tco=new JTextField();
-	    tco.setBounds(5, 5, 100, 50);
+	    String[] choices = { "rose","cyan", "bleu","orange","jaune"};
+	    final JComboBox<String> lco = new JComboBox<String>(choices);
 	   
 	    
 
@@ -226,19 +226,38 @@ public class Window2DLibrary extends JFrame {
 		tab.add(dy);
 		tab.add(tdy);
 		tab.add(co);
-		tab.add(tco);
+		tab.add(lco);
 		tab.setOpaque(false);
 		//tab.add(param);
 		//tab.add(choice);
 		JButton button = new JButton("ADD");
 		tab.add(button);
 		pBCenter.add(tab);
+		System.out.println("hi");
+		
+		
+		button.addActionListener(new ActionListener() {
+		       public void actionPerformed(ActionEvent e) {
+		             if(e.getSource() == button) {
+		            	 System.out.println("i");
+		                 String line = tfn.getText()+",";
+		                 line = line + tln.getText()+",";
+		                 line = line + tti.getText()+",";
+		                 line = line + tye.getText()+",";
+		                 line = line + tdx.getText()+",";
+		                 line = line + tdy.getText()+",";
+		                 line = line + lco.getSelectedItem().toString() +",";
+		                 line = line +"End";
+		                 io.github.dauphine.lejema160.controller.writeFile.AddBook(line);
+		              }
+		       }
+		 });
 		
 		pBCenter.setBackground(Color.decode("#51DAA8"));
 		return pBCenter;
 
 	}
-
+	
 	/**
 	 * creates panel with the options for the user
 	 * @return
