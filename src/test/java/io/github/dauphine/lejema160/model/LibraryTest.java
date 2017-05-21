@@ -73,10 +73,17 @@ public class LibraryTest {
 		books.add(book1);
 		books.add(book2);
 		books.add(book3);
-		int nbBooksPerShelf = 4;
+		int nbBooksPerShelf = 2;
 		Library x = new Library(books, nbBooksPerShelf);
 		Library y = new Library(books, nbBooksPerShelf);
-	    //Assert.assertTrue(x.equals(y) && y.equals(x));
+		double size = 3.0;
+		x.setFrameSizeH(size);
+		y.setFrameSizeH(size);
+		x.setFrameSizeW(size);
+		y.setFrameSizeW(size);
+		System.out.println(x.toString() + x.getFrameSizeH() + x.getFrameSizeW());
+		System.out.println(y.toString());
+	    Assert.assertTrue(x.equals(y) && y.equals(x));
 	    Assert.assertTrue(x.hashCode() == y.hashCode());
 	}
 

@@ -13,8 +13,6 @@ public class AuthorTest {
 	    Author x = new Author("Victor", "HugoChung");
 		Author y = new Author("Victor", "HugoChung");
 	    Assert.assertTrue(x.equals(y) && y.equals(x));
-	    System.out.println(x.hashCode());
-	    System.out.println(y.hashCode());
 	    Assert.assertTrue(x.hashCode() == y.hashCode());
 	}
 }

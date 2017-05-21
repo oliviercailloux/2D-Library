@@ -180,7 +180,7 @@ public class Book {
 		return "Book [title=" + title + "]";
 	}
 	
-	public int hashcode(){
+	public int hashCode(){
 		return Objects.hash(author, color, height, title, width, year);
 	}
 

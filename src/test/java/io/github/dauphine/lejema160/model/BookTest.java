@@ -27,6 +27,6 @@ public class BookTest {
 		y.setColor(Color.BLUE);
 
 	    Assert.assertTrue(x.equals(y) && y.equals(x));
-	    //Assert.assertTrue(x.hashCode() == y.hashCode());
+	    Assert.assertTrue(x.hashCode() == y.hashCode());
 	}
 }

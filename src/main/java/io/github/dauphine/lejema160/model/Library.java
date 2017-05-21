@@ -114,8 +114,12 @@ public class Library {
 		return "Library [shelves=" + shelves.toString() + "]";
 	}
 	
-	public int hashcode(){
+	public int hashCode(){
 		return Objects.hash(frameSizeH, frameSizeW, shelves);
+	}
+	public boolean equals(Library library){
+		return this.frameSizeH == library.frameSizeH && this.frameSizeW == library.frameSizeW;
+		//return this.shelves.equals(library.shelves);
 	}
 
 

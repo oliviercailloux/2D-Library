@@ -76,8 +76,11 @@ public class Shelf {
 		return "Shelf [books=" + books.toString() + "]";
 	}
 	
-	public int hashcode(){
+	public int hashCode(){
 		return Objects.hash(books, heightSize);
+	}
+	public boolean equals(Shelf shelf){
+		return this.books.equals(shelf.books) && this.heightSize == shelf.heightSize;
 	}
 
 
