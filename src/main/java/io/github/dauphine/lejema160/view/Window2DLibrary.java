@@ -29,8 +29,10 @@ public class Window2DLibrary extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JButton generate;
 	private JTextField presentation;
+
 	private JTextArea options;
 	private JTextArea visuG;
+	private JTextArea actions;
 	private ImageIcon myLibIcon;
 	private JLabel libImage;
 	private ButtonGroup bookColor;
@@ -39,6 +41,8 @@ public class Window2DLibrary extends JFrame {
 	private ButtonGroup lean;
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk,bDarkS, bLightS, bAutoS;
 	private JLabel bkL, bL, sL, lL;
+	private JLabel fn,ln,ti,ye,dx,dy,co;
+	private JTextField tfn,tln,tti,tye,tdx,tdy,tco;
 	/**
 	 * constructor of the window
 	 * @param title
@@ -129,6 +133,15 @@ public class Window2DLibrary extends JFrame {
 		panBooks.add(visuG,"Center");
 		//tabPane.add("My Library",new PanelLibrary());
 		tabPane.add("My Library",getPanelCentreLib());
+		 
+		
+		
+		JPanel panActions= new JPanel(new BorderLayout());
+		this.actions=new JTextArea();
+		panActions.setBackground(Color.orange);
+		actions.setFont(new Font("Arial", Font.BOLD, 60));
+		panActions.add(actions,"Center");
+		tabPane.add("Books in my Library",getPanelCentreBooks());
 		return tabPane;
 
 	}
@@ -153,6 +166,78 @@ public class Window2DLibrary extends JFrame {
 	}
 
 
+	public JPanel getPanelCentreBooks(){ 
+
+		JPanel pBCenter = new JPanel(new BorderLayout());
+		
+		JPanel tab= new JPanel(new GridLayout(9,2,10,10));
+
+		pBCenter.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+		//JPanel param= new JPanel();
+		//JPanel choice= new JPanel();
+		
+		JLabel titleFirstColumn= new JLabel("Add Book");
+		//param.setOpaque(false);
+		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		
+
+		fn = new JLabel("First Name : ");
+		ln = new JLabel("Last Name : ");
+		ti = new JLabel("Title : ");
+		ye = new JLabel("Year : ");
+		dx = new JLabel("DimX : ");
+		dy = new JLabel("DimY : ");
+		co = new JLabel("Color : ");
+		
+		JLabel titleSecondColumn= new JLabel("");
+		//choice.setOpaque(false);
+		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		
+		
+	    tfn=new JTextField();
+	    tfn.setBounds(5, 5, 50, 25);
+	    tln=new JTextField();
+	    tln.setBounds(5, 5, 50, 25);
+	    tti=new JTextField();
+	    tti.setBounds(5, 5, 100, 50);
+	    tye=new JTextField();
+	    tye.setBounds(5, 5, 100, 50);
+	    tdx=new JTextField();
+	    tdx.setBounds(5, 5, 100, 50);
+	    tdy=new JTextField();
+	    tdy.setBounds(5, 5, 100, 50);
+	    tco=new JTextField();
+	    tco.setBounds(5, 5, 100, 50);
+	   
+	    
+
+		tab.add(titleFirstColumn);
+		tab.add(titleSecondColumn);
+		tab.add(fn);
+		tab.add(tfn);
+		tab.add(ln);
+		tab.add(tln);
+		tab.add(ti);
+		tab.add(tti);
+		tab.add(ye);
+		tab.add(tye);
+		tab.add(dx);
+		tab.add(tdx);
+		tab.add(dy);
+		tab.add(tdy);
+		tab.add(co);
+		tab.add(tco);
+		tab.setOpaque(false);
+		//tab.add(param);
+		//tab.add(choice);
+		JButton button = new JButton("ADD");
+		tab.add(button);
+		pBCenter.add(tab);
+		
+		pBCenter.setBackground(Color.decode("#51DAA8"));
+		return pBCenter;
+
+	}
 
 	/**
 	 * creates panel with the options for the user

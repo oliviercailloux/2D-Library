@@ -38,13 +38,14 @@ public class readFile {
         try{
             inputStream = new Scanner(file);
 
-            while(inputStream.hasNext()){
-                String line= inputStream.next();
+            while(inputStream.hasNextLine()){
+                String line= inputStream.nextLine();
+                //inputStream.useDelimiter(",");
                 String[] values = line.split(",");
                 // this adds the currently parsed line to the 2-dimensional string array
                 lines.add(Arrays.asList(values));
             }
-
+            
             inputStream.close();
         }catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -53,6 +54,7 @@ public class readFile {
         // the following code lets you iterate through the 2-dimensional array
         int lineNo = 0;
         for(List<String> line: lines) {
+        	
             int columnNo = 0;
             if (lineNo == 0){
             	lineNo++;
@@ -63,6 +65,7 @@ public class readFile {
 			book.setAuthor(author);
             
             for (String value: line) {
+            	 
             	if (value == "" || value.isEmpty()){
             		value = "";
             	}
