@@ -233,13 +233,12 @@ public class Window2DLibrary extends JFrame {
 		JButton button = new JButton("ADD");
 		tab.add(button);
 		pBCenter.add(tab);
-		System.out.println("hi");
+	
 		
 		
 		button.addActionListener(new ActionListener() {
 		       public void actionPerformed(ActionEvent e) {
 		             if(e.getSource() == button) {
-		            	 System.out.println("i");
 		                 String line = tfn.getText()+",";
 		                 line = line + tln.getText()+",";
 		                 line = line + tti.getText()+",";
