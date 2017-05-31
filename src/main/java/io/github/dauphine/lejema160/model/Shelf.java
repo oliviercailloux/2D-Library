@@ -79,8 +79,12 @@ public class Shelf {
 	public int hashCode(){
 		return Objects.hash(books, heightSize);
 	}
-	public boolean equals(Shelf shelf){
-		return this.books.equals(shelf.books) && this.heightSize == shelf.heightSize;
+	public boolean equals(Object shelf){
+		if (shelf == null) return false;
+		if (shelf == this) return true;
+		if (!(shelf instanceof Shelf)) return false;
+		Shelf castedShelf = (Shelf) shelf;
+		return this.books.equals(castedShelf.books) && this.heightSize == castedShelf.heightSize;
 	}
 
 

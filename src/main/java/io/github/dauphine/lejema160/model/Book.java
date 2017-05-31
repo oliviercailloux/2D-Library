@@ -184,10 +184,14 @@ public class Book {
 		return Objects.hash(author, color, height, title, width, year);
 	}
 
-	public boolean equals(Book book){
-		return this.author.equals(book.author) && this.color.equals(book.color)
-				&& this.height == book.height && this.title.equals(book.title)
-				&& this.width == book.width && this.year == book.year;
+	public boolean equals(Object book){
+		if (book == null) return false;
+		if (book == this) return true;
+		if (!(book instanceof Book)) return false;
+		Book castedBook = (Book) book;
+		return this.author.equals(castedBook.author) && this.color.equals(castedBook.color)
+				&& this.height == castedBook.height && this.title.equals(castedBook.title)
+				&& this.width == castedBook.width && this.year == castedBook.year;
 	}
 	
 }

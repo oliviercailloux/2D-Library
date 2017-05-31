@@ -69,13 +69,16 @@ public class Author {
 	}
 	
 	public int hashCode(){
-		return this.lastName.hashCode() + this.firstName.hashCode();
-		//return Objects.hash(this.lastName, this.firstName);
-		//return this.lastName.length() + this.firstName.length();
+		//return this.lastName.hashCode() + this.firstName.hashCode();
+		return Objects.hash(lastName, firstName);
 	}
 	
-	public boolean equals(Author author){
-		return this.lastName.equals(author.lastName) && this.firstName.equals(author.firstName);
+	public boolean equals(Object author){
+		if (author == null) return false;
+		if (author == this) return true;
+		if (!(author instanceof Author)) return false;
+		Author castedAuthor = (Author) author;
+		return this.lastName.equals(castedAuthor.lastName) && this.firstName.equals(castedAuthor.firstName);
 	}
 
 }
