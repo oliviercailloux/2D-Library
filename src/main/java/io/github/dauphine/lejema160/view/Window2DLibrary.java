@@ -324,7 +324,8 @@ public class Window2DLibrary extends JFrame {
 		optName.add(choice);
 		JLabel titleFirstColumn= new JLabel("Parameters");
 		param.setOpaque(false);
-		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		titleFirstColumn.setFont(new Font("Book Antiqua", Font.ITALIC, 55));
+		titleFirstColumn.setForeground(Color.decode("#b32d00"));
 		JPanel bkCT= new JPanel();
 		bkCT.setOpaque(false);
 		JPanel sCT= new JPanel();
@@ -334,13 +335,18 @@ public class Window2DLibrary extends JFrame {
 		JPanel lT= new JPanel();
 		lT.setOpaque(false);
 		bL = new JLabel("Books Color : ");
+		bL.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
 		bkL = new JLabel("Background Color : ");
+		bkL.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
 		sL = new JLabel("Shelve Color : ");
+		sL.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
 		lL = new JLabel("Position of books : ");
+		lL.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
 
 		JLabel titleSecondColumn= new JLabel("Choices");
 		choice.setOpaque(false);
-		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		titleSecondColumn.setFont(new Font("Book Antiqua", Font.ITALIC, 55));
+		titleSecondColumn.setForeground(Color.decode("#b32d00"));
 		JPanel bkC= new JPanel();
 		bkC.setOpaque(false);
 		JPanel sC= new JPanel();
@@ -356,6 +362,9 @@ public class Window2DLibrary extends JFrame {
 		backgroundColor.add(bAutoBk=new JRadioButton("Auto"));
 		backgroundColor.add(bLightBk=new JRadioButton("Light"));
 		backgroundColor.add(bDarkBk=new JRadioButton("Dark"));
+		bAutoBk.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
+		bLightBk.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
+		bDarkBk.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
 		bAutoBk.setOpaque(false);
 		bLightBk.setOpaque(false);
 		bDarkBk.setOpaque(false);
@@ -363,6 +372,9 @@ public class Window2DLibrary extends JFrame {
 		shelveColor.add(bAutoS=new JRadioButton("Auto"));
 		shelveColor.add(bLightS=new JRadioButton("Light"));
 		shelveColor.add(bDarkS=new JRadioButton("Dark"));
+		bAutoS.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
+		bLightS.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
+		bDarkS.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
 		bAutoS.setOpaque(false);
 		bLightS.setOpaque(false);
 		bDarkS.setOpaque(false);
@@ -370,13 +382,17 @@ public class Window2DLibrary extends JFrame {
 		bookColor.add(bAutoB=new JRadioButton("Auto"));
 		bookColor.add(bLightB=new JRadioButton("Light"));
 		bookColor.add(bDarkB=new JRadioButton("Dark"));
-		bAutoB=new JRadioButton("Auto");
+		bAutoB.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
+		bLightB.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
+		bDarkB.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
 		bAutoB.setOpaque(false);
 		bLightB.setOpaque(false);
 		bDarkB.setOpaque(false);
 		bAutoB.setSelected(true);
 		lean.add(bLeanS=new JRadioButton("Leaned"));
 		lean.add(bNotLeanS=new JRadioButton("Not leaned"));
+		bLeanS.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
+		bNotLeanS.setFont(new Font("Book Antiqua",Font.ITALIC, 20));
 		bLeanS.setOpaque(false);
 		bNotLeanS.setOpaque(false);
 		bLeanS.setSelected(true);
