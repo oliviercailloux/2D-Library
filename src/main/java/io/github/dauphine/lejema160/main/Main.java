@@ -29,8 +29,7 @@ public class Main {
 		
 		
 		io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, leaning);
-		//System.out.println("Done");
-		
+				
 		// lancement de l'interface graphique
 		try {
 			Svg2jpg.convert();

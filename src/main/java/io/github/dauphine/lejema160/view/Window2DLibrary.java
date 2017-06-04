@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.transcoder.*;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
@@ -18,6 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.dauphine.lejema160.controller.BookSort;
+import io.github.dauphine.lejema160.model.Book;
+import io.github.dauphine.lejema160.model.Library;
+import javassist.bytecode.LineNumberAttribute.Pc;
 
 
 
@@ -29,7 +35,10 @@ public class Window2DLibrary extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JButton generate;
 	private JTextField presentation;
-
+	private JPanel pCenter;
+	private JPanel sud;
+	private JPanel panBooks;
+	private JTabbedPane tabPane;
 	private JTextArea options;
 	private JTextArea visuG;
 	private JTextArea actions;
@@ -104,7 +113,7 @@ public class Window2DLibrary extends JFrame {
 	 */
 	public JPanel getPanelSud(){
 
-		JPanel sud= new JPanel();
+		sud= new JPanel();
 		generate = new JButton("Generate my library");
 		generate.addActionListener(new BoutonListener());
 		sud.add(generate);
@@ -118,7 +127,7 @@ public class Window2DLibrary extends JFrame {
 	//TODO: modify color after validate ; horrible color only for help to identify space of
 	public JTabbedPane getPanelCentre(){ // Une tab d'onglet avec 2 onglets, un pour les options et lautre pour afficher sa librairie
 
-		JTabbedPane tabPane = new JTabbedPane();
+		this.tabPane = new JTabbedPane();
 
 		JPanel panOptions = new JPanel(new BorderLayout());
 		this.options=new JTextArea();
@@ -127,15 +136,14 @@ public class Window2DLibrary extends JFrame {
 		panOptions.add(options,"Center");
 		tabPane.add("Options for my library",getPanelCentreOptions());
 
-		JPanel panBooks= new JPanel(new BorderLayout());
+		this.panBooks= new JPanel(new BorderLayout());
 		this.visuG=new JTextArea();
 		visuG.setFont(new Font("Arial", Font.BOLD, 60));
 		panBooks.add(visuG,"Center");
-		//tabPane.add("My Library",new PanelLibrary());
 		tabPane.add("My Library",getPanelCentreLib());
-		 
-		
-		
+
+
+
 		JPanel panActions= new JPanel(new BorderLayout());
 		this.actions=new JTextArea();
 		panActions.setBackground(Color.orange);
@@ -154,7 +162,7 @@ public class Window2DLibrary extends JFrame {
 	 */
 	public JPanel getPanelCentreLib(){ 
 
-		JPanel pCenter = new JPanel(new BorderLayout());
+		this.pCenter = new JPanel(new BorderLayout());
 		this.libImage = new JLabel();
 		myLibIcon = new ImageIcon("library.png"); 
 		libImage.setIcon(myLibIcon);
@@ -165,21 +173,58 @@ public class Window2DLibrary extends JFrame {
 
 	}
 
+	/**
+	 * Update the picture of the library when we change parameters in our IHM
+	 * @return nothing 
+	 */
+
+	public void updateLibrary(){
+		// methode genere image librairie
+		List<Book> booksForUpdate = io.github.dauphine.lejema160.controller.readFile.read();
+		int nbBooksPerShelf = 1;
+		Library LibForUpdate = new Library(booksForUpdate, nbBooksPerShelf);
+		boolean leaning = true;
+		generate.setText("Reload my library now");
+	
+		try {
+			io.github.dauphine.lejema160.view.SVGDrawable.generate(LibForUpdate, leaning);
+		} catch (IOException | ParserConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			Svg2jpg.convert();
+			LOGGER.debug("Update Lib SvgConvert ok");
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+		pCenter.removeAll();
+		pCenter.revalidate();
+		libImage = new JLabel();
+		myLibIcon= new ImageIcon("library.png");
+		libImage.setIcon(myLibIcon);
+		pCenter.add(libImage);
+		JScrollPane asc = new JScrollPane(this.libImage);
+		pCenter.add(asc);
+		pCenter.updateUI();
+
+	}
 
 	public JPanel getPanelCentreBooks(){ 
 
 		JPanel pBCenter = new JPanel(new BorderLayout());
-		
+
 		JPanel tab= new JPanel(new GridLayout(9,2,10,10));
 
 		pBCenter.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 		//JPanel param= new JPanel();
 		//JPanel choice= new JPanel();
-		
+
 		JLabel titleFirstColumn= new JLabel("Add Book");
 		//param.setOpaque(false);
 		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
-		
+
 
 		fn = new JLabel("First Name : ");
 		ln = new JLabel("Last Name : ");
@@ -188,28 +233,28 @@ public class Window2DLibrary extends JFrame {
 		dx = new JLabel("DimX : ");
 		dy = new JLabel("DimY : ");
 		co = new JLabel("Color : ");
-		
+
 		JLabel titleSecondColumn= new JLabel("");
 		//choice.setOpaque(false);
 		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
-		
-		
-	    tfn=new JTextField();
-	    tfn.setBounds(5, 5, 200, 200);
-	    tln=new JTextField();
-	    tln.setBounds(5, 5, 50, 25);
-	    tti=new JTextField();
-	    tti.setBounds(5, 5, 100, 50);
-	    tye=new JTextField();
-	    tye.setBounds(5, 5, 100, 50);
-	    tdx=new JTextField();
-	    tdx.setBounds(5, 5, 100, 50);
-	    tdy=new JTextField();
-	    tdy.setBounds(5, 5, 100, 50);
-	    String[] choices = { "rose","cyan", "bleu","orange","jaune"};
-	    final JComboBox<String> lco = new JComboBox<String>(choices);
-	   
-	    
+
+
+		tfn=new JTextField();
+		tfn.setBounds(5, 5, 200, 200);
+		tln=new JTextField();
+		tln.setBounds(5, 5, 50, 25);
+		tti=new JTextField();
+		tti.setBounds(5, 5, 100, 50);
+		tye=new JTextField();
+		tye.setBounds(5, 5, 100, 50);
+		tdx=new JTextField();
+		tdx.setBounds(5, 5, 100, 50);
+		tdy=new JTextField();
+		tdy.setBounds(5, 5, 100, 50);
+		String[] choices = { "rose","cyan", "bleu","orange","jaune"};
+		final JComboBox<String> lco = new JComboBox<String>(choices);
+
+
 
 		tab.add(titleFirstColumn);
 		tab.add(titleSecondColumn);
@@ -233,30 +278,30 @@ public class Window2DLibrary extends JFrame {
 		JButton button = new JButton("ADD");
 		tab.add(button);
 		pBCenter.add(tab);
-	
-		
-		
+
+
+
 		button.addActionListener(new ActionListener() {
-		       public void actionPerformed(ActionEvent e) {
-		             if(e.getSource() == button) {
-		                 String line = tfn.getText()+",";
-		                 line = line + tln.getText()+",";
-		                 line = line + tti.getText()+",";
-		                 line = line + tye.getText()+",";
-		                 line = line + tdx.getText()+",";
-		                 line = line + tdy.getText()+",";
-		                 line = line + lco.getSelectedItem().toString() +",";
-		                 line = line +"End";
-		                 io.github.dauphine.lejema160.controller.writeFile.AddBook(line);
-		              }
-		       }
-		 });
-		
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == button) {
+					String line = tfn.getText()+",";
+					line = line + tln.getText()+",";
+					line = line + tti.getText()+",";
+					line = line + tye.getText()+",";
+					line = line + tdx.getText()+",";
+					line = line + tdy.getText()+",";
+					line = line + lco.getSelectedItem().toString() +",";
+					line = line +"End";
+					io.github.dauphine.lejema160.controller.writeFile.AddBook(line);
+				}
+			}
+		});
+
 		pBCenter.setBackground(Color.decode("#51DAA8"));
 		return pBCenter;
 
 	}
-	
+
 	/**
 	 * creates panel with the options for the user
 	 * @return
@@ -345,7 +390,6 @@ public class Window2DLibrary extends JFrame {
 		l.add(bLeanS);
 		l.add(bNotLeanS);
 
-
 		param.add(titleFirstColumn);
 		choice.add(titleSecondColumn);
 		optName.add(bkCT);
@@ -364,8 +408,9 @@ public class Window2DLibrary extends JFrame {
 		return centre;
 
 	}
-	
-	
+
+
+
 
 
 
@@ -376,14 +421,8 @@ public class Window2DLibrary extends JFrame {
 
 		public void actionPerformed(ActionEvent e){
 			String s= e.getActionCommand();
-			if(s.equals("Generate my library")){
-				// methode genere image librairie
-				generate.setText("Update my library now");
-
-
-			}
-			if(s.equals("Update my library now")){
-				// remettre meme code ici pour la maj de la librairie
+			if(s.equals("Generate my library")||s.equals("Reload my library now")){
+				updateLibrary();
 			}
 
 
