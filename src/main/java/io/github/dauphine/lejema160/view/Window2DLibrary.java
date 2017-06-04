@@ -8,9 +8,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -141,8 +143,6 @@ public class Window2DLibrary extends JFrame {
 		visuG.setFont(new Font("Arial", Font.BOLD, 60));
 		panBooks.add(visuG,"Center");
 		tabPane.add("My Library",getPanelCentreLib());
-
-
 
 		JPanel panActions= new JPanel(new BorderLayout());
 		this.actions=new JTextArea();
@@ -297,7 +297,7 @@ public class Window2DLibrary extends JFrame {
 			}
 		});
 
-		pBCenter.setBackground(Color.decode("#51DAA8"));
+		//pBCenter.setBackground(Color.decode("#51DAA8"));
 		return pBCenter;
 
 	}
@@ -309,9 +309,15 @@ public class Window2DLibrary extends JFrame {
 	public JPanel getPanelCentreOptions(){ 
 
 		JPanel centre= new JPanel();
-
-		JPanel optName= new JPanel(new GridLayout(0,2,40,30));
-
+		Image image=null;
+		try {
+            URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
+            image = ImageIO.read(url);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+		JLabel backG=new JLabel(new ImageIcon(image));
+		JPanel optName= new JPanel(new GridLayout(0,2,40,30));		
 		JPanel param= new JPanel();
 		JPanel choice= new JPanel();
 		optName.add(param);
@@ -401,9 +407,10 @@ public class Window2DLibrary extends JFrame {
 		optName.add(lT);
 		optName.add(l);
 		optName.setOpaque(false);
+		centre.add(backG);
+		//centre.setBackground(Color.decode("#51DAA8"));
+	
 		centre.add(optName);
-		centre.setBackground(Color.decode("#51DAA8"));
-
 
 		return centre;
 
