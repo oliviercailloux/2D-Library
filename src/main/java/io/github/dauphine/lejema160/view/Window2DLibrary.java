@@ -150,6 +150,14 @@ public class Window2DLibrary extends JFrame {
 		actions.setFont(new Font("Arial", Font.BOLD, 60));
 		panActions.add(actions,"Center");
 		tabPane.add("Books in my Library",getPanelCentreBooks());
+	
+		
+		JPanel panDelete= new JPanel(new BorderLayout());
+		this.actions=new JTextArea();
+		panDelete.setBackground(Color.orange);
+		actions.setFont(new Font("Arial", Font.BOLD, 60));
+		panDelete.add(actions,"Center");
+		tabPane.add("Delete Books from my Library",getPanelCentreDelete());
 		return tabPane;
 
 	}
@@ -211,6 +219,27 @@ public class Window2DLibrary extends JFrame {
 
 	}
 
+	public JPanel getPanelCentreDelete(){
+		JPanel pDCenter = new JPanel(new BorderLayout());
+		JCheckBox check = new JCheckBox("one");
+		//ActionListener actionListener = new ActionHandler();
+		//check.addActionListener(actionListener);
+		pDCenter.add(check);
+		
+	
+		check.addActionListener(new ActionListener() {
+		
+			public void actionPerformed(ActionEvent event){
+				JCheckBox checkbox1 = (JCheckBox) event.getSource();
+				if(checkbox1 == check){
+					System.out.println("checked");
+					JOptionPane.showMessageDialog(pDCenter,"Book Removed succesfully");
+				}
+			}
+		});
+	return pDCenter;
+	}
+	
 	public JPanel getPanelCentreBooks(){ 
 
 		JPanel pBCenter = new JPanel(new BorderLayout());
@@ -293,6 +322,7 @@ public class Window2DLibrary extends JFrame {
 					line = line + lco.getSelectedItem().toString() +",";
 					line = line +"End";
 					io.github.dauphine.lejema160.controller.writeFile.AddBook(line);
+					JOptionPane.showMessageDialog(pBCenter,"Book Added succesfully");
 				}
 			}
 		});
