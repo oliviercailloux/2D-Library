@@ -161,10 +161,12 @@ public class SVGDrawable {
 	private static void drawBooksAndTitles(int spaceBetweenShelves, int dimCanvasX, int thiknessEdges, int shelfWidth,
 			Library lib, SVGGraphics2D graphics, boolean leaning, List<Shape> shelves) {
 		List<Shape> books = new ArrayList<>();
-		int width = 60;
-		int spaceBtwnTopBookVsTopEdge = 30;
-		int height = spaceBetweenShelves - spaceBtwnTopBookVsTopEdge;
-
+		int width = 3 * shelfWidth /lib.getShelves().get(0).getBooks().size()/5;
+//		int spaceBtwnTopBookVsTopEdge = 30;
+//		int height = spaceBetweenShelves - spaceBtwnTopBookVsTopEdge;
+		int height = width * 9;
+		int spaceBtwnTopBookVsTopEdge = spaceBetweenShelves - height;
+		
 		int nbBooks = 0;
 		for (int i = 0; i<lib.getShelves().size(); i++){
 			nbBooks += lib.getShelves().get(i).getBooks().size();
@@ -208,31 +210,36 @@ public class SVGDrawable {
 		
 		int indexShelf = 0;
 		int indexBook = 0;
+		int lastColorIndex = -1;
 		for (Shape book : books){
 			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
-			boolean isLastBookOfTheShelf = (indexBook+1 == lib.getShelves().get(indexShelf).getBooks().size());
-			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace, YOfTheShelf, leaning);
+			boolean isLastBookOfTheShelf = (indexBook+1) % lib.getShelves().get(indexShelf).getBooks().size() == 0;
+			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace, YOfTheShelf, leaning, lastColorIndex);
+			lastColorIndex = table[2];
 			int bookRotation = table[0];
 			double bookX = book.getBounds().getX();
 			double bookY;
 			if (isLastBookOfTheShelf) {
 				bookY = table[1];
+				System.out.println("bookY : " + bookY);
 			}
 			else {
 				bookY = book.getBounds().getY();
 			}
 			double bookHeight = book.getBounds().getHeight();
-			System.out.println("shelf : "+(indexShelf)+", book : "+indexBook);
+			double bookWidth = book.getBounds().getWidth();
+//			System.out.println("shelf : "+(indexShelf)+", book : "+indexBook);
 			String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
 			String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
-			String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();		
-			String bookString = bookTitle+" - "+authorFirstName+" "+authorLastName;
-			drawTitle(graphics, bookRotation, bookString, book, bookX, bookY, indexBook, bookHeight);
-			if (indexBook == lib.getShelves().get(indexShelf).getBooks().size()-1 && !(indexShelf==lib.getShelves().size()-1)){
+			String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();
+			int bookYear = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
+			String bookString = bookTitle+" - "+authorFirstName+" "+authorLastName+ " - " +  bookYear;
+			drawTitle(graphics, bookRotation, bookString, book, bookX, bookY, indexBook, bookHeight, bookWidth);
+			if (isLastBookOfTheShelf){
 				indexShelf++;
 				indexBook=0;
 			}
-			else if (!(indexShelf==lib.getShelves().size()-1 && indexBook==lib.getShelves().get(indexShelf).getBooks().size()-1)){
+			else{
 				indexBook++;
 			}
 		}
@@ -312,7 +319,7 @@ public class SVGDrawable {
 	 * @param leaning
 	 * @return
 	 */
-	private static int[] drawBook(Random randomGenerator, boolean isLastBook, Shape book, SVGGraphics2D graphics, double emptySpace, double yOfTheShelf, boolean leaning){
+	private static int[] drawBook(Random randomGenerator, boolean isLastBook, Shape book, SVGGraphics2D graphics, double emptySpace, double yOfTheShelf, boolean leaning, int lastColorIndex){
 		// list of random colors
 		List<Color> colors = new ArrayList<>();
 		colors.add(Color.pink);
@@ -320,9 +327,9 @@ public class SVGDrawable {
 		colors.add(Color.BLUE);
 		colors.add(Color.yellow);
 		colors.add(Color.ORANGE);
+		colors.add(Color.gray);
 
 		int colorIndex = -1;
-		int lastColorIndex = -1;
 
 		// generate a random color for this book
 		do {
@@ -335,7 +342,8 @@ public class SVGDrawable {
 		graphics.setPaint(colors.get(colorIndex));
 
 		//paint the book (with rotation if the last book)
-		int[] result = new int[2];
+		int[] result = new int[3];
+		result[2] = colorIndex;
 		int bookRotation = 0;
 		if (isLastBook && leaning){
 			bookRotation = -30;
@@ -372,7 +380,7 @@ public class SVGDrawable {
 	 * @param indexShelf
 	 * @param bookHeight
 	 */
-	private static void drawTitle(SVGGraphics2D graphics, int bookRotation, String bookString, Shape book, double bookX, double bookY, int indexBook, double bookHeight){
+	private static void drawTitle(SVGGraphics2D graphics, int bookRotation, String bookString, Shape book, double bookX, double bookY, int indexBook, double bookHeight, double bookWidth){
 		//select the black color for the title
 		graphics.setPaint(Color.black);
 
@@ -383,15 +391,15 @@ public class SVGDrawable {
 		graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 
 		// change the size of the title if it is too long
-		if (graphics.getFontMetrics().stringWidth(bookString) > bookHeight-25){
-			while( graphics.getFontMetrics().stringWidth(bookString) > bookHeight-25){
+		if (graphics.getFontMetrics().stringWidth(bookString) > 6*bookHeight/10){
+			while( graphics.getFontMetrics().stringWidth(bookString) > 6*bookHeight/10){
 				fontSize = fontSize -3;
 				graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 			}
-			graphics.drawString(bookString,(float) (bookX + ((bookHeight-graphics.getFontMetrics().stringWidth(bookString))/2)) , (float) (bookY - ((book.getBounds2D().getWidth() - graphics.getFontMetrics().getHeight()) / 2)));
+			graphics.drawString(bookString,(float) (bookX + ((bookHeight-graphics.getFontMetrics().stringWidth(bookString))/2)) , (float) (bookY - ((bookWidth) / 5)));
 		}
-		else graphics.drawString(bookString,(float) (bookX + ((bookHeight-graphics.getFontMetrics().stringWidth(bookString))/2)) , (float) (bookY - ((book.getBounds2D().getWidth() - graphics.getFontMetrics().getHeight()) / 2)));
-
+		else graphics.drawString(bookString,(float) (bookX + ((bookHeight-graphics.getFontMetrics().stringWidth(bookString))/2)) , (float) (bookY - ((bookWidth) / 5)));
+		
 		graphics.rotate(Math.toRadians(-90-bookRotation), bookX, bookY);
 	}
 

@@ -23,7 +23,7 @@ public class Main {
 		//Library Lib = io.github.dauphine.lejema160.model.User.createLibrary(books, 50, 70);
 		
 		// créer une librairie à partir de la liste de livres
-		int nbBooksPerShelf = 4;
+		int nbBooksPerShelf = 15;
 		Library Lib = new Library(books, nbBooksPerShelf);
 		boolean leaning = true;
 		

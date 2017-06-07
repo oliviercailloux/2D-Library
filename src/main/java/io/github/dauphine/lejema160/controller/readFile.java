@@ -43,7 +43,9 @@ public class readFile {
                 //inputStream.useDelimiter(",");
                 String[] values = line.split(",");
                 // this adds the currently parsed line to the 2-dimensional string array
-                lines.add(Arrays.asList(values));
+                if(!line.isEmpty()){
+                	lines.add(Arrays.asList(values));
+                }
             }
             
             inputStream.close();
