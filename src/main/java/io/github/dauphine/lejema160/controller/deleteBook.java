@@ -12,10 +12,10 @@ import java.util.Scanner;
 public class deleteBook {
 	
 	public static void main(String[] args) {
-		deleteB("CHUNG","Hugo","Le","2015");
+		deleteB("CHUNG,Hugo,Le,2015");
 	}
 	
-	private static void deleteB(String last, String first,String title,String year) {
+	public static void deleteB(String last) {
 		
 			String path=new File("").getAbsolutePath(); 
 		    String fileName = path + "/src/main/resources/controller/Book1.csv";
@@ -31,7 +31,8 @@ public class deleteBook {
                     String line= inputStream.nextLine();
                     
                     String[] values = line.split(",");
-                    if (values[0].equals(last) && values[1].equals(first) && values[2].equals(title) && values[3].equals(year)){
+                    String[] las = last.split(",");
+                    if (values[0].equals(las[0]) && values[1].equals(las[1]) && values[2].equals(las[2]) && values[3].equals(las[3])){
                     	continue;
                     }
                     else {lines.add(Arrays.asList(values));}
