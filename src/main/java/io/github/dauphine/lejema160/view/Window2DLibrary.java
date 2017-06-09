@@ -10,6 +10,8 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -220,23 +222,80 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	public JPanel getPanelCentreDelete(){
+		List<Book> books = io.github.dauphine.lejema160.controller.readFile.read();
+		Library lib = new Library(books, 5);
+		int nbBooks = 0;
+		for (int i = 0; i<lib.getShelves().size(); i++){
+			nbBooks += lib.getShelves().get(i).getBooks().size();
+		}
+		
 		JPanel pDCenter = new JPanel(new BorderLayout());
-		JCheckBox check = new JCheckBox("one");
-		//ActionListener actionListener = new ActionHandler();
-		//check.addActionListener(actionListener);
-		pDCenter.add(check);
+		JPanel tab= new JPanel(new GridLayout(nbBooks,2,10,10));
+		ButtonGroup bg = new ButtonGroup();
+		JButton button = new JButton("Remove");
 		
-	
-		check.addActionListener(new ActionListener() {
+		List<JRadioButton> cbarr = new ArrayList<JRadioButton>();
 		
-			public void actionPerformed(ActionEvent event){
-				JCheckBox checkbox1 = (JCheckBox) event.getSource();
-				if(checkbox1 == check){
-					System.out.println("checked");
-					JOptionPane.showMessageDialog(pDCenter,"Book Removed succesfully");
-				}
-			}
-		});
+		/*ActionListener listener = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+					if(e.getSource() == button) {
+					ButtonGroup group = new ButtonGroup();
+	            //JRadioButton btn = (JRadioButton) e.getSource(); + btn.getName()
+	            group.getSelection().getActionCommand();
+	            JOptionPane.showMessageDialog(pDCenter,"Selected Button = "+group.getSelection().getActionCommand());
+	        }
+	        }
+	    };	*/	
+		
+		ActionListener listener = new ActionListener() {
+			public void actionPerformed(ActionEvent event)  
+			  {  
+			     if(event.getSource()==button)  
+			     {  
+			        Enumeration<AbstractButton> allRadioButton=bg.getElements();  
+			        while(allRadioButton.hasMoreElements())  
+			        {  
+			           JRadioButton temp=(JRadioButton)allRadioButton.nextElement();  
+			           if(temp.isSelected())  
+			           {  
+			            JOptionPane.showMessageDialog(null,"You selected : "+temp.getName());
+			            io.github.dauphine.lejema160.controller.deleteBook.deleteB(temp.getName());
+			           }  
+			        }            
+			     }
+			  }
+			};
+		
+			
+		int indexShelf = 0;
+		int indexBook = 0;
+		for (Book book : books){
+		String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
+		String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
+		String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();
+		int bookyear = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
+		String bookString = authorLastName+","+authorFirstName+","+ bookTitle+","+ String.valueOf(bookyear);
+		
+		JRadioButton cb = new JRadioButton(bookString);
+        cbarr.add(cb);
+		tab.add(cb);
+        cb.setName(bookString);
+        bg.add(cb);
+        button.addActionListener(listener);
+        
+		if (indexBook == lib.getShelves().get(indexShelf).getBooks().size()-1 && !(indexShelf==lib.getShelves().size()-1)){
+			indexShelf++;
+			indexBook=0;
+		}
+		else if (!(indexShelf==lib.getShelves().size()-1 && indexBook==lib.getShelves().get(indexShelf).getBooks().size()-1)){
+			indexBook++;
+		}
+		}
+		
+		pDCenter.add(tab);
+		pDCenter.add(button, BorderLayout.SOUTH);
+		
 	return pDCenter;
 	}
 	
