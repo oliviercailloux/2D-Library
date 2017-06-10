@@ -28,7 +28,7 @@ public class Main {
 		boolean leaning = true;
 		
 		
-		io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, leaning);
+		io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, leaning, "Auto", "Auto", "Auto");
 				
 		// lancement de l'interface graphique
 		try {
