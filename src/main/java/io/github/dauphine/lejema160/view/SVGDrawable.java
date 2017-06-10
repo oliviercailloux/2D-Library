@@ -228,7 +228,7 @@ public class SVGDrawable {
 			String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
 			String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();		
 			String bookString = bookTitle+" - "+authorFirstName+" "+authorLastName;
-			drawTitle(graphics, bookRotation, bookString, book, bookX, bookY, indexBook, bookHeight);
+			drawTitle(graphics, bookRotation, bookString, book, bookX, bookY, indexBook, bookHeight, bColor);
 			if (indexBook == lib.getShelves().get(indexShelf).getBooks().size()-1 && !(indexShelf==lib.getShelves().size()-1)){
 				indexShelf++;
 				indexBook=0;
@@ -350,12 +350,38 @@ public class SVGDrawable {
 	private static int[] drawBook(Random randomGenerator, boolean isLastBook, Shape book, SVGGraphics2D graphics, double emptySpace, double yOfTheShelf, boolean leaning, String bColor){
 		// list of random colors
 		List<Color> colors = new ArrayList<>();
-		colors.add(Color.pink);
-		colors.add(Color.CYAN);
-		colors.add(Color.BLUE);
-		colors.add(Color.yellow);
-		colors.add(Color.ORANGE);
-
+		switch(bColor){
+			case "Light":
+				System.out.println("l");
+				//pink
+				colors.add(Color.decode("#FF66FF"));
+				//purple
+				colors.add(Color.decode("#CC99FF"));
+				//blue
+				colors.add(Color.decode("#33CCFF"));
+				//yellow
+				colors.add(Color.decode("#FFFF66"));
+				//orange
+				colors.add(Color.decode("#FFCC66"));
+				break;
+			case "Dark":
+				System.out.println("d");
+				colors.add(Color.decode("#990033"));
+				colors.add(Color.decode("#330033"));
+				colors.add(Color.decode("#000033"));
+				colors.add(Color.decode("#CC9900"));
+				colors.add(Color.decode("#993300"));
+				break;
+			default:
+				System.out.println("def");
+				colors.add(Color.pink);
+				colors.add(Color.decode("#9933FF"));
+				colors.add(Color.BLUE);
+				colors.add(Color.yellow);
+				colors.add(Color.ORANGE);
+				break;
+		}
+		
 		int colorIndex = -1;
 		int lastColorIndex = -1;
 
@@ -407,9 +433,10 @@ public class SVGDrawable {
 	 * @param indexShelf
 	 * @param bookHeight
 	 */
-	private static void drawTitle(SVGGraphics2D graphics, int bookRotation, String bookString, Shape book, double bookX, double bookY, int indexBook, double bookHeight){
+	private static void drawTitle(SVGGraphics2D graphics, int bookRotation, String bookString, Shape book, double bookX, double bookY, int indexBook, double bookHeight, String bColor){
 		//select the black color for the title
-		graphics.setPaint(Color.black);
+		if (bColor.equals("Dark")) graphics.setPaint(Color.white);
+		else graphics.setPaint(Color.black);
 
 		//draw the title with the same rotation as the book
 

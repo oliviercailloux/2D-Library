@@ -63,9 +63,9 @@ public class Window2DLibrary extends JFrame {
 	private ButtonGroup lean;
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk, bDarkS, bLightS,
 			bAutoS;
-	private JLabel bkL, bL, sL, lL;
+	private JLabel bkL, bL, sL, lL, nbB;
 	private JLabel fn, ln, ti, ye, dx, dy, co;
-	private JTextField tfn, tln, tti, tye, tdx, tdy, tco;
+	private JTextField tfn, tln, tti, tye, tdx, tdy, tco, nbBf;
 	private String bkColor="Auto", sColor="Auto", bColor="Auto";
 	private boolean leaning=true;
 	private int nbBooksPerShelf=10;
@@ -350,7 +350,7 @@ public class Window2DLibrary extends JFrame {
 		tdx.setBounds(5, 5, 100, 50);
 		tdy = new JTextField();
 		tdy.setBounds(5, 5, 100, 50);
-		String[] choices = { "rose", "cyan", "bleu", "orange", "jaune" };
+		String[] choices = { "rose", "cyan", "violet", "orange", "jaune" };
 		final JComboBox<String> lco = new JComboBox<String>(choices);
 
 		tab.add(titleFirstColumn);
@@ -431,6 +431,8 @@ public class Window2DLibrary extends JFrame {
 		bCT.setOpaque(false);
 		JPanel lT = new JPanel();
 		lT.setOpaque(false);
+		JPanel nbBT = new JPanel();
+		nbBT.setOpaque(false);
 		bL = new JLabel("Books Color : ");
 		bL.setFont(new Font("Book Antiqua", Font.ITALIC, 25));
 		bkL = new JLabel("Background Color : ");
@@ -439,6 +441,10 @@ public class Window2DLibrary extends JFrame {
 		sL.setFont(new Font("Book Antiqua", Font.ITALIC, 25));
 		lL = new JLabel("Position of books : ");
 		lL.setFont(new Font("Book Antiqua", Font.ITALIC, 25));
+//		nbB = new JLabel("Number of books per shelf : ");
+//		nbB.setFont(new Font("Book Antiqua", Font.ITALIC, 25));
+//		nbBf = new JTextField();
+//		nbBf.setBounds(5, 5, 100, 50);
 
 		JLabel titleSecondColumn = new JLabel("Choices");
 		choice.setOpaque(false);
@@ -508,6 +514,8 @@ public class Window2DLibrary extends JFrame {
 		sCT.add(sL);
 		bCT.add(bL);
 		lT.add(lL);
+//		nbBT.add(nbB);
+//		nbBT.add(nbBf);
 		bkC.add(bAutoBk);
 		bkC.add(bLightBk);
 		bkC.add(bDarkBk);
@@ -530,6 +538,7 @@ public class Window2DLibrary extends JFrame {
 		optName.add(bC);
 		optName.add(lT);
 		optName.add(l);
+//		optName.add(nbBT);
 		optName.setOpaque(false);
 		centre.add(backG);
 		// centre.setBackground(Color.decode("#51DAA8"));
@@ -596,13 +605,14 @@ public class Window2DLibrary extends JFrame {
 		 */
 
 		public void actionPerformed(ActionEvent e) {
+			System.out.println(bColor);
 			if(bAutoB.isSelected()){
 				bColor=bAutoB.getActionCommand();
 			}
-			else if(bLightBk.isSelected()){
+			else if(bLightB.isSelected()){
 				bColor=bLightB.getActionCommand();
 			}
-			else if(bDarkBk.isSelected()){
+			else if(bDarkB.isSelected()){
 				bColor=bDarkB.getActionCommand();
 			}
 		}
