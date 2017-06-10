@@ -75,7 +75,7 @@ public class SVGDrawable {
 		books.add(book3);
 		books.add(book3);
 		Library library = new Library(books, nbBooksPerShelf);
-		generate(library, leaning);
+		generate(library, leaning, "Auto", "Auto", "Auto");
 		System.out.println("I drew a library with titles !");
 		try {
 			Svg2jpg.convert();
@@ -113,7 +113,7 @@ public class SVGDrawable {
 	 * @param Library
 	 * @param leaning
 	 */
-	public static void generate(Library lib, boolean leaning) throws IOException, ParserConfigurationException {
+	public static void generate(Library lib, boolean leaning, String bkColor, String bColor, String sColor) throws IOException, ParserConfigurationException {
 		// Define the SVG Graphics 2D
 		SVGGraphics2D graphics = generateSVG();
 
@@ -130,10 +130,10 @@ public class SVGDrawable {
 		}
 
 		// define the back and the outlines of the library
-		drawBackOutlines(graphics, dimCanvasX, dimCanvasY, thiknessEdges);
+		drawBackOutlines(graphics, dimCanvasX, dimCanvasY, thiknessEdges, bkColor, sColor);
 
 		// define the shelves of the library
-		List<Shape> shelves = drawShelves(graphics, nbShelves, thiknessEdges, spaceBetweenShelves, dimCanvasX);
+		List<Shape> shelves = drawShelves(graphics, nbShelves, thiknessEdges, spaceBetweenShelves, dimCanvasX, sColor);
 
 		// get the width of a shelf
 		int shelfWidth = dimCanvasX - 2*thiknessEdges;
@@ -146,7 +146,8 @@ public class SVGDrawable {
 				, lib
 				, graphics
 				, leaning
-				, shelves);
+				, shelves
+				, bColor);
 
 		// TODO : LINK SVG
 
@@ -159,7 +160,7 @@ public class SVGDrawable {
 	}
 
 	private static void drawBooksAndTitles(int spaceBetweenShelves, int dimCanvasX, int thiknessEdges, int shelfWidth,
-			Library lib, SVGGraphics2D graphics, boolean leaning, List<Shape> shelves) {
+			Library lib, SVGGraphics2D graphics, boolean leaning, List<Shape> shelves, String bColor) {
 		List<Shape> books = new ArrayList<>();
 		int width = 60;
 		int spaceBtwnTopBookVsTopEdge = 30;
@@ -211,7 +212,7 @@ public class SVGDrawable {
 		for (Shape book : books){
 			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
 			boolean isLastBookOfTheShelf = (indexBook+1 == lib.getShelves().get(indexShelf).getBooks().size());
-			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace, YOfTheShelf, leaning);
+			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace, YOfTheShelf, leaning, bColor);
 			int bookRotation = table[0];
 			double bookX = book.getBounds().getX();
 			double bookY;
@@ -249,8 +250,19 @@ public class SVGDrawable {
 	 * @return
 	 */
 	private static List<Shape> drawShelves(SVGGraphics2D graphics, int nbShelves, int thiknessEdges,
-			int spaceBetweenShelves, int dimCanvasX) {
+			int spaceBetweenShelves, int dimCanvasX, String sColor) {
 		List<Shape> shelves = new ArrayList<>();
+		switch(sColor){
+			case "Light":
+				graphics.setPaint(Color.decode("#CD853F"));
+				break;
+			case "Dark":
+				graphics.setPaint(Color.decode("#660000"));
+				break;
+			default:
+				graphics.setPaint(Color.decode("#8B4513"));
+				break;
+		}
 		for (int i = 1; i <= nbShelves; i++) {
 			Shape shelf = new Rectangle(0, thiknessEdges * i + (i) * spaceBetweenShelves, dimCanvasX, thiknessEdges);
 			shelves.add(shelf);
@@ -288,13 +300,36 @@ public class SVGDrawable {
 	 * @param thiknessEdges
 	 * @param graphics
 	 */
-	private static void drawBackOutlines(SVGGraphics2D graphics, int dimCanvasX, int dimCanvasY, int thiknessEdges){
+	private static void drawBackOutlines(SVGGraphics2D graphics, int dimCanvasX, int dimCanvasY, int thiknessEdges, String bkColor, String sColor){
 		Shape fond = new Rectangle(0, 0, dimCanvasX, dimCanvasY);
 		List<Shape> edges = getEdges(dimCanvasX, dimCanvasY, thiknessEdges);
 
-		graphics.setPaint(Color.decode("#565633"));
+		switch(bkColor){
+			case "Light":
+				System.out.println("light");
+				graphics.setPaint(Color.decode("#FFF8DC"));
+				break;
+			case "Dark":
+				System.out.println("dark");
+				graphics.setPaint(Color.decode("#330000"));
+				break;
+			default:
+				System.out.println("auto");
+				graphics.setPaint(Color.decode("#BC8F8F"));
+				break;
+		}
 		graphics.fill(fond);
-		graphics.setPaint(Color.decode("#FFCCEE"));
+		switch(sColor){
+			case "Light":
+				graphics.setPaint(Color.decode("#CD853F"));
+				break;
+			case "Dark":
+				graphics.setPaint(Color.decode("#660000"));
+				break;
+			default:
+				graphics.setPaint(Color.decode("#8B4513"));
+				break;
+		}
 		for (Shape edge : edges) {
 			graphics.fill(edge);
 		}
@@ -312,7 +347,7 @@ public class SVGDrawable {
 	 * @param leaning
 	 * @return
 	 */
-	private static int[] drawBook(Random randomGenerator, boolean isLastBook, Shape book, SVGGraphics2D graphics, double emptySpace, double yOfTheShelf, boolean leaning){
+	private static int[] drawBook(Random randomGenerator, boolean isLastBook, Shape book, SVGGraphics2D graphics, double emptySpace, double yOfTheShelf, boolean leaning, String bColor){
 		// list of random colors
 		List<Color> colors = new ArrayList<>();
 		colors.add(Color.pink);
