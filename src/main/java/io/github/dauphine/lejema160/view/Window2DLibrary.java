@@ -54,7 +54,7 @@ public class Window2DLibrary extends JFrame {
 	private ButtonGroup backgroundColor;
 	private ButtonGroup lean;
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk,bDarkS, bLightS, bAutoS;
-	private JLabel bkL, bL, sL, lL;
+	private JLabel bkL, bL, sL, lL, etiqNb;
 	private JLabel se,fn,ln,ti,ye,dx,dy,co;
 	private JTextField tse,tfn,tln,tti,tye,tdx,tdy,tco;
 	/**
@@ -451,6 +451,8 @@ public class Window2DLibrary extends JFrame {
 		bCT.setOpaque(false);
 		JPanel lT= new JPanel();
 		lT.setOpaque(false);
+		JPanel nbB= new JPanel();
+		nbB.setOpaque(false);
 		bL = new JLabel("Books Color : ");
 		bL.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
 		bkL = new JLabel("Background Color : ");
@@ -459,6 +461,8 @@ public class Window2DLibrary extends JFrame {
 		sL.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
 		lL = new JLabel("Position of books : ");
 		lL.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
+		etiqNb= new JLabel("Books per shelve:");
+		etiqNb.setFont(new Font("Book Antiqua",Font.ITALIC, 25));
 
 		JLabel titleSecondColumn= new JLabel("Choices");
 		choice.setOpaque(false);
@@ -472,6 +476,8 @@ public class Window2DLibrary extends JFrame {
 		bC.setOpaque(false);
 		JPanel l= new JPanel();
 		l.setOpaque(false);
+		JPanel textNB= new JPanel();
+		textNB.setOpaque(false);
 		backgroundColor=new ButtonGroup();
 		lean=new ButtonGroup();
 		bookColor=new ButtonGroup();
@@ -513,13 +519,18 @@ public class Window2DLibrary extends JFrame {
 		bLeanS.setOpaque(false);
 		bNotLeanS.setOpaque(false);
 		bLeanS.setSelected(true);
+		JTextField bookPerS= new JTextField(10);
+
+
 		bkCT.add(bkL);
 		sCT.add(sL);
 		bCT.add(bL);
 		lT.add(lL);
+		nbB.add(etiqNb);
 		bkC.add(bAutoBk);
 		bkC.add(bLightBk);
 		bkC.add(bDarkBk);
+
 		sC.add(bAutoS);
 		sC.add(bLightS);
 		sC.add(bDarkS);
@@ -528,7 +539,7 @@ public class Window2DLibrary extends JFrame {
 		bC.add(bDarkB);
 		l.add(bLeanS);
 		l.add(bNotLeanS);
-
+		textNB.add(bookPerS);
 		param.add(titleFirstColumn);
 		choice.add(titleSecondColumn);
 		optName.add(bkCT);
@@ -539,6 +550,8 @@ public class Window2DLibrary extends JFrame {
 		optName.add(bC);
 		optName.add(lT);
 		optName.add(l);
+		optName.add(nbB);
+		optName.add(textNB);
 		optName.setOpaque(false);
 		centre.add(backG);
 		//centre.setBackground(Color.decode("#51DAA8"));
