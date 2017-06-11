@@ -139,7 +139,7 @@ public class SVGDrawable {
 		int shelfWidth = dimCanvasX - 2*thiknessEdges;
 
 		// get books
-		drawBooksAndTitles(spaceBetweenShelves
+		drawBooksAndTitles_Olympie(spaceBetweenShelves
 				, dimCanvasX
 				, thiknessEdges
 				, shelfWidth
@@ -463,5 +463,206 @@ public class SVGDrawable {
 		
 		graphics.rotate(Math.toRadians(-90-bookRotation), bookX, bookY);
 	}
+	
+	
+	private static void drawBooksAndTitles_Olympie(int spaceBetweenShelves, int dimCanvasX, int thiknessEdges, int shelfWidth,
+			Library lib, SVGGraphics2D graphics, boolean leaning, List<Shape> shelves, String bColor) {
+		List<Shape> books = new ArrayList<>();
+		int width = 3 * shelfWidth /lib.getShelves().get(0).getBooks().size()/5;
+//		int spaceBtwnTopBookVsTopEdge = 30;
+//		int height = spaceBetweenShelves - spaceBtwnTopBookVsTopEdge;
+		int height = width * 9;
+		int spaceBtwnTopBookVsTopEdge = spaceBetweenShelves - height;
+		
+		int nbBooks = 0;
+		for (int i = 0; i<lib.getShelves().size(); i++){
+			nbBooks += lib.getShelves().get(i).getBooks().size();
+		}
+
+		int placeLeftInCurrShelf = shelfWidth;
+		int shelfNumber = 1;
+		Random randomGenerator = new Random();
+		int emptySpace = shelfWidth;
+		int counterBooks = lib.getShelves().get(shelfNumber-1).getBooks().size();
+		for (int i = 0; i < nbBooks; i++) {
+			Shape book = null;
+			int randomWidth = width + randomGenerator.nextInt(30);
+			int randomHeightGap = randomGenerator.nextInt(100);
+			if (placeLeftInCurrShelf <= randomWidth) {
+				// go to another shelf
+				placeLeftInCurrShelf = shelfWidth;
+				shelfNumber++;
+				if(shelfNumber>lib.getShelves().size()){
+					// what do we do when not enough place in library?
+				}
+			}
+			int bookX = dimCanvasX - thiknessEdges - placeLeftInCurrShelf;
+			int bookY = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBtwnTopBookVsTopEdge + randomHeightGap;
+			int bookHeigt = height - randomHeightGap;
+			book = new Rectangle(bookX, bookY, width, height);
+			books.add(book);
+			counterBooks--;
+//			if (placeLeftInCurrShelf <= width){
+			if (counterBooks==0) {
+				// go to another shelf
+				placeLeftInCurrShelf = shelfWidth;
+				shelfNumber++;
+				if(shelfNumber<lib.getShelves().size()) counterBooks = lib.getShelves().get(shelfNumber-1).getBooks().size();
+			} else {
+				// stay in the current shelf
+				placeLeftInCurrShelf -= randomWidth;
+			}
+			emptySpace -= book.getBounds().getWidth();
+		}
+		
+		int indexShelf = 0;
+		int indexBook = 0;
+		int lastColorIndex = -1;
+		for (Shape book : books){
+			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
+			boolean isLastBookOfTheShelf = (indexBook+1) % lib.getShelves().get(indexShelf).getBooks().size() == 0;
+			int[] table = drawBook_Olympie(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace, YOfTheShelf, leaning, bColor, lastColorIndex);
+			lastColorIndex = table[2];
+			int bookRotation = table[0];
+			double bookX = book.getBounds().getX();
+			double bookY;
+			if (isLastBookOfTheShelf) {
+				bookY = table[1];
+				System.out.println("bookY : " + bookY);
+			}
+			else {
+				bookY = book.getBounds().getY();
+			}
+			double bookHeight = book.getBounds().getHeight();
+			double bookWidth = book.getBounds().getWidth();
+			String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
+			String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
+			String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();
+			int bookYear = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
+			String bookString = bookTitle+" - "+authorFirstName+" "+authorLastName+ " - " +  bookYear;
+			drawTitle_Olympie(graphics, bookRotation, bookString, book, bookX, bookY, indexBook, bookHeight, bColor, bookWidth);
+			if (isLastBookOfTheShelf){
+				indexShelf++;
+				indexBook=0;
+			}
+			else{
+				indexBook++;
+			}
+		}
+		
+	}
+	
+	
+	private static int[] drawBook_Olympie(Random randomGenerator, boolean isLastBook, Shape book, SVGGraphics2D graphics, double emptySpace, double yOfTheShelf, boolean leaning, String bColor, int lastColorIndex){
+
+		// list of random colors
+		List<Color> colors = new ArrayList<>();
+		switch(bColor){
+			case "Light":
+				System.out.println("l");
+				//pink
+				colors.add(Color.decode("#FF66FF"));
+				//purple
+				colors.add(Color.decode("#CC99FF"));
+				//blue
+				colors.add(Color.decode("#33CCFF"));
+				//yellow
+				colors.add(Color.decode("#FFFF66"));
+				//orange
+				colors.add(Color.decode("#FFCC66"));
+				break;
+			case "Dark":
+				System.out.println("d");
+				colors.add(Color.decode("#990033"));
+				colors.add(Color.decode("#330033"));
+				colors.add(Color.decode("#000033"));
+				colors.add(Color.decode("#CC9900"));
+				colors.add(Color.decode("#993300"));
+				break;
+			default:
+				System.out.println("def");
+				colors.add(Color.pink);
+				colors.add(Color.decode("#9933FF"));
+				colors.add(Color.BLUE);
+				colors.add(Color.yellow);
+				colors.add(Color.ORANGE);
+				break;
+		}
+		int colorIndex = -1;
+
+		// generate a random color for this book
+		do {
+			colorIndex = randomGenerator.nextInt(colors.size());
+		} while (colorIndex == lastColorIndex);
+
+		lastColorIndex = colorIndex;
+
+		//select this color
+		graphics.setPaint(colors.get(colorIndex));
+
+		//paint the book (with rotation if the last book)
+		int[] result = new int[3];
+		result[2] = colorIndex;
+		int bookRotation = 0;
+		if (isLastBook && leaning){//on penche le dernier livre
+			bookRotation = -20;
+			if(emptySpace>3*book.getBounds().getWidth()){//il faut qu'il reste au moins trois fois la largeur du livre
+				// Height between the top left corner of the book and the shelf when leaning
+				double hauteurRotation = book.getBounds().getHeight()*Math.cos(Math.toRadians(bookRotation));
+				// The new Y coordinate of the leaning rectangle (so that it is placed on the shelf)
+				double newY = yOfTheShelf-hauteurRotation;
+				Rectangle newRectangle = new Rectangle((int)book.getBounds().getX(), (int)newY, (int)book.getBounds().getWidth(), (int)book.getBounds().getHeight());
+				int newBookX = (int)newRectangle.getBounds().getX();
+				int newBookY = (int)newRectangle.getBounds().getY();
+				graphics.rotate(Math.toRadians(bookRotation), newBookX, newBookY);
+				graphics.fill(newRectangle);
+				graphics.rotate(Math.toRadians(-bookRotation), newBookX, newBookY);
+				result[1]=newBookY;
+			}
+			else{//pas assez de place pour le pencher
+				bookRotation = 0;
+				double hauteurRotation = book.getBounds().getHeight()*Math.cos(Math.toRadians(bookRotation));
+				double newY = yOfTheShelf-hauteurRotation;
+				Rectangle newRectangle = new Rectangle((int)book.getBounds().getX(), (int)newY, (int)book.getBounds().getWidth(), (int)book.getBounds().getHeight());
+				graphics.fill(newRectangle);
+				result[1]=(int)newY;
+			}
+		}
+		else {
+			double hauteurRotation = book.getBounds().getHeight()*Math.cos(Math.toRadians(bookRotation));
+			double newY = yOfTheShelf-hauteurRotation;
+			Rectangle newRectangle = new Rectangle((int)book.getBounds().getX(), (int)newY, (int)book.getBounds().getWidth(), (int)book.getBounds().getHeight());
+			graphics.fill(newRectangle);
+			result[1]=(int)newY;
+		}
+		result[0] = bookRotation;
+		return result;
+	}
+	
+	private static void drawTitle_Olympie(SVGGraphics2D graphics, int bookRotation, String bookString, Shape book, double bookX, double bookY, int indexBook, double bookHeight, String bColor,  double bookWidth){
+
+		//select the black color for the title
+		if (bColor.equals("Dark")) graphics.setPaint(Color.white);
+		else graphics.setPaint(Color.black);
+
+		//draw the title with the same rotation as the book
+
+		graphics.rotate(Math.toRadians(+90+bookRotation), bookX, bookY);
+		int fontSize = 70;
+		graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+
+		// change the size of the title if it is too long
+		if (graphics.getFontMetrics().stringWidth(bookString) > 6*bookHeight/10){
+			while( graphics.getFontMetrics().stringWidth(bookString) > 6*bookHeight/10){
+				fontSize = fontSize -3;
+				graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+			}
+			graphics.drawString(bookString,(float) (bookX + ((bookHeight-graphics.getFontMetrics().stringWidth(bookString))/2)) , (float) (bookY - ((bookWidth) / 4)));
+		}
+		else graphics.drawString(bookString,(float) (bookX + ((bookHeight-graphics.getFontMetrics().stringWidth(bookString))/2)) , (float) (bookY - ((bookWidth) / 4)));
+		
+		graphics.rotate(Math.toRadians(-90-bookRotation), bookX, bookY);
+	}
+	
 
 }
