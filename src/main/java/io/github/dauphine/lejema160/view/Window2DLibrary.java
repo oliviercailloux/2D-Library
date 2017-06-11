@@ -201,7 +201,7 @@ public class Window2DLibrary extends JFrame {
 
 
 		try {
-			io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, leaning, "Auto", "Auto", "Auto");
+			io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, leaning, "Dark", "Dark", "Auto");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
