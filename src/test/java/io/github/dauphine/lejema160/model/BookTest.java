@@ -1,8 +1,6 @@
 package io.github.dauphine.lejema160.model;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -6,8 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.dauphine.lejema160.controller.BookSort;
-
 public class User {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(User.class);

@@ -5,8 +5,6 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.dauphine.lejema160.controller.BookSort;
-
 /**
  * @author lejema160
  * @author OlympieSuquet

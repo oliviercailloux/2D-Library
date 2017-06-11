@@ -7,8 +7,6 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.dauphine.lejema160.model.Book;
-
 public class writeFile {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(writeFile.class);

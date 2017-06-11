@@ -10,11 +10,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.dauphine.lejema160.model.Author;
-import io.github.dauphine.lejema160.model.Book;
-import io.github.dauphine.lejema160.model.Library;
-import io.github.dauphine.lejema160.model.Shelf;
-
 /**
  * @author lejema160
  * @author OlympieSuquet

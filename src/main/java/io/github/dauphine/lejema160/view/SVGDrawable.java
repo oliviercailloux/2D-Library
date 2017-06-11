@@ -176,7 +176,8 @@ public class SVGDrawable {
 		int placeLeftInCurrShelf = shelfWidth;
 		int shelfNumber = 1;
 		Random randomGenerator = new Random();
-		int emptySpace = shelfWidth;
+		int emptySpace[] = new int[nbBooks];
+		emptySpace[0] = shelfWidth;
 		int counterBooks = lib.getShelves().get(shelfNumber-1).getBooks().size();
 		for (int i = 0; i < nbBooks; i++) {
 			Shape book = null;
@@ -206,7 +207,7 @@ public class SVGDrawable {
 				// stay in the current shelf
 				placeLeftInCurrShelf -= randomWidth;
 			}
-			emptySpace -= book.getBounds().getWidth();
+			emptySpace[i] -= book.getBounds().getWidth();
 		}
 		
 		int indexShelf = 0;
@@ -215,7 +216,7 @@ public class SVGDrawable {
 		for (Shape book : books){
 			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
 			boolean isLastBookOfTheShelf = (indexBook+1) % lib.getShelves().get(indexShelf).getBooks().size() == 0;
-			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace, YOfTheShelf, leaning, bColor, lastColorIndex);
+			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, graphics, emptySpace[books.indexOf(book)], YOfTheShelf, leaning, bColor, lastColorIndex);
 			lastColorIndex = table[2];
 			int bookRotation = table[0];
 			double bookX = book.getBounds().getX();
@@ -309,18 +310,14 @@ public class SVGDrawable {
 	private static void drawBackOutlines(SVGGraphics2D graphics, int dimCanvasX, int dimCanvasY, int thiknessEdges, String bkColor, String sColor){
 		Shape fond = new Rectangle(0, 0, dimCanvasX, dimCanvasY);
 		List<Shape> edges = getEdges(dimCanvasX, dimCanvasY, thiknessEdges);
-
 		switch(bkColor){
 			case "Light":
-				System.out.println("light");
 				graphics.setPaint(Color.decode("#FFF8DC"));
 				break;
 			case "Dark":
-				System.out.println("dark");
 				graphics.setPaint(Color.decode("#330000"));
 				break;
 			default:
-				System.out.println("auto");
 				graphics.setPaint(Color.decode("#BC8F8F"));
 				break;
 		}
@@ -359,7 +356,6 @@ public class SVGDrawable {
 		List<Color> colors = new ArrayList<>();
 		switch(bColor){
 			case "Light":
-				System.out.println("l");
 				//pink
 				colors.add(Color.decode("#FF66FF"));
 				//purple
@@ -372,7 +368,6 @@ public class SVGDrawable {
 				colors.add(Color.decode("#FFCC66"));
 				break;
 			case "Dark":
-				System.out.println("d");
 				colors.add(Color.decode("#990033"));
 				colors.add(Color.decode("#330033"));
 				colors.add(Color.decode("#000033"));
@@ -380,7 +375,6 @@ public class SVGDrawable {
 				colors.add(Color.decode("#993300"));
 				break;
 			default:
-				System.out.println("def");
 				colors.add(Color.pink);
 				colors.add(Color.decode("#9933FF"));
 				colors.add(Color.BLUE);
@@ -498,7 +492,6 @@ public class SVGDrawable {
 			}
 			int bookX = dimCanvasX - thiknessEdges - placeLeftInCurrShelf;
 			int bookY = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBtwnTopBookVsTopEdge + randomHeightGap;
-			int bookHeigt = height - randomHeightGap;
 			book = new Rectangle(bookX, bookY, width, height);
 			books.add(book);
 			counterBooks--;
@@ -559,7 +552,6 @@ public class SVGDrawable {
 		List<Color> colors = new ArrayList<>();
 		switch(bColor){
 			case "Light":
-				System.out.println("l");
 				//pink
 				colors.add(Color.decode("#FF66FF"));
 				//purple
@@ -572,7 +564,6 @@ public class SVGDrawable {
 				colors.add(Color.decode("#FFCC66"));
 				break;
 			case "Dark":
-				System.out.println("d");
 				colors.add(Color.decode("#990033"));
 				colors.add(Color.decode("#330033"));
 				colors.add(Color.decode("#000033"));
@@ -580,7 +571,6 @@ public class SVGDrawable {
 				colors.add(Color.decode("#993300"));
 				break;
 			default:
-				System.out.println("def");
 				colors.add(Color.pink);
 				colors.add(Color.decode("#9933FF"));
 				colors.add(Color.BLUE);
@@ -606,7 +596,8 @@ public class SVGDrawable {
 		int bookRotation = 0;
 		if (isLastBook && leaning){//on penche le dernier livre
 			bookRotation = -20;
-			if(emptySpace>3*book.getBounds().getWidth()){//il faut qu'il reste au moins trois fois la largeur du livre
+			if (!(emptySpace>2*book.getBounds().getWidth())) System.out.println("si qlq voit cette erreur le dire a merlene");
+			if(emptySpace>2*book.getBounds().getWidth()){//il faut qu'il reste au moins trois fois la largeur du livre
 				// Height between the top left corner of the book and the shelf when leaning
 				double hauteurRotation = book.getBounds().getHeight()*Math.cos(Math.toRadians(bookRotation));
 				// The new Y coordinate of the leaning rectangle (so that it is placed on the shelf)
