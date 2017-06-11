@@ -153,8 +153,8 @@ public class Window2DLibrary extends JFrame {
 		actions.setFont(new Font("Arial", Font.BOLD, 60));
 		panActions.add(actions,"Center");
 		tabPane.add("Add Books to my Library",getPanelCentreBooks());
-	
-		
+
+
 		JPanel panDelete= new JPanel(new BorderLayout());
 		this.actions=new JTextArea();
 		panDelete.setBackground(Color.orange);
@@ -191,26 +191,32 @@ public class Window2DLibrary extends JFrame {
 
 	public void updateLibrary(){
 		// methode genere image librairie
-		List<Book> booksForUpdate = io.github.dauphine.lejema160.controller.readFile.read();
-		int nbBooksPerShelf = 1;
-		Library LibForUpdate = new Library(booksForUpdate, nbBooksPerShelf);
-		boolean leaning = true;
+
 		generate.setText("Reload my library now");
-	
+
+		List<Book> books = io.github.dauphine.lejema160.controller.readFile.read();
+		int nbBooksPerShelf = 10;
+		Library Lib = new Library(books, nbBooksPerShelf);
+		boolean leaning = true;
+
+
 		try {
-			io.github.dauphine.lejema160.view.SVGDrawable.generate(LibForUpdate, leaning);
-		} catch (IOException | ParserConfigurationException e1) {
+			io.github.dauphine.lejema160.view.SVGDrawable.generate(Lib, leaning, "Auto", "Auto", "Auto");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ParserConfigurationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			Svg2jpg.convert();
-			LOGGER.debug("Update Lib SvgConvert ok");
-		} catch (Exception e2) {
-			e2.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		pCenter.removeAll();
+
+		/*pCenter.removeAll();
 		pCenter.revalidate();
 		libImage = new JLabel();
 		myLibIcon= new ImageIcon("library.png");
@@ -218,9 +224,10 @@ public class Window2DLibrary extends JFrame {
 		pCenter.add(libImage);
 		JScrollPane asc = new JScrollPane(this.libImage);
 		pCenter.add(asc);
-		pCenter.updateUI();
+		pCenter.updateUI();*/
 
 	}
+
 
 	public JPanel getPanelCentreDelete(){
 		List<Book> books = io.github.dauphine.lejema160.controller.readFile.read();
@@ -229,14 +236,14 @@ public class Window2DLibrary extends JFrame {
 		for (int i = 0; i<lib.getShelves().size(); i++){
 			nbBooks += lib.getShelves().get(i).getBooks().size();
 		}
-		
+
 		JPanel pDCenter = new JPanel(new BorderLayout());
 		JPanel tab= new JPanel(new GridLayout(nbBooks,2,10,10));
 		ButtonGroup bg = new ButtonGroup();
 		JButton button = new JButton("Remove");
-		
+
 		List<JRadioButton> cbarr = new ArrayList<JRadioButton>();
-		
+
 		/*ActionListener listener = new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
@@ -248,65 +255,65 @@ public class Window2DLibrary extends JFrame {
 	        }
 	        }
 	    };	*/	
-		
+
 		ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent event)  
-			  {  
-			     if(event.getSource()==button)  
-			     {  
-			        Enumeration<AbstractButton> allRadioButton=bg.getElements();  
-			        while(allRadioButton.hasMoreElements())  
-			        {  
-			           JRadioButton temp=(JRadioButton)allRadioButton.nextElement();  
-			           if(temp.isSelected())  
-			           {  
-			            JOptionPane.showMessageDialog(null,"You selected : "+temp.getName());
-			            io.github.dauphine.lejema160.controller.deleteBook.deleteB(temp.getName());
-			           }  
-			        }            
-			     }
-			  }
-			};
-		
-			
+			{  
+				if(event.getSource()==button)  
+				{  
+					Enumeration<AbstractButton> allRadioButton=bg.getElements();  
+					while(allRadioButton.hasMoreElements())  
+					{  
+						JRadioButton temp=(JRadioButton)allRadioButton.nextElement();  
+						if(temp.isSelected())  
+						{  
+							JOptionPane.showMessageDialog(null,"You selected : "+temp.getName());
+							io.github.dauphine.lejema160.controller.deleteBook.deleteB(temp.getName());
+						}  
+					}            
+				}
+			}
+		};
+
+
 		int indexShelf = 0;
 		int indexBook = 0;
 		for (Book book : books){
-		String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
-		String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
-		String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();
-		int bookyear = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
-		String bookString = authorLastName+","+authorFirstName+","+ bookTitle+","+ String.valueOf(bookyear);
-		
-		JRadioButton cb = new JRadioButton(bookString);
-        cbarr.add(cb);
-		tab.add(cb);
-        cb.setName(bookString);
-        bg.add(cb);
-        button.addActionListener(listener);
-        
-		if (indexBook == lib.getShelves().get(indexShelf).getBooks().size()-1 && !(indexShelf==lib.getShelves().size()-1)){
-			indexShelf++;
-			indexBook=0;
+			String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
+			String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getFirstName();
+			String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor().getLastName();
+			int bookyear = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
+			String bookString = authorLastName+","+authorFirstName+","+ bookTitle+","+ String.valueOf(bookyear);
+
+			JRadioButton cb = new JRadioButton(bookString);
+			cbarr.add(cb);
+			tab.add(cb);
+			cb.setName(bookString);
+			bg.add(cb);
+			button.addActionListener(listener);
+
+			if (indexBook == lib.getShelves().get(indexShelf).getBooks().size()-1 && !(indexShelf==lib.getShelves().size()-1)){
+				indexShelf++;
+				indexBook=0;
+			}
+			else if (!(indexShelf==lib.getShelves().size()-1 && indexBook==lib.getShelves().get(indexShelf).getBooks().size()-1)){
+				indexBook++;
+			}
 		}
-		else if (!(indexShelf==lib.getShelves().size()-1 && indexBook==lib.getShelves().get(indexShelf).getBooks().size()-1)){
-			indexBook++;
-		}
-		}
-		
+
 		pDCenter.add(tab);
 		pDCenter.add(button, BorderLayout.SOUTH);
-		
-	return pDCenter;
+
+		return pDCenter;
 	}
-	
+
 	public JPanel getPanelCentreBooks(){ 
 
 		JPanel pBCenter = new JPanel(new BorderLayout());
 
 		JPanel tab= new JPanel(new GridLayout(10,2,10,10));
 		JPanel search= new JPanel();
-		
+
 		pBCenter.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 		//JPanel param= new JPanel();
 		//JPanel choice= new JPanel();
@@ -327,11 +334,11 @@ public class Window2DLibrary extends JFrame {
 		JLabel titleSecondColumn= new JLabel("");
 		//choice.setOpaque(false);
 		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
-		
+
 		tse=new JTextField();
 		tse.setBounds(10, 10, 200, 200);
 		tse.setPreferredSize(new Dimension(160,40));
-		
+
 		tfn=new JTextField();
 		tfn.setBounds(5, 5, 200, 200);
 		tln=new JTextField();
@@ -348,7 +355,7 @@ public class Window2DLibrary extends JFrame {
 		final JComboBox<String> lco = new JComboBox<String>(choices);
 
 		JButton buttonS = new JButton("Search");
-		
+
 
 		tab.add(titleFirstColumn);
 		tab.add(titleSecondColumn);
@@ -380,11 +387,11 @@ public class Window2DLibrary extends JFrame {
 		buttonS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource() == buttonS) {
-					
+
 					String line = tse.getText();
 					ConnectionToCongressLibrary connect = new ConnectionToCongressLibrary(line);
 					System.out.println(connect.getResult());
-					
+
 					JOptionPane.showMessageDialog(pBCenter,"Search result");
 				}
 			}
@@ -421,11 +428,11 @@ public class Window2DLibrary extends JFrame {
 		JPanel centre= new JPanel();
 		Image image=null;
 		try {
-            URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
-            image = ImageIO.read(url);
-        } catch (IOException e) {
-        	e.printStackTrace();
-        }
+			URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
+			image = ImageIO.read(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		JLabel backG=new JLabel(new ImageIcon(image));
 		JPanel optName= new JPanel(new GridLayout(0,2,40,30));		
 		JPanel param= new JPanel();
@@ -535,7 +542,7 @@ public class Window2DLibrary extends JFrame {
 		optName.setOpaque(false);
 		centre.add(backG);
 		//centre.setBackground(Color.decode("#51DAA8"));
-	
+
 		centre.add(optName);
 
 		return centre;
