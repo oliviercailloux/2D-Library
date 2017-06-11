@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.dauphine.lejema160.controller.BookSort;
+import io.github.dauphine.lejema160.controller.ConnectionToCongressLibrary;
 import io.github.dauphine.lejema160.model.Book;
 import io.github.dauphine.lejema160.model.Library;
 import javassist.bytecode.LineNumberAttribute.Pc;
@@ -54,8 +55,8 @@ public class Window2DLibrary extends JFrame {
 	private ButtonGroup lean;
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk,bDarkS, bLightS, bAutoS;
 	private JLabel bkL, bL, sL, lL;
-	private JLabel fn,ln,ti,ye,dx,dy,co;
-	private JTextField tfn,tln,tti,tye,tdx,tdy,tco;
+	private JLabel se,fn,ln,ti,ye,dx,dy,co;
+	private JTextField tse,tfn,tln,tti,tye,tdx,tdy,tco;
 	/**
 	 * constructor of the window
 	 * @param title
@@ -151,7 +152,7 @@ public class Window2DLibrary extends JFrame {
 		panActions.setBackground(Color.orange);
 		actions.setFont(new Font("Arial", Font.BOLD, 60));
 		panActions.add(actions,"Center");
-		tabPane.add("Books in my Library",getPanelCentreBooks());
+		tabPane.add("Add Books to my Library",getPanelCentreBooks());
 	
 		
 		JPanel panDelete= new JPanel(new BorderLayout());
@@ -303,8 +304,9 @@ public class Window2DLibrary extends JFrame {
 
 		JPanel pBCenter = new JPanel(new BorderLayout());
 
-		JPanel tab= new JPanel(new GridLayout(9,2,10,10));
-
+		JPanel tab= new JPanel(new GridLayout(10,2,10,10));
+		JPanel search= new JPanel();
+		
 		pBCenter.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 		//JPanel param= new JPanel();
 		//JPanel choice= new JPanel();
@@ -313,7 +315,7 @@ public class Window2DLibrary extends JFrame {
 		//param.setOpaque(false);
 		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
 
-
+		se=new JLabel("Search: ");	
 		fn = new JLabel("First Name : ");
 		ln = new JLabel("Last Name : ");
 		ti = new JLabel("Title : ");
@@ -325,8 +327,11 @@ public class Window2DLibrary extends JFrame {
 		JLabel titleSecondColumn= new JLabel("");
 		//choice.setOpaque(false);
 		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
-
-
+		
+		tse=new JTextField();
+		tse.setBounds(10, 10, 200, 200);
+		tse.setPreferredSize(new Dimension(160,40));
+		
 		tfn=new JTextField();
 		tfn.setBounds(5, 5, 200, 200);
 		tln=new JTextField();
@@ -342,10 +347,15 @@ public class Window2DLibrary extends JFrame {
 		String[] choices = { "rose","cyan", "bleu","orange","jaune"};
 		final JComboBox<String> lco = new JComboBox<String>(choices);
 
-
+		JButton buttonS = new JButton("Search");
+		
 
 		tab.add(titleFirstColumn);
 		tab.add(titleSecondColumn);
+		tab.add(se);
+		search.add(tse);
+		search.add(buttonS);
+		tab.add(search);
 		tab.add(fn);
 		tab.add(tfn);
 		tab.add(ln);
@@ -367,7 +377,18 @@ public class Window2DLibrary extends JFrame {
 		tab.add(button);
 		pBCenter.add(tab);
 
-
+		buttonS.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == buttonS) {
+					
+					String line = tse.getText();
+					ConnectionToCongressLibrary connect = new ConnectionToCongressLibrary(line);
+					System.out.println(connect.getResult());
+					
+					JOptionPane.showMessageDialog(pBCenter,"Search result");
+				}
+			}
+		});
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
