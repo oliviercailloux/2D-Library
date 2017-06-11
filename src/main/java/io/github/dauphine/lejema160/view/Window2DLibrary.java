@@ -56,7 +56,7 @@ public class Window2DLibrary extends JFrame {
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk,bDarkS, bLightS, bAutoS;
 	private JLabel bkL, bL, sL, lL, etiqNb;
 	private JLabel se,fn,ln,ti,ye,dx,dy,co;
-	private JTextField tse,tfn,tln,tti,tye,tdx,tdy,tco;
+	private JTextField tse,tfn,tln,tti,tye,tdx,tdy,tco,bookPerS;
 	/**
 	 * constructor of the window
 	 * @param title
@@ -519,7 +519,7 @@ public class Window2DLibrary extends JFrame {
 		bLeanS.setOpaque(false);
 		bNotLeanS.setOpaque(false);
 		bLeanS.setSelected(true);
-		JTextField bookPerS= new JTextField(10);
+		bookPerS= new JTextField(10);
 
 
 		bkCT.add(bkL);
