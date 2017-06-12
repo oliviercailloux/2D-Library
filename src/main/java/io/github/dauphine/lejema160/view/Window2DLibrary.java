@@ -401,9 +401,21 @@ public class Window2DLibrary extends JFrame {
 				if (e.getSource() == buttonS) {
 
 					String line = tse.getText();
-					ConnectionToCongressLibrary connect = new ConnectionToCongressLibrary(line);
-					System.out.println(connect.getResult());
-
+					ConnectionToCongressLibrary connexion = new ConnectionToCongressLibrary(line); 
+					
+					String fileTest = connexion.getResult();
+					
+					String tabResult[] = new String[3];
+					tabResult = io.github.dauphine.lejema160.controller.ExtractBookData.ExtractData(fileTest);
+					for (int i = 0; i<3; i++){
+						
+						System.out.println(tabResult[i]);
+					}
+					tti.setText(tabResult[0]);
+					String[] np = tabResult[1].split(",");
+					tln.setText(np[0]);
+					tfn.setText(np[1]);
+					tye.setText(tabResult[2]);
 					JOptionPane.showMessageDialog(pBCenter, "Search result");
 				}
 			}
