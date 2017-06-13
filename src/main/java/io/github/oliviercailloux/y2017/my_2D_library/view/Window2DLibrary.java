@@ -2,6 +2,7 @@ package io.github.oliviercailloux.y2017.my_2D_library.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -33,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.text.JTextComponent;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
@@ -257,7 +259,7 @@ public class Window2DLibrary extends JFrame {
 		ButtonGroup bg = new ButtonGroup();
 		JButton button = new JButton("Remove");
 
-		List<JRadioButton> cbarr = new ArrayList<JRadioButton>();
+		//List<JRadioButton> cbarr = new ArrayList<JRadioButton>();
 
 		/*
 		 * ActionListener listener = new ActionListener() {
@@ -270,7 +272,7 @@ public class Window2DLibrary extends JFrame {
 		 * getSelection().getActionCommand()); } } };
 		 */
 
-		ActionListener listener = new ActionListener() {
+		/*ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				if (event.getSource() == button) {
 					Enumeration<AbstractButton> allRadioButton = bg.getElements();
@@ -279,11 +281,21 @@ public class Window2DLibrary extends JFrame {
 						if (temp.isSelected()) {
 							JOptionPane.showMessageDialog(null, "You selected : " + temp.getName());
 							io.github.oliviercailloux.y2017.my_2D_library.controller.deleteBook.deleteB(temp.getName());
+							tab.removeAll();
+							pDCenter.removeAll();
+							bg.remove(temp);
+							
+							tab.revalidate();
+							tab.setBackground(Color.BLUE);
+							tab.repaint();
+							pDCenter.revalidate();
+							pDCenter.setBackground(Color.BLUE);
+							pDCenter.repaint();
 						}
 					}
 				}
 			}
-		};
+		};*/
 
 		int indexShelf = 0;
 		int indexBook = 0;
@@ -298,12 +310,11 @@ public class Window2DLibrary extends JFrame {
 					+ String.valueOf(bookyear);
 
 			JRadioButton cb = new JRadioButton(bookString);
-			cbarr.add(cb);
-			tab.add(cb);
 			cb.setName(bookString);
+			//cbarr.add(cb);
+			tab.add(cb);
 			bg.add(cb);
-			button.addActionListener(listener);
-
+			
 			if (indexBook == lib.getShelves().get(indexShelf).getBooks().size() - 1
 					&& !(indexShelf == lib.getShelves().size() - 1)) {
 				indexShelf++;
@@ -313,7 +324,31 @@ public class Window2DLibrary extends JFrame {
 				indexBook++;
 			}
 		}
-
+	
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if (event.getSource() == button) {
+					Enumeration<AbstractButton> allRadioButton = bg.getElements();
+					while (allRadioButton.hasMoreElements()) {
+						JRadioButton temp = (JRadioButton) allRadioButton.nextElement();
+						if (temp.isSelected()) {
+							JOptionPane.showMessageDialog(null, "You selected : " + temp.getName());
+							io.github.oliviercailloux.y2017.my_2D_library.controller.deleteBook.deleteB(temp.getName());
+							//tab.removeAll();
+							//pDCenter.removeAll();
+							bg.remove(temp);
+							tab.remove(temp);
+							tab.revalidate();
+							//tab.setBackground(Color.BLUE);
+							tab.repaint();
+							pDCenter.revalidate();
+							//pDCenter.setBackground(Color.BLUE);
+							pDCenter.repaint();
+						}
+					}
+				}
+			}
+		});
 		pDCenter.add(tab);
 		pDCenter.add(button, BorderLayout.SOUTH);
 
@@ -434,6 +469,17 @@ public class Window2DLibrary extends JFrame {
 					line = line + "End";
 					io.github.oliviercailloux.y2017.my_2D_library.controller.writeFile.AddBook(line);
 					JOptionPane.showMessageDialog(pBCenter, "Book Added succesfully");
+					Component[] components = tab.getComponents();
+				    for (Component component : components) {
+				        if (component instanceof JTextField || component instanceof JTextArea) {
+				            JTextComponent specificObject = (JTextComponent) component;
+				            specificObject.setText("");
+				        }
+				    }
+				    tab.revalidate();
+				    tab.repaint();
+					pBCenter.revalidate();
+					pBCenter.repaint();
 				}
 			}
 		});
