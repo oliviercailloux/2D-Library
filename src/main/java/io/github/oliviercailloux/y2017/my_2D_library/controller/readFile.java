@@ -72,7 +72,6 @@ public class readFile {
             		value = "";
             	}
             	setBookAttribute(book, columnNo, value);
-                System.out.println("Line " + lineNo + " Column " + columnNo + ": " + value);
                 columnNo++;
                 
             }liste.add(book);

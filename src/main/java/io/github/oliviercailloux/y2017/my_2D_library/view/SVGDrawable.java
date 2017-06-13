@@ -37,56 +37,6 @@ public class SVGDrawable {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger(SVGDrawable.class);
 
-	public static void main(String[] args) throws Exception {
-		System.out.println("I'm creating the exemple library...");
-
-		Author olympie = new Author("Suquet", "Olympie");
-		Author merlene = new Author("Lejeune", "Merlène");
-
-		boolean leaning = true;
-		int nbBooksPerShelf = 5;
-
-		Book book1 = new Book();
-		book1.setAuthor(olympie);
-		book1.setTitle("Recette de la soupe qui fait grandir");
-		book1.setYear(2014);
-		Book book2 = new Book();
-		book2.setAuthor(olympie);
-		book2.setTitle("DICO");
-		book2.setYear(202);
-		Book book3 = new Book();
-		book3.setAuthor(merlene);
-		book3.setTitle("Tutoriel beauté");
-		book3.setYear(2506);
-		List<Book> books = new ArrayList<>();
-		books.add(book1);
-		books.add(book2);
-		books.add(book3);
-		books.add(book1);
-		books.add(book2);
-		books.add(book3);
-		books.add(book1);
-		books.add(book2);
-		books.add(book3);
-		books.add(book1);
-		books.add(book2);
-		books.add(book1);
-		books.add(book2);
-		books.add(book3);
-		books.add(book3);
-		Library library = new Library(books, nbBooksPerShelf);
-		generate(library, leaning, "Auto", "Auto", "Auto");
-		System.out.println("I drew a library with titles !");
-		try {
-			Svg2jpg.convert();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		new Window2DLibrary("2D_LIBRARY PROJECT");
-		System.out.println("Here you go");
-	}
-
-
 	/***
 	 * Generate the borders of the library.
 	 * @param dimCanvasX
@@ -302,6 +252,9 @@ public class SVGDrawable {
 			int randomWidth = idealWidth + randomGenerator.nextInt(30);
 			int randomHeightGap = randomGenerator.nextInt(50);
 			int heightSup = idealHeight + randomHeightGap;
+			if (heightSup>spaceBetweenShelves) heightSup=spaceBetweenShelves;
+			System.out.println(i%lib.getShelves().get(0).getBooks().size());
+			System.out.println("size : "+lib.getShelves().get(shelfNumber-1).getBooks().size());
 			setSizeBook(spaceBetweenShelves, shelfWidth, lib.getShelves().get(shelfNumber-1).getBooks().get(i%lib.getShelves().get(0).getBooks().size()), idealWidth, idealHeight, randomWidth, heightSup);
 			int width = lib.getShelves().get(shelfNumber-1).getBooks().get(i%lib.getShelves().get(0).getBooks().size()).getwidth();
 			int height = lib.getShelves().get(shelfNumber-1).getBooks().get(i%lib.getShelves().get(0).getBooks().size()).getheight();
@@ -422,9 +375,9 @@ public class SVGDrawable {
 		result[2] = colorIndex;
 		int bookRotation = 0;
 		if (isLastBook && leaning){//on penche le dernier livre
-			bookRotation = -20 - randomGenerator.nextInt(10);
+			bookRotation = -15 - randomGenerator.nextInt(10);
 			System.out.println("XEED : " + emptySpace + " : " + Math.abs(Math.sin(90-bookRotation)*book.getBounds().getWidth()) + " : " + Math.abs(Math.sin(bookRotation)*book.getBounds().getHeight()));
-			//if (!(emptySpace > Math.sin(90-bookRotation)*book.getBounds().getWidth() + Math.sin(bookRotation)*book.getBounds().getHeight())) System.out.println("si qlq voit cette erreur le dire a merlene");
+			if (!(emptySpace > Math.sin(90-bookRotation)*book.getBounds().getWidth() + Math.sin(bookRotation)*book.getBounds().getHeight())) System.out.println("si qlq voit cette erreur le dire a merlene");
 			if(emptySpace > Math.abs(Math.sin(90-bookRotation)*book.getBounds().getWidth()) + Math.abs(Math.sin(bookRotation)*book.getBounds().getHeight())){//il faut qu'il reste au moins trois fois la largeur du livre
 				// Height between the top left corner of the book and the shelf when leaning
 				double hauteurRotation = book.getBounds().getHeight()*Math.cos(Math.toRadians(bookRotation));
