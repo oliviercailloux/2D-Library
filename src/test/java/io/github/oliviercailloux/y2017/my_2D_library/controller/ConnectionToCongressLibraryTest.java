@@ -20,7 +20,7 @@ public class ConnectionToCongressLibraryTest {
 	public void getResult_Should_Return_The_Marcxml_In_A_String() {
 		String code = "70108638";
 		connection = new ConnectionToCongressLibrary(code);
-		String actual = connection.getResult();
+		String actual = connection.getMarcXML();
 		System.out.println(actual);
 		CharSequence s1 = "French profiles.";
 		boolean b1 = actual.contains(s1);

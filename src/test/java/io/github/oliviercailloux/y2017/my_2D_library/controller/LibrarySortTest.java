@@ -7,12 +7,17 @@ import java.util.List;
 
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2017.my_2D_library.controller.BookSort;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Author;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
+import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
 
-public class BookSortTest {
+public class LibrarySortTest {
 
+	Library library;
+	
+	public LibrarySortTest() {
+		library = new Library();
+	}
 	/**
 	 * Test method for BookSort.sortByYear(List<Book>, rising)
 	 */
@@ -45,10 +50,10 @@ public class BookSortTest {
 		
 		// act
 		List<Book> actual = new ArrayList<>();
-		actual = BookSort.sortByYear(actual, true);
+		actual = library.sortByYear(actual, true);
 		
 		List<Book> actual2 = new ArrayList<>();
-		actual2 = BookSort.sortByYear(actual2, false);
+		actual2 = library.sortByYear(actual2, false);
 		
 		//assert
 		for(int i = 0; i < actual.size(); i++){
@@ -100,7 +105,7 @@ public class BookSortTest {
 		b3.setYear(1860);
 		expected.add(b3);
 		
-		expected = BookSort.sortByTitle(expected);
+		expected = library.sortByTitle(expected);
 		
 		assertEquals(3, expected.size());
 		assertEquals("Harry Poopper", expected.get(0).getTitle());
@@ -137,7 +142,7 @@ public class BookSortTest {
 		b3.setYear(1860);
 		expected.add(b3);
 		
-		expected = BookSort.sortByAuthor(expected);
+		expected = library.sortByAuthor(expected);
 		
 		assertEquals(3, expected.size());
 		assertEquals("BAUDELAIRE", expected.get(0).getAuthor().getLastName());

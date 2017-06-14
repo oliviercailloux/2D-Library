@@ -7,9 +7,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.github.oliviercailloux.y2017.my_2D_library.controller.DataFile;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
-import io.github.oliviercailloux.y2017.my_2D_library.view.Svg2jpg;
+import io.github.oliviercailloux.y2017.my_2D_library.view.ConversionSVGtoPNG;
+import io.github.oliviercailloux.y2017.my_2D_library.view.SVGLibrary;
 import io.github.oliviercailloux.y2017.my_2D_library.view.Window2DLibrary;
 
 public class Main {
@@ -18,25 +20,27 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, ParserConfigurationException {
 		
+		DataFile dataFile = new DataFile();
 		// lire le fichier afin de créer une liste de livres
-		List<Book> books = io.github.oliviercailloux.y2017.my_2D_library.controller.readFile.read();
+		List<Book> books = dataFile.read();
 		//Library Lib = io.github.dauphine.lejema160.model.User.createLibrary(books, 50, 70);
 		
 		// créer une librairie à partir de la liste de livres
 		int nbBooksPerShelf = 10;
-		Library Lib = new Library(books, nbBooksPerShelf);
+		Library library = new Library(books, nbBooksPerShelf);
 		boolean leaning = true;
 		
+		SVGLibrary svgLibrary = new SVGLibrary(library);
 		
-		io.github.oliviercailloux.y2017.my_2D_library.view.SVGDrawable.generate(Lib, leaning, "Auto", "Auto", "Auto");
+		svgLibrary.generate(leaning, "Auto", "Auto", "Auto");
 				
 		// lancement de l'interface graphique
 		try {
-			Svg2jpg.convert();
+			ConversionSVGtoPNG.convert();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		new Window2DLibrary("2D_LIBRARY PROJECT");
+		new Window2DLibrary("2D_LIBRARY PROJECT", svgLibrary);
 	}
 
 }

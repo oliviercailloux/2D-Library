@@ -7,14 +7,19 @@ import java.util.List;
 
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2017.my_2D_library.controller.readFile;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Author;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
 
-public class readFileTest {
+public class DataFileTest {
 
+	DataFile dataFile;
+	
+	public DataFileTest() {
+		dataFile = new DataFile();
+	}
+	
 	@Test
-	public void readFile_Should_Return_A_List_Of_Books_When_Called() {
+	public void read_Should_Return_A_List_Of_Books_When_Called() {
 		// arrange
 		List<Book> expected = new ArrayList<>();
 
@@ -43,7 +48,7 @@ public class readFileTest {
 		// act
 		List<Book> actual = new ArrayList<>();
 //		try {
-			actual = readFile.read();
+			actual = dataFile.read();
 //		} 
 //		catch (IOException e) {
 //			fail("IOException " + e);
