@@ -125,28 +125,36 @@ public class Library {
 	 * @param rising
 	 * @return
 	 */
-	public List<Book> sortByYear(List<Book> toSort, boolean rising) {
+	public List<Book> sortByYear(boolean rising) {
+		List<Book> toSort = this.getListOfAllTheBooks();
 		List<Book> sortedBooks = new ArrayList<Book>();
 		for (Book book : toSort) {
-			if (sortedBooks.size() != 0) {
-				for (int count = 0; count <= sortedBooks.size(); count++) {
-					if (count != sortedBooks.size()) {
-						Book bookToCompare = sortedBooks.get(count);
-						if (rising) {
-							if (book.compareYear(bookToCompare)) {
-								sortedBooks.add(count, book);
+			if (sortedBooks.size() == 0)
+				sortedBooks.add(book);
+			else {
+				int size = sortedBooks.size();
+				boolean alreadAdded = false;
+				for (int index = 0; index <= size; index++) {
+					if (!alreadAdded) {
+						if (index != size) {
+							Book bookToCompare = sortedBooks.get(index);
+							if (rising) {
+								if (book.compareYear(bookToCompare)) {
+									sortedBooks.add(index, book);
+									alreadAdded = true;
+								}
+							} else {
+								if (bookToCompare.compareYear(book)) {
+									sortedBooks.add(index, book);
+									alreadAdded = true;
+								}
 							}
 						} else {
-							if (bookToCompare.compareYear(book)) {
-								sortedBooks.add(count, book);
-							}
+							sortedBooks.add(book);
+							alreadAdded = true;
 						}
-					} else {
-						sortedBooks.add(book);
 					}
 				}
-			} else {
-				sortedBooks.add(book);
 			}
 		}
 		return sortedBooks;
@@ -158,7 +166,8 @@ public class Library {
 	 * @param toSort
 	 * @return the list of books sorted
 	 */
-	public List<Book> sortByTitle(List<Book> toSort) {
+	public List<Book> sortByTitle() {
+		List<Book> toSort = this.getListOfAllTheBooks();
 		Collections.sort(toSort, new BookCompareByTitle());
 		return toSort;
 	}
@@ -170,7 +179,8 @@ public class Library {
 	 * @param toSort
 	 * @return the list of books sorted
 	 */
-	public List<Book> sortByAuthor(List<Book> toSort) {
+	public List<Book> sortByAuthor() {
+		List<Book> toSort = this.getListOfAllTheBooks();
 		Collections.sort(toSort, new BookCompareByAuthor());
 		return toSort;
 	}
@@ -188,6 +198,16 @@ public class Library {
 				book.setColor(color);
 			}
 		}
+	}
+
+	public List<Book> getListOfAllTheBooks() {
+		List<Book> result = new ArrayList<>();
+		for (Shelf shelf : shelves) {
+			for (Book book : this.getShelves().get(shelves.indexOf(shelf)).getBooks()) {
+				result.add(book);
+			}
+		}
+		return result;
 	}
 
 }

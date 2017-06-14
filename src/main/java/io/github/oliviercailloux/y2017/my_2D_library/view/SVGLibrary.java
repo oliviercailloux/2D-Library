@@ -44,6 +44,10 @@ public class SVGLibrary {
 		this.library = library;
 		this.graphics = generateSVG();
 	}
+	
+	public Library getLibrary(){
+		return library;
+	}
 
 	/***
 	 * Generate the borders of the library.
@@ -257,8 +261,6 @@ public class SVGLibrary {
 			int heightSup = idealHeight + randomHeightGap;
 			if (heightSup > spaceBetweenShelves)
 				heightSup = spaceBetweenShelves;
-			System.out.println("shelfnb : " + (shelfNumber - 1));
-			System.out.println("nbShelves : " + library.getShelves().size());
 			setSizeBook(spaceBetweenShelves, shelfWidth,
 					library.getShelves().get(shelfNumber - 1).getBooks()
 							.get(i % library.getShelves().get(0).getBooks().size()),

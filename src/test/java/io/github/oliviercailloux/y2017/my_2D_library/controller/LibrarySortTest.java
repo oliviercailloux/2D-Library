@@ -50,10 +50,10 @@ public class LibrarySortTest {
 		
 		// act
 		List<Book> actual = new ArrayList<>();
-		actual = library.sortByYear(actual, true);
+		actual = library.sortByYear(true);
 		
 		List<Book> actual2 = new ArrayList<>();
-		actual2 = library.sortByYear(actual2, false);
+		actual2 = library.sortByYear(false);
 		
 		//assert
 		for(int i = 0; i < actual.size(); i++){
@@ -105,7 +105,7 @@ public class LibrarySortTest {
 		b3.setYear(1860);
 		expected.add(b3);
 		
-		expected = library.sortByTitle(expected);
+		expected = library.sortByTitle();
 		
 		assertEquals(3, expected.size());
 		assertEquals("Harry Poopper", expected.get(0).getTitle());
@@ -142,7 +142,7 @@ public class LibrarySortTest {
 		b3.setYear(1860);
 		expected.add(b3);
 		
-		expected = library.sortByAuthor(expected);
+		expected = library.sortByAuthor();
 		
 		assertEquals(3, expected.size());
 		assertEquals("BAUDELAIRE", expected.get(0).getAuthor().getLastName());
