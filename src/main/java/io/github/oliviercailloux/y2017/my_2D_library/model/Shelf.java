@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lejema160
- * @author OlympieSuquet
  * Shelf is the class that describes  a shelf of books in the library
  */
 public class Shelf {
@@ -77,7 +75,8 @@ public class Shelf {
 	public int hashCode(){
 		return Objects.hash(books, heightSize);
 	}
-	public boolean equals(Object shelf){
+	
+	public boolean isEqualTo(Object shelf){
 		if (shelf == null) return false;
 		if (shelf == this) return true;
 		if (!(shelf instanceof Shelf)) return false;

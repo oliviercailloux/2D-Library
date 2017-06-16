@@ -33,7 +33,7 @@ public class ShelfTest {
 		books.add(book3);
 		Shelf x = new Shelf(books);
 		Shelf y = new Shelf(books);
-	    Assert.assertTrue(x.equals(y) && y.equals(x));
+	    Assert.assertTrue(x.isEqualTo(y) && y.isEqualTo(x));
 	    Assert.assertTrue(x.hashCode() == y.hashCode());
 	}
 }

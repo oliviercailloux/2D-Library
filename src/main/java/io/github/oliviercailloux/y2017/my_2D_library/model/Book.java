@@ -11,9 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lejema160
- * @author OlympieSuquet Book is a class that describes a book. It has a title
- *         and an author.
+ *  Book is a class that describes a book. It has a title and an author.
  */
 public class Book {
 
@@ -185,7 +183,7 @@ public class Book {
 	/***
 	 * 
 	 */
-	public boolean equals(Object book) {
+	public boolean isEqualTo(Object book) {
 		if (book == null)
 			return false;
 		if (book == this)

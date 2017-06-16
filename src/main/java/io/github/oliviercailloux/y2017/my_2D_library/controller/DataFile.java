@@ -102,6 +102,10 @@ public class DataFile {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param lineToDelete
+	 */
 	public void deleteBook(String lineToDelete) {
 
 		File file = new File(booksFilePath);
@@ -134,6 +138,10 @@ public class DataFile {
 		add(lines);
 	}
 	
+	/**
+	 * 
+	 * @param lines
+	 */
 	private void add(List<List<String>> lines) {
 		FileWriter fw;
 		try {

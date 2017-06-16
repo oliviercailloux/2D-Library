@@ -9,10 +9,9 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/***
+/**
  * RESTConnection to the library of Congress
- * 
- * @author lejema160
+ * Extract the title, the author and the date of publication of the book.
  *
  */
 public class ConnectionToCongressLibrary {
@@ -39,8 +38,6 @@ public class ConnectionToCongressLibrary {
 	 * 
 	 * @return result, the code marcxml of the datas of the book
 	 * @throws ProcessingException
-	 *             Dans le marcxml on a : en 100 a) l'auteur en 245 a) le titre
-	 *             en 260 c) la date de publi
 	 */
 	public String getMarcXML() throws ProcessingException {
 		String result;
@@ -59,28 +56,18 @@ public class ConnectionToCongressLibrary {
 
 	/**
 	 * 
-	 * @param xmlFile
-	 * @return
+	 * @return a table of 3 String named result. 
+	 * result[0] contains the autor result[1] contains the title
+	 * result[2] contains the date of publication
 	 * 
-	 * 		resultat[0] contains the autor resultat[1] contains the title
-	 *         resultat[2] contains the date of publication
+	 * @throws IllegalArgumentException
 	 */
 	public String[] extractData() throws IllegalArgumentException {
 
 		String xmlStr = this.getMarcXML();
 
-		String result[] = new String[3]; // tableau contenant le titre, l'auteur
-											// et la date de parrution du livre
+		String result[] = new String[3];
 
-		/*
-		 * Document xmldoc = convertStringToDocument(xmlStr);
-		 * 
-		 * 
-		 * DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		 * DocumentBuilder db = dbf.newDocumentBuilder();
-		 * 
-		 * Document myDocument= db.parse(xmldoc);
-		 */
 
 		// Recherche et extraction de l'auteur
 		int index = xmlStr.indexOf("tag=\"100\"");

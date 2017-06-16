@@ -1,3 +1,5 @@
+
+
 package io.github.oliviercailloux.y2017.my_2D_library.model;
 
 import java.awt.Color;
@@ -12,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lejema160
- * @author OlympieSuquet Library is a class that describes the library, with
- *         several shelves and books.
+ * Library is a class that describes the library, with several shelves and books.
  */
 public class Library {
 
@@ -35,6 +35,8 @@ public class Library {
 
 	/**
 	 * Constructor of a library with a list of shelves
+	 * @param books
+	 * @param nbBooksPerShelf
 	 */
 
 	public Library(List<Book> books, int nbBooksPerShelf) {
@@ -84,6 +86,12 @@ public class Library {
 		this.shelves = shelves;
 	}
 
+	/**
+	 * 
+	 * @param books
+	 * @param nbBooksPerShelf
+	 * @return a list of shelves using the list of Books in argument
+	 */
 	public static List<Shelf> createLibrary(List<Book> books, int nbBooksPerShelf) {
 		List<Shelf> newShelves = new ArrayList<>();
 		List<Book> list = new ArrayList<>();
