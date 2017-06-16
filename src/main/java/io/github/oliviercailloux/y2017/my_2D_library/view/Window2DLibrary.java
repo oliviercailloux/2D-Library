@@ -251,7 +251,7 @@ public class Window2DLibrary extends JFrame {
 		}
 
 		try {
-			ConversionSVGtoPNG.convert();
+			svgLibrary.convert();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -637,6 +637,8 @@ public class Window2DLibrary extends JFrame {
 
 		param.add(titleFirstColumn);
 		choice.add(titleSecondColumn);
+		
+		
 
 		optName.add(backgroundColorTitleJPanel);
 		optName.add(backgroundColorJPanel);

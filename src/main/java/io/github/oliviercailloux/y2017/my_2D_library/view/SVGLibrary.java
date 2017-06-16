@@ -7,8 +7,10 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,6 +21,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.batik.svggen.SVGGeneratorContext;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMImplementation;
@@ -494,6 +499,19 @@ public class SVGLibrary {
 
 	public void setLibrary(Library library2) {
 		this.library=library2;
+	}
+	
+	public void convert() throws Exception{
+		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
+		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);        
+		OutputStream png_ostream = new FileOutputStream("library.png");
+		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
+
+		PNGTranscoder my_converter = new PNGTranscoder();        
+		my_converter.transcode(input_svg_image, output_png_image);
+
+		png_ostream.flush();
+		png_ostream.close();        
 	}
 
 }

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import io.github.oliviercailloux.y2017.my_2D_library.controller.DataFile;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
-import io.github.oliviercailloux.y2017.my_2D_library.view.ConversionSVGtoPNG;
 import io.github.oliviercailloux.y2017.my_2D_library.view.SVGLibrary;
 import io.github.oliviercailloux.y2017.my_2D_library.view.Window2DLibrary;
 
@@ -36,7 +35,7 @@ public class Main {
 				
 		// lancement de l'interface graphique
 		try {
-			ConversionSVGtoPNG.convert();
+			svgLibrary.convert();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
