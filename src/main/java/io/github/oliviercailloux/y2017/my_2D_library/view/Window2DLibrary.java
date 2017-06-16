@@ -414,7 +414,7 @@ public class Window2DLibrary extends JFrame {
 		tdx.setBounds(5, 5, 100, 50);
 		tdy = new JTextField();
 		tdy.setBounds(5, 5, 100, 50);
-		String[] choices = { "rose", "violet", "bleu", "orange", "jaune" };
+		String[] choices = { "rose", "violet", "bleu", "orange", "jaune", "vert", "rouge"};
 		final JComboBox<String> lco = new JComboBox<String>(choices);
 
 		JButton searchButton = new JButton("Search");

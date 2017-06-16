@@ -26,11 +26,6 @@ public class DataFile {
 		booksFilePath = path + "/src/main/resources/controller/Books.csv";
 	}
 	
-	public static void main(String[] args) {
-		DataFile file = new DataFile();
-		file.read();
-	}
-	
 	/***
 	 * 
 	 * @return

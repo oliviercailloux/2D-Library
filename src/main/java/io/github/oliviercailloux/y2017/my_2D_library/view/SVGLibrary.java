@@ -49,8 +49,8 @@ public class SVGLibrary {
 		this.library = library;
 		this.graphics = generateSVG();
 	}
-	
-	public Library getLibrary(){
+
+	public Library getLibrary() {
 		return library;
 	}
 
@@ -242,64 +242,54 @@ public class SVGLibrary {
 
 	private void drawBooksAndTitles(int spaceBetweenShelves, int dimCanvasX, int thiknessEdges, int shelfWidth,
 			boolean leaning, List<Shape> shelves, String bColor) {
-		List<Shape> books = new ArrayList<>();
+		List<Shape> bookShapes = new ArrayList<>();
 		int idealWidth = (int) (0.6 * (float) (shelfWidth / library.getShelves().get(0).getBooks().size()));
 		// int spaceBtwnTopBookVsTopEdge = 30;
 		// int height = spaceBetweenShelves - spaceBtwnTopBookVsTopEdge;
 		int idealHeight = (int) (0.8 * spaceBetweenShelves);
 		// int spaceBtwnTopBookVsTopEdge = spaceBetweenShelves - idealHeight;
 
-		int nbBooks = 0;
-		for (int i = 0; i < library.getShelves().size(); i++) {
-			nbBooks += library.getShelves().get(i).getBooks().size();
-		}
-
-		int placeLeftInCurrShelf = shelfWidth;
+		int placeLeftInShelf = shelfWidth;
 		int shelfNumber = 1;
 		Random randomGenerator = new Random();
 		// int emptySpace = shelfWidth;
 		int counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
-		for (int i = 0; i < nbBooks; i++) {
-			Shape book = null;
+		for (Book book : library.getListOfAllTheBooks()) {
+			Shape bookShape = null;
 			int randomWidth = idealWidth + randomGenerator.nextInt(30);
 			int randomHeightGap = randomGenerator.nextInt(50);
 			int heightSup = idealHeight + randomHeightGap;
 			if (heightSup > spaceBetweenShelves)
 				heightSup = spaceBetweenShelves;
-			setSizeBook(spaceBetweenShelves, shelfWidth,
-					library.getShelves().get(shelfNumber - 1).getBooks()
-							.get(i % library.getShelves().get(0).getBooks().size()),
-					idealWidth, idealHeight, randomWidth, heightSup);
-			int width = library.getShelves().get(shelfNumber - 1).getBooks()
-					.get(i % library.getShelves().get(0).getBooks().size()).getwidth();
-			int height = library.getShelves().get(shelfNumber - 1).getBooks()
-					.get(i % library.getShelves().get(0).getBooks().size()).getheight();
+			setSizeBook(spaceBetweenShelves, shelfWidth, book, idealWidth, idealHeight, randomWidth, heightSup);
+			int width = book.getwidth();
+			int height = book.getheight();
 
-			if (placeLeftInCurrShelf <= width) {
+			if (placeLeftInShelf <= width) {
 				// go to another shelf
-				placeLeftInCurrShelf = shelfWidth;
+				placeLeftInShelf = shelfWidth;
 				shelfNumber++;
 				if (shelfNumber > library.getShelves().size()) {
 					// no place in the lib
 					System.out.println("no place in the lib !!");
 				}
 			}
-			int bookX = dimCanvasX - thiknessEdges - placeLeftInCurrShelf;
+			int bookX = dimCanvasX - thiknessEdges - placeLeftInShelf;
 			int bookY = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBetweenShelves
 					- height;
-			book = new Rectangle(bookX, bookY, width, height);
-			books.add(book);
+			bookShape = new Rectangle(bookX, bookY, width, height);
+			bookShapes.add(bookShape);
 			counterBooks--;
 			// if (placeLeftInCurrShelf <= width){
 			if (counterBooks == 0) {
 				// go to another shelf
-				placeLeftInCurrShelf = shelfWidth;
+				placeLeftInShelf = shelfWidth;
 				shelfNumber++;
 				if (shelfNumber < library.getShelves().size())
 					counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
 			} else {
 				// stay in the current shelf
-				placeLeftInCurrShelf -= width;
+				placeLeftInShelf -= width;
 			}
 			// emptySpace -= book.getBounds().getWidth();
 		}
@@ -307,25 +297,25 @@ public class SVGLibrary {
 		int indexShelf = 0;
 		int indexBook = 0;
 		int lastColorIndex = -1;
-		placeLeftInCurrShelf = shelfWidth;
-		for (Shape book : books) {
+		placeLeftInShelf = shelfWidth;
+		for (Shape bookShape : bookShapes) {
 			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
 			boolean isLastBookOfTheShelf = (indexBook + 1)
 					% library.getShelves().get(indexShelf).getBooks().size() == 0;
-			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, book, placeLeftInCurrShelf, YOfTheShelf,
+			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, bookShape, library.getShelves().get(indexShelf).getBooks().get(indexBook), placeLeftInShelf, YOfTheShelf,
 					leaning, bColor, lastColorIndex);
 			lastColorIndex = table[2];
 			int bookRotation = table[0];
-			double bookX = book.getBounds().getX();
+			double bookX = bookShape.getBounds().getX();
 			double bookY;
 			if (isLastBookOfTheShelf) {
 				bookY = table[1];
 				System.out.println("bookY : " + bookY);
 			} else {
-				bookY = book.getBounds().getY();
+				bookY = bookShape.getBounds().getY();
 			}
-			double bookHeight = book.getBounds().getHeight();
-			double bookWidth = book.getBounds().getWidth();
+			double bookHeight = bookShape.getBounds().getHeight();
+			double bookWidth = bookShape.getBounds().getWidth();
 			String bookTitle = library.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
 			String authorFirstName = library.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
 					.getFirstName();
@@ -333,63 +323,78 @@ public class SVGLibrary {
 					.getLastName();
 			int bookYear = library.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
 			String bookString = bookTitle + " - " + authorFirstName + " " + authorLastName + " - " + bookYear;
-			drawTitle(bookRotation, bookString, book, bookX, bookY, indexBook, bookHeight, bColor, bookWidth);
+			drawTitle(bookRotation, bookString, bookShape, bookX, bookY, indexBook, bookHeight, bColor, bookWidth);
 			if (isLastBookOfTheShelf) {
 				indexShelf++;
 				indexBook = 0;
-				placeLeftInCurrShelf = shelfWidth;
+				placeLeftInShelf = shelfWidth;
 			} else {
 				indexBook++;
-				placeLeftInCurrShelf -= book.getBounds().getWidth();
+				placeLeftInShelf -= bookShape.getBounds().getWidth();
 			}
 		}
 
 	}
 
-	private int[] drawBook(Random randomGenerator, boolean isLastBook, Shape book, double emptySpace,
+	private int[] drawBook(Random randomGenerator, boolean isLastBook, Shape bookShape, Book book, double emptySpace,
 			double yOfTheShelf, boolean leaning, String bColor, int lastColorIndex) {
 
-		// list of random colors
-		List<Color> colors = new ArrayList<>();
+		List<Color> randomColors = new ArrayList<>();
+		Color pink = null;
+		Color purple = null;
+		Color blue = null;
+		Color yellow = null;
+		Color orange = null;
+		Color green = null;
+		Color red = null;
 		switch (bColor) {
 		case "Light":
-			// pink
-			colors.add(Color.decode("#FF66FF"));
-			// purple
-			colors.add(Color.decode("#CC99FF"));
-			// blue
-			colors.add(Color.decode("#33CCFF"));
-			// yellow
-			colors.add(Color.decode("#FFFF66"));
-			// orange
-			colors.add(Color.decode("#FFCC66"));
+			pink = Color.decode("#FF66FF");
+			purple = Color.decode("#CC99FF");
+			blue = Color.decode("#33CCFF");
+			yellow = Color.decode("#FFFF66");
+			orange = Color.decode("#FFCC66");
+			green = Color.decode("#98d7a7");
+			red = Color.decode("#cc5151");
 			break;
 		case "Dark":
-			colors.add(Color.decode("#990033"));
-			colors.add(Color.decode("#330033"));
-			colors.add(Color.decode("#000033"));
-			colors.add(Color.decode("#CC9900"));
-			colors.add(Color.decode("#993300"));
+			pink = Color.decode("#990033");
+			purple = Color.decode("#330033");
+			blue = Color.decode("#000033");
+			yellow = Color.decode("#CC9900");
+			orange = Color.decode("#993300");
+			green = Color.decode("#008000");
+			red = Color.decode("#851818");
 			break;
 		default:
-			colors.add(Color.pink);
-			colors.add(Color.decode("#9933FF"));
-			colors.add(Color.BLUE);
-			colors.add(Color.yellow);
-			colors.add(Color.ORANGE);
+			pink = Color.pink;
+			purple = Color.decode("#9933FF");
+			blue = Color.BLUE;
+			yellow = Color.yellow;
+			orange = Color.ORANGE;
+			green = Color.decode("#92c544");
+			red = Color.decode("#d41c1c");
 			break;
 		}
+		randomColors.add(pink);
+		randomColors.add(purple);
+		randomColors.add(blue);
+		randomColors.add(yellow);
+		randomColors.add(orange);
+		randomColors.add(green);
+		randomColors.add(red);
 		int colorIndex = -1;
 
 		// generate a random color for this book
 		do {
-			colorIndex = randomGenerator.nextInt(colors.size());
+			colorIndex = randomGenerator.nextInt(randomColors.size());
 		} while (colorIndex == lastColorIndex);
 
 		lastColorIndex = colorIndex;
 
 		// select this color
-		graphics.setPaint(colors.get(colorIndex));
+		if (book.getColor()==null) graphics.setPaint(randomColors.get(colorIndex));
+		else graphics.setPaint(book.getColor());
 
 		// paint the book (with rotation if the last book)
 		int[] result = new int[3];
@@ -398,13 +403,13 @@ public class SVGLibrary {
 		if (isLastBook && leaning) {// on penche le dernier livre
 			bookRotation = -15 - randomGenerator.nextInt(10);
 			System.out.println(
-					"XEED : " + emptySpace + " : " + Math.abs(Math.sin(90 - bookRotation) * book.getBounds().getWidth())
-							+ " : " + Math.abs(Math.sin(bookRotation) * book.getBounds().getHeight()));
-			if (!(emptySpace > Math.sin(90 - bookRotation) * book.getBounds().getWidth()
-					+ Math.sin(bookRotation) * book.getBounds().getHeight()))
+					"XEED : " + emptySpace + " : " + Math.abs(Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth())
+							+ " : " + Math.abs(Math.sin(bookRotation) * bookShape.getBounds().getHeight()));
+			if (!(emptySpace > Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth()
+					+ Math.sin(bookRotation) * bookShape.getBounds().getHeight()))
 				System.out.println("si qlq voit cette erreur le dire a merlene");
-			if (emptySpace > Math.abs(Math.sin(90 - bookRotation) * book.getBounds().getWidth())
-					+ Math.abs(Math.sin(bookRotation) * book.getBounds().getHeight())) {// il
+			if (emptySpace > Math.abs(Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth())
+					+ Math.abs(Math.sin(bookRotation) * bookShape.getBounds().getHeight())) {// il
 																						// faut
 																						// qu'il
 																						// reste
@@ -418,12 +423,12 @@ public class SVGLibrary {
 																						// livre
 				// Height between the top left corner of the book and the shelf
 				// when leaning
-				double hauteurRotation = book.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
+				double hauteurRotation = bookShape.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
 				// The new Y coordinate of the leaning rectangle (so that it is
 				// placed on the shelf)
 				double newY = yOfTheShelf - hauteurRotation;
-				Rectangle newRectangle = new Rectangle((int) book.getBounds().getX(), (int) newY,
-						(int) book.getBounds().getWidth(), (int) book.getBounds().getHeight());
+				Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
+						(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
 				int newBookX = (int) newRectangle.getBounds().getX();
 				int newBookY = (int) newRectangle.getBounds().getY();
 				graphics.rotate(Math.toRadians(bookRotation), newBookX, newBookY);
@@ -432,18 +437,18 @@ public class SVGLibrary {
 				result[1] = newBookY;
 			} else {// pas assez de place pour le pencher
 				bookRotation = 0;
-				double hauteurRotation = book.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
+				double hauteurRotation = bookShape.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
 				double newY = yOfTheShelf - hauteurRotation;
-				Rectangle newRectangle = new Rectangle((int) book.getBounds().getX(), (int) newY,
-						(int) book.getBounds().getWidth(), (int) book.getBounds().getHeight());
+				Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
+						(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
 				graphics.fill(newRectangle);
 				result[1] = (int) newY;
 			}
 		} else {
-			double hauteurRotation = book.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
+			double hauteurRotation = bookShape.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
 			double newY = yOfTheShelf - hauteurRotation;
-			Rectangle newRectangle = new Rectangle((int) book.getBounds().getX(), (int) newY,
-					(int) book.getBounds().getWidth(), (int) book.getBounds().getHeight());
+			Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
+					(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
 			graphics.fill(newRectangle);
 			result[1] = (int) newY;
 		}
@@ -498,20 +503,20 @@ public class SVGLibrary {
 	}
 
 	public void setLibrary(Library library2) {
-		this.library=library2;
+		this.library = library2;
 	}
-	
-	public void convert() throws Exception{
-		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
-		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);        
-		OutputStream png_ostream = new FileOutputStream("library.png");
-		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
 
-		PNGTranscoder my_converter = new PNGTranscoder();        
+	public void convert() throws Exception {
+		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
+		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);
+		OutputStream png_ostream = new FileOutputStream("library.png");
+		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
+
+		PNGTranscoder my_converter = new PNGTranscoder();
 		my_converter.transcode(input_svg_image, output_png_image);
 
 		png_ostream.flush();
-		png_ostream.close();        
+		png_ostream.close();
 	}
 
 }
