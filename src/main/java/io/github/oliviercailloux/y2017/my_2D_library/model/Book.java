@@ -146,30 +146,6 @@ public class Book {
 		this.color = color;
 	}
 
-	public void generatecolor() {
-		Random randomGenerator = new Random();
-		int lastColorIndex = -1;
-
-		List<Color> colors = new ArrayList<>();
-		colors.add(Color.pink);
-		colors.add(Color.CYAN);
-		colors.add(Color.BLUE);
-		colors.add(Color.yellow);
-		colors.add(Color.ORANGE);
-
-		int colorIndex = -1;
-
-		// generate a random color for this book
-		do {
-			colorIndex = randomGenerator.nextInt(colors.size());
-		} while (colorIndex == lastColorIndex);
-
-		lastColorIndex = colorIndex;
-
-		// select this color
-		setColor(colors.get(colorIndex));
-	}
-
 	/***
 	 * 
 	 */
@@ -261,9 +237,6 @@ public class Book {
 			break;
 		case 6:
 			switch (word) {
-			case "":
-				this.generatecolor();
-				break;
 			case "rose":
 				this.color = Color.pink;
 				break;
