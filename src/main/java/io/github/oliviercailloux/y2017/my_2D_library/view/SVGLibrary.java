@@ -42,7 +42,7 @@ public class SVGLibrary {
 	public static final Logger LOGGER = LoggerFactory.getLogger(SVGLibrary.class);
 
 	private Library library;
-
+	private String newI;
 	private SVGGraphics2D graphics;
 
 	public SVGLibrary(Library library) throws ParserConfigurationException {
@@ -404,23 +404,23 @@ public class SVGLibrary {
 			bookRotation = -15 - randomGenerator.nextInt(10);
 			System.out.println(
 					"XEED : " + emptySpace + " : " + Math.abs(Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth())
-							+ " : " + Math.abs(Math.sin(bookRotation) * bookShape.getBounds().getHeight()));
+					+ " : " + Math.abs(Math.sin(bookRotation) * bookShape.getBounds().getHeight()));
 			if (!(emptySpace > Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth()
 					+ Math.sin(bookRotation) * bookShape.getBounds().getHeight()))
 				System.out.println("si qlq voit cette erreur le dire a merlene");
 			if (emptySpace > Math.abs(Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth())
 					+ Math.abs(Math.sin(bookRotation) * bookShape.getBounds().getHeight())) {// il
-																						// faut
-																						// qu'il
-																						// reste
-																						// au
-																						// moins
-																						// trois
-																						// fois
-																						// la
-																						// largeur
-																						// du
-																						// livre
+				// faut
+				// qu'il
+				// reste
+				// au
+				// moins
+				// trois
+				// fois
+				// la
+				// largeur
+				// du
+				// livre
 				// Height between the top left corner of the book and the shelf
 				// when leaning
 				double hauteurRotation = bookShape.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
@@ -506,17 +506,40 @@ public class SVGLibrary {
 		this.library = library2;
 	}
 
-	public void convert() throws Exception {
+	public void convert() throws Exception{
 		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
 		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);
-		OutputStream png_ostream = new FileOutputStream("library.png");
-		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
+		this.setNewI(generate(20));
+		OutputStream png_ostream = new FileOutputStream(newI);
+		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
 
-		PNGTranscoder my_converter = new PNGTranscoder();
+		PNGTranscoder my_converter = new PNGTranscoder();        
 		my_converter.transcode(input_svg_image, output_png_image);
 
 		png_ostream.flush();
-		png_ostream.close();
+		png_ostream.close();   
+
+
+
+	}
+	public String generate(int length)
+	{
+		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		String pass = "";
+		for(int x=0;x<length;x++)
+		{
+			int i = (int)Math.floor(Math.random() * 62); 
+			pass += chars.charAt(i);
+		}
+
+		return pass;
+	}
+	public String getNewI() {
+		return newI;
+	}
+
+	public void setNewI(String newI) {
+		this.newI = newI;
 	}
 
 }

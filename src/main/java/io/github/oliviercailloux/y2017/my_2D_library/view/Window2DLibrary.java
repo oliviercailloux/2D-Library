@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
@@ -201,7 +202,7 @@ public class Window2DLibrary extends JFrame {
 
 		this.pCenter = new JPanel(new BorderLayout());
 		this.libImage = new JLabel();
-		myLibIcon = new ImageIcon("library.png");
+		myLibIcon = new ImageIcon("");
 		libImage.setIcon(myLibIcon);
 		JScrollPane asc = new JScrollPane(this.libImage);
 		pCenter.add(asc);
@@ -256,12 +257,19 @@ public class Window2DLibrary extends JFrame {
 			e.printStackTrace();
 		}
 
-		/*
-		 * pCenter.removeAll(); pCenter.revalidate(); libImage = new JLabel();
-		 * myLibIcon= new ImageIcon("library.png"); libImage.setIcon(myLibIcon);
-		 * pCenter.add(libImage); JScrollPane asc = new
-		 * JScrollPane(this.libImage); pCenter.add(asc); pCenter.updateUI();
-		 */
+		pCenter.removeAll(); 
+		pCenter.revalidate(); 
+		libImage = new JLabel();
+		myLibIcon= new ImageIcon(svgLibrary.getNewI()); 
+		libImage.setIcon(myLibIcon);
+		pCenter.add(libImage);
+		JScrollPane asc = new JScrollPane(this.libImage); 
+		pCenter.add(asc); 
+		pCenter.updateUI();
+		File fichier = new File(svgLibrary.getNewI());
+		fichier.delete();
+		
+
 
 	}
 
@@ -808,6 +816,8 @@ public class Window2DLibrary extends JFrame {
 					specificObject.setText("");
 				}
 			}
+			tabPane.remove(3);
+			tabPane.add("Delete Books from my Library", getPanelCentreDelete());
 			tab.revalidate();
 			tab.repaint();
 			pBCenter.revalidate();
