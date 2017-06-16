@@ -401,49 +401,26 @@ public class SVGLibrary {
 		result[2] = colorIndex;
 		int bookRotation = 0;
 		if (isLastBook && leaning) {// on penche le dernier livre
-			bookRotation = -15 - randomGenerator.nextInt(10);
-			System.out.println(
-					"XEED : " + emptySpace + " : " + Math.abs(Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth())
-					+ " : " + Math.abs(Math.sin(bookRotation) * bookShape.getBounds().getHeight()));
-			if (!(emptySpace > Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth()
-					+ Math.sin(bookRotation) * bookShape.getBounds().getHeight()))
-				System.out.println("si qlq voit cette erreur le dire a merlene");
-			if (emptySpace > Math.abs(Math.sin(90 - bookRotation) * bookShape.getBounds().getWidth())
-					+ Math.abs(Math.sin(bookRotation) * bookShape.getBounds().getHeight())) {// il
-				// faut
-				// qu'il
-				// reste
-				// au
-				// moins
-				// trois
-				// fois
-				// la
-				// largeur
-				// du
-				// livre
+			bookRotation = -15 - randomGenerator.nextInt(50);
+			if(bookRotation < -45) bookRotation = -90;
+			while (emptySpace <= (getCos(bookRotation) * bookShape.getBounds().getWidth()
+					+ getSin(-bookRotation) * bookShape.getBounds().getHeight()) && bookRotation < 0) {
+				bookRotation += 1;
+			}
 				// Height between the top left corner of the book and the shelf
 				// when leaning
-				double hauteurRotation = bookShape.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
-				// The new Y coordinate of the leaning rectangle (so that it is
-				// placed on the shelf)
-				double newY = yOfTheShelf - hauteurRotation;
-				Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
-						(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
-				int newBookX = (int) newRectangle.getBounds().getX();
-				int newBookY = (int) newRectangle.getBounds().getY();
-				graphics.rotate(Math.toRadians(bookRotation), newBookX, newBookY);
-				graphics.fill(newRectangle);
-				graphics.rotate(Math.toRadians(-bookRotation), newBookX, newBookY);
-				result[1] = newBookY;
-			} else {// pas assez de place pour le pencher
-				bookRotation = 0;
-				double hauteurRotation = bookShape.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
-				double newY = yOfTheShelf - hauteurRotation;
-				Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
-						(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
-				graphics.fill(newRectangle);
-				result[1] = (int) newY;
-			}
+			double hauteurRotation = bookShape.getBounds().getHeight() * getCos(bookRotation);
+			// The new Y coordinate of the leaning rectangle (so that it is
+			// placed on the shelf)
+			double newY = yOfTheShelf - hauteurRotation;
+			Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
+					(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
+			int newBookX = (int) newRectangle.getBounds().getX();
+			int newBookY = (int) newRectangle.getBounds().getY();
+			graphics.rotate(Math.toRadians(bookRotation), newBookX, newBookY);
+			graphics.fill(newRectangle);
+			graphics.rotate(Math.toRadians(-bookRotation), newBookX, newBookY);
+			result[1] = newBookY;
 		} else {
 			double hauteurRotation = bookShape.getBounds().getHeight() * Math.cos(Math.toRadians(bookRotation));
 			double newY = yOfTheShelf - hauteurRotation;
@@ -541,5 +518,21 @@ public class SVGLibrary {
 	public void setNewI(String newI) {
 		this.newI = newI;
 	}
+	/**
+	 * get the cos of the angle by getting the degree in radian
+	 * @param rot
+	 * @return
+	 */
+	private double getCos(int rot){
+		return Math.cos(Math.toRadians(rot));
+	}
 
+	/**
+	 * get the sin of the angle by getting the degree in radian
+	 * @param rot
+	 * @return
+	 */
+	private double getSin(int rot){
+		return Math.sin(Math.toRadians(rot));
+	}
 }

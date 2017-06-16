@@ -47,7 +47,6 @@ import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
 
 public class Window2DLibrary extends JFrame {
-
 	public static final Logger LOGGER = LoggerFactory.getLogger(Window2DLibrary.class);
 
 	// final static Logger logger = Logger.getLogger(Wisndow2DLibrary.class);
@@ -55,7 +54,7 @@ public class Window2DLibrary extends JFrame {
 	private JButton generate, lessBookPerS, moreBookPerS;
 	private JTextField presentation;
 	private JFormattedTextField numberBooksPerShelfTextField;
-	private JPanel pCenter;
+	private JPanel pCenter, pBCenter, centre;
 	private JPanel sud;
 	private JPanel panBooks;
 	private JTabbedPane tabPane;
@@ -72,7 +71,7 @@ public class Window2DLibrary extends JFrame {
 			sortTitleJLabel, numberBooksPerShelfTitleJLabel;
 	private JLabel se, fn, ln, ti, ye, dx, dy, co;
 	private JTextField tse, tfn, tln, tti, tye, tdx, tdy;
-	private String bColor = "Auto", bkColor = "Auto", sColor = "Auto", sort="Auto";
+	private String bColor = "Auto", bkColor = "Auto", sColor = "Auto", sort = "Auto";
 	private boolean leaning = true;
 	private int nbBooksPerShelf = 10;
 	private DataFile dataFile = new DataFile();
@@ -158,8 +157,8 @@ public class Window2DLibrary extends JFrame {
 	// TODO: modify color after validate ; horrible color only for help to
 	// identify space of
 	public JTabbedPane getPanelCentre() { // Une tab d'onglet avec 2 onglets, un
-											// pour les options et lautre pour
-											// afficher sa librairie
+		// pour les options et lautre pour
+		// afficher sa librairie
 
 		this.tabPane = new JTabbedPane();
 
@@ -169,6 +168,7 @@ public class Window2DLibrary extends JFrame {
 		options.setFont(new Font("Arial", Font.BOLD, 60));
 		panOptions.add(options, "Center");
 		tabPane.add("Options for my library", getPanelCentreOptions());
+		tabPane.add("Options for my library", new JScrollPane(centre));
 
 		this.panBooks = new JPanel(new BorderLayout());
 		this.visuG = new JTextArea();
@@ -182,6 +182,7 @@ public class Window2DLibrary extends JFrame {
 		actions.setFont(new Font("Arial", Font.BOLD, 60));
 		panActions.add(actions, "Center");
 		tabPane.add("Add Books to my Library", getPanelCentreBooks());
+		tabPane.add("Add Books to my Library", new JScrollPane(pBCenter));
 
 		JPanel panDelete = new JPanel(new BorderLayout());
 		this.actions = new JTextArea();
@@ -220,27 +221,27 @@ public class Window2DLibrary extends JFrame {
 	public void updateSVGLibrary() {
 		generate.setText("Reload my library now");
 
-		switch(sort){
-			case "Author":
-				svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByAuthor(), nbBooksPerShelf));
-				break;
-			case "Title":
-				svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByTitle(), nbBooksPerShelf));
-				break;
-			case "Year" :
-				boolean rising = !sortAscendingYearButton.isSelected();
-				svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByYear(rising), nbBooksPerShelf));
-				break;
-			default:
-				try {
-					svgLibrary = new SVGLibrary(new Library(dataFile.read(), nbBooksPerShelf));
-				} catch (ParserConfigurationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				break;
+		switch (sort) {
+		case "Author":
+			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByAuthor(), nbBooksPerShelf));
+			break;
+		case "Title":
+			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByTitle(), nbBooksPerShelf));
+			break;
+		case "Year":
+			boolean rising = !sortAscendingYearButton.isSelected();
+			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByYear(rising), nbBooksPerShelf));
+			break;
+		default:
+			try {
+				svgLibrary = new SVGLibrary(new Library(dataFile.read(), nbBooksPerShelf));
+			} catch (ParserConfigurationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			break;
 		}
-		
+
 		try {
 			svgLibrary.generate(leaning, bkColor, bColor, sColor);
 		} catch (IOException e1) {
@@ -257,19 +258,17 @@ public class Window2DLibrary extends JFrame {
 			e.printStackTrace();
 		}
 
-		pCenter.removeAll(); 
-		pCenter.revalidate(); 
+		pCenter.removeAll();
+		pCenter.revalidate();
 		libImage = new JLabel();
-		myLibIcon= new ImageIcon(svgLibrary.getNewI()); 
+		myLibIcon = new ImageIcon(svgLibrary.getNewI());
 		libImage.setIcon(myLibIcon);
 		pCenter.add(libImage);
-		JScrollPane asc = new JScrollPane(this.libImage); 
-		pCenter.add(asc); 
+		JScrollPane asc = new JScrollPane(this.libImage);
+		pCenter.add(asc);
 		pCenter.updateUI();
 		File fichier = new File(svgLibrary.getNewI());
 		fichier.delete();
-		
-
 
 	}
 
@@ -380,7 +379,7 @@ public class Window2DLibrary extends JFrame {
 
 	public JPanel getPanelCentreBooks() {
 
-		JPanel pBCenter = new JPanel(new BorderLayout());
+		pBCenter = new JPanel(new BorderLayout());
 
 		JPanel tab = new JPanel(new GridLayout(10, 2, 10, 10));
 		JPanel search = new JPanel();
@@ -422,7 +421,7 @@ public class Window2DLibrary extends JFrame {
 		tdx.setBounds(5, 5, 100, 50);
 		tdy = new JTextField();
 		tdy.setBounds(5, 5, 100, 50);
-		String[] choices = { "rose", "violet", "bleu", "orange", "jaune", "vert", "rouge"};
+		String[] choices = { "rose", "violet", "bleu", "orange", "jaune", "vert", "rouge" };
 		final JComboBox<String> lco = new JComboBox<String>(choices);
 
 		JButton searchButton = new JButton("Search");
@@ -470,7 +469,7 @@ public class Window2DLibrary extends JFrame {
 	 */
 	public JPanel getPanelCentreOptions() {
 
-		JPanel centre = new JPanel();
+		centre = new JPanel();
 		Image image = null;
 		try {
 			URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
@@ -645,8 +644,6 @@ public class Window2DLibrary extends JFrame {
 
 		param.add(titleFirstColumn);
 		choice.add(titleSecondColumn);
-		
-		
 
 		optName.add(backgroundColorTitleJPanel);
 		optName.add(backgroundColorJPanel);
@@ -832,10 +829,14 @@ public class Window2DLibrary extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (sortAuthorButton.isSelected()) sort="Author";
-			else if (sortTitleButton.isSelected()) sort="Title";
-			else if (sortYearButton.isSelected()) sort="Year";
-			else sort="Auto";
+			if (sortAuthorButton.isSelected())
+				sort = "Author";
+			else if (sortTitleButton.isSelected())
+				sort = "Title";
+			else if (sortYearButton.isSelected())
+				sort = "Year";
+			else
+				sort = "Auto";
 		}
 
 	}
