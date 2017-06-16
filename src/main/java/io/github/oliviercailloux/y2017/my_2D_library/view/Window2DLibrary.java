@@ -55,6 +55,7 @@ public class Window2DLibrary extends JFrame {
 	private JTextField presentation;
 	private JFormattedTextField numberBooksPerShelfTextField;
 	private JPanel pCenter, pBCenter, centre;
+	private JPanel pDCenter;
 	private JPanel sud;
 	private JPanel panBooks;
 	private JTabbedPane tabPane;
@@ -190,6 +191,7 @@ public class Window2DLibrary extends JFrame {
 		actions.setFont(new Font("Arial", Font.BOLD, 60));
 		panDelete.add(actions, "Center");
 		tabPane.add("Delete Books from my Library", getPanelCentreDelete());
+		tabPane.add("Delete Books from my Library",new JScrollPane(pDCenter));
 		return tabPane;
 
 	}
@@ -280,7 +282,7 @@ public class Window2DLibrary extends JFrame {
 			nbBooks += lib.getShelves().get(i).getBooks().size();
 		}
 
-		JPanel pDCenter = new JPanel(new BorderLayout());
+		pDCenter = new JPanel(new BorderLayout());
 		JPanel tab = new JPanel(new GridLayout(nbBooks, 2, 10, 10));
 		ButtonGroup bg = new ButtonGroup();
 		JButton removeBookButton = new JButton("Remove");
@@ -815,6 +817,7 @@ public class Window2DLibrary extends JFrame {
 			}
 			tabPane.remove(3);
 			tabPane.add("Delete Books from my Library", getPanelCentreDelete());
+			tabPane.add("Delete Books from my Library",new JScrollPane(pDCenter));
 			tab.revalidate();
 			tab.repaint();
 			pBCenter.revalidate();
