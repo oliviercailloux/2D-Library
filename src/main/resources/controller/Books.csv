@@ -1,38 +1,37 @@
 Nom,Prenom,Titre,Anne,dimx,dimy,Couleur,End
 HUGO,Victor,Les Misérables,2001,25,30,bleu,End
 CHUNG,Hugo,Un jour en enfer,2002,25,45,,End
-SUQUET,Oympie,Recette pompette,2003,25,30,bleu,End
+SUQUET,Oympie,Recette pompette,2003,25,30,,End
 JAMMES,Fanny,I comme Icar,2004,25,45,,End
-EL CHARTOUNI,Elie,La Grande Aventure,2005,25,30,bleu,End
+EL CHARTOUNI,Elie,La Grande Aventure,2005,25,30,jaune,End
 LENCHANTEUR,Merlin,La Magie,1256,,,rose,End
-HUGO,Victor,Les Misérables,2001,25,30,bleu,End
-CHUNG,Hugo,Un jour en enfer,2002,25,45,,End
-SUQUET,Oympie,Recette pompette,2003,25,30,bleu,End
-JAMMES,Fanny,I comme Icar,2004,25,45,,End
-EL CHARTOUNI,Elie,La Grande Aventure,2005,25,30,bleu,End
-LENCHANTEUR,Merlin,La Magie,1256,,,rose,End
-HUGO,Victor,Les Misérables,2001,25,30,bleu,End
-CHUNG,Hugo,Un jour en enfer,2002,25,45,,End
-SUQUET,Oympie,Recette pompette,2003,25,30,bleu,End
-JAMMES,Fanny,I comme Icar,2004,25,45,,End
-EL CHARTOUNI,Elie,La Grande Aventure,2005,25,30,bleu,End
-LENCHANTEUR,Merlin,La Magie,1256,,,rose,End
-HUGO,Victor,Les Misérables,2001,25,30,bleu,End
-CHUNG,Hugo,Un jour en enfer,2002,25,45,,End
-SUQUET,Oympie,Recette pompette,2003,25,30,bleu,End
-JAMMES,Fanny,I comme Icar,2004,25,45,,End
-EL CHARTOUNI,Elie,La Grande Aventure,2005,25,30,bleu,End
-LENCHANTEUR,Merlin,La Magie,1256,,,rose,End
-HUGO,Victor,Les Misérables,2001,25,30,bleu,End
-CHUNG,Hugo,Un jour en enfer,2002,25,45,,End
-SUQUET,Oympie,Recette pompette,2003,25,30,bleu,End
-JAMMES,Fanny,I comme Icar,2004,25,45,,End
-EL CHARTOUNI,Elie,La Grande Aventure,2005,25,30,bleu,End
-LENCHANTEUR,Merlin,La Magie,1256,,,rose,End
-HUGO,Victor,Les Misérables,2001,25,30,bleu,End
-CHUNG,Hugo,Un jour en enfer,2002,25,45,,End
-SUQUET,Oympie,Recette pompette,2003,25,30,bleu,End
-JAMMES,Fanny,I comme Icar,2004,25,45,,End
-EL CHARTOUNI,Elie,La Grande Aventure,2005,25,30,bleu,End
-LENCHANTEUR,Merlin,La Magie,1256,,,rose,End
-Merlen,Lejeune,Hello,4562,,,vert,End
+TEMPLE,Henry,Lucky Luke,2001,25,30,vert,End
+PARFUM,Jade,Beauté everyday,2017,25,45,,End
+POULET,Léo,Burgers maison,2005,25,30,rouge,End
+PICARD,Max,Youpi,2001,25,45,,End
+KOALA,Elena,La Traversée,2018,25,30,violet,End
+LEJEUNE,Merlène,Les animaux,1996,,,,End
+ANDRE,Citroen,Come on,2875,25,30,,End
+BANANE,Christine,C#/C++,2002,25,45,,End
+CERISE,Christophe,Bien coder en JAVA,2003,25,30,,End
+PECHE,Manuel,Poupi le chien,2004,25,45,,End
+LOUP,Emmanuel,Pakistan,2005,25,30,,End
+TIGRE,Kevin,Infernale,1514,,,,End
+POMPIER,Maxime,Pourquoi ?,2001,25,30,,End
+LEGO,Anthony,Magie Noire,2002,25,45,,End
+PARIS,Julien,Pirates,2003,25,30,,End
+LEBOUCHER,Romain,Le pari,2004,25,45,,End
+VALET,Jules,Le fromage,2005,25,30,,End
+JANNOT,Lionel,Sydney,1656,,,,End
+GUYOT,Antoine,L'Irlande,2011,25,30,,End
+STENDHAL,Henry,Brest,2022,25,45,,End
+ROWLING,Hubert,Révolution,2013,25,30,,End
+PERVENCHE,Albert,I comme Icar,2016,25,45,,End
+MOUTARDE,Gertrude,La Grande Guerre,2015,25,30,vert,End
+JUNGLE,Marguerite,Bombai,1215,,,rose,End
+FRERE,Jack,New Dehli,2011,25,30,vert,End
+BOULET,Giselle,New York,2010,25,45,,End
+PARDI,Janine,Londres,2004,25,30,,End
+FOLIE,Julie,Paris,2005,,,,End
+PORTIER,Franck,Dora l'exploratrice,2005,25,30,,End
+OPERA,Patrice,La gloire,2539,,,,End
