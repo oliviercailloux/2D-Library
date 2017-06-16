@@ -237,18 +237,18 @@ public class Book {
 			this.author.setFirstName(word);
 			break;
 		case 2:
-			this.title=word;
+			this.title = word;
 			break;
 		case 3:
 			int year = Integer.parseInt(word);
-			this.year=year;
+			this.year = year;
 			break;
 		case 4:
 			if (word == "") {
 				this.generatesizeX();
 			} else {
 				int dimx = Integer.parseInt(word);
-				this.width=dimx;
+				this.width = dimx;
 			}
 			break;
 		case 5:
@@ -256,7 +256,7 @@ public class Book {
 				this.generatesizeY();
 			} else {
 				int dimy = Integer.parseInt(word);
-				this.height=dimy;
+				this.height = dimy;
 			}
 			break;
 		case 6:
@@ -267,8 +267,8 @@ public class Book {
 			case "rose":
 				this.color = Color.pink;
 				break;
-			case "cyan":
-				this.color = Color.CYAN;
+			case "violet":
+				this.color = Color.decode("#9933FF");
 				break;
 			case "bleu":
 				this.color = Color.BLUE;
@@ -279,6 +279,11 @@ public class Book {
 			case "jaune":
 				this.color = Color.yellow;
 				break;
+			case "vert":
+				this.color = Color.decode("#92c544");
+				break;
+			case "rouge":
+				this.color = Color.decode("#d41c1c");
 			}
 			break;
 		case 7:
@@ -288,10 +293,12 @@ public class Book {
 
 		}
 	}
-	
+
 	/***
 	 * Return true if this book is older than the bookToCompare.
-	 * @param book to compare.
+	 * 
+	 * @param book
+	 *            to compare.
 	 * @return true if this book is older than the book to compare.
 	 */
 	public boolean compareYear(Book bookToCompare) {
@@ -302,35 +309,38 @@ public class Book {
 
 /**
  * A comparator of books by title
+ * 
  * @author lejema160
  *
  */
-class BookCompareByTitle implements Comparator<Book>{
-	
+class BookCompareByTitle implements Comparator<Book> {
+
 	/**
 	 * implementation of the compare method of Comparator<>
-	 * @param b1 b2 the books we compare
-	 * @return an int, less than 0 if b1 is lexically after b2
-	 * 					more than 0 if b1 is lexically before b2
-	 * 					equal to 0 if b1 is equal to b2
+	 * 
+	 * @param b1
+	 *            b2 the books we compare
+	 * @return an int, less than 0 if b1 is lexically after b2 more than 0 if b1
+	 *         is lexically before b2 equal to 0 if b1 is equal to b2
 	 */
 	@Override
-	public int compare(Book b1, Book b2){
+	public int compare(Book b1, Book b2) {
 		return (b1.getTitle().compareTo(b2.getTitle()));
 	}
 }
 
-class BookCompareByAuthor implements Comparator<Book>{
-	
+class BookCompareByAuthor implements Comparator<Book> {
+
 	/**
 	 * implementation of the compare method of Comparator<>
-	 * @param b1 b2 the books we compare
-	 * @return an int, less than 0 if b1 is lexically after b2
-	 * 					more than 0 if b1 is lexically before b2
-	 * 					equal to 0 if b1 is equal to b2
+	 * 
+	 * @param b1
+	 *            b2 the books we compare
+	 * @return an int, less than 0 if b1 is lexically after b2 more than 0 if b1
+	 *         is lexically before b2 equal to 0 if b1 is equal to b2
 	 */
 	@Override
-	public int compare(Book b1, Book b2){
+	public int compare(Book b1, Book b2) {
 		return (b1.getAuthor().getLastName().compareTo(b2.getAuthor().getLastName()));
 	}
 }
