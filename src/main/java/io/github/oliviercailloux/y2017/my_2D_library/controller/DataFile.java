@@ -26,6 +26,10 @@ public class DataFile {
 		booksFilePath = path + "/src/main/resources/controller/Books.csv";
 	}
 	
+	public String getBooksFilePath() {
+		return booksFilePath;
+	}
+
 	/***
 	 * 
 	 * @return

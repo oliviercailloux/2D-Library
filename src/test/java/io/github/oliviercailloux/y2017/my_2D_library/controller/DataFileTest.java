@@ -1,6 +1,6 @@
 package io.github.oliviercailloux.y2017.my_2D_library.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
 public class DataFileTest {
 
 	DataFile dataFile;
-	
+
 	public DataFileTest() {
 		dataFile = new DataFile();
 	}
-	
+
 	@Test
 	public void read_Should_Return_A_List_Of_Books_When_Called() {
 		// arrange
@@ -45,21 +45,16 @@ public class DataFileTest {
 		b3.setYear(1860);
 		expected.add(b3);
 
-		// act
 		List<Book> actual = new ArrayList<>();
-//		try {
-			actual = dataFile.read();
-//		} 
-//		catch (IOException e) {
-//			fail("IOException " + e);
-//		}
+		actual = dataFile.read();
 
-		// assert
 		boolean correct = compareBook(expected, actual);
 		assertEquals(true, correct);
 	}
+
 	/**
 	 * Compare the two lists of books.
+	 * 
 	 * @param expected
 	 * @param actual
 	 * @return true if both list contains the same books (in the same order).
@@ -70,14 +65,13 @@ public class DataFileTest {
 			for (int i = 0; i < expected.size(); i++) {
 				Book be = expected.get(i);
 				Book ba = actual.get(i);
-				if(be != null && ba != null){
+				if (be != null && ba != null) {
 					Author ae = be.getAuthor();
 					Author aa = ba.getAuthor();
-					if(ae != null && aa != null){
-						if(be.getTitle().equals(ba.getTitle())
-								&& be.getYear() == ba.getYear()
+					if (ae != null && aa != null) {
+						if (be.getTitle().equals(ba.getTitle()) && be.getYear() == ba.getYear()
 								&& ae.getFirstName().equals(aa.getFirstName())
-								&& ae.getLastName().equals(aa.getLastName())){
+								&& ae.getLastName().equals(aa.getLastName())) {
 							// both book are identical
 						} else {
 							res = false;

@@ -57,7 +57,8 @@ public class ConnectionToCongressLibrary {
 	/**
 	 * 
 	 * @return a table of 3 String named result. 
-	 * result[0] contains the autor result[1] contains the title
+	 * result[0] contains the title
+	 * result[1] contains the author 
 	 * result[2] contains the date of publication
 	 * 
 	 * @throws IllegalArgumentException
@@ -67,7 +68,6 @@ public class ConnectionToCongressLibrary {
 		String xmlStr = this.getMarcXML();
 
 		String result[] = new String[3];
-
 
 		// Recherche et extraction de l'auteur
 		int index = xmlStr.indexOf("tag=\"100\"");

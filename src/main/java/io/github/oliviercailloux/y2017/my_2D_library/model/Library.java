@@ -120,7 +120,7 @@ public class Library {
 		return Objects.hash(frameSizeH, frameSizeW, shelves);
 	}
 
-	public boolean equals(Library library) {
+	public boolean isEqual(Library library) {
 		return this.frameSizeH == library.frameSizeH && this.frameSizeW == library.frameSizeW;
 		// return this.shelves.equals(library.shelves);
 	}
