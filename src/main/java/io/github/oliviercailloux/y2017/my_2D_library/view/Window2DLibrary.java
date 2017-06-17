@@ -77,13 +77,13 @@ public class Window2DLibrary extends JFrame {
 	private JLabel backgroundColorTitleJLabel, booksColorTitleJLabel, shelvesColorTitleJLabel, leaningModeTitleJLabel,
 			sortTitleJLabel, numberBooksPerShelfTitleJLabel;
 	private JLabel se, fn, ln, ti, ye, dx, dy, co;
-	private JTextField tse, tfn, tln, tti, tdx, tdy;
+	private JTextField tse, tfn, tln, tti, tye, tdx, tdy;
 	private String bColor = "Auto", bkColor = "Auto", sColor = "Auto", sort = "Auto";
 	private boolean leaning = true;
 	private int nbBooksPerShelf = 10;
 	private DataFile dataFile = new DataFile();
 	private SVGLibrary svgLibrary;
-	private JDatePickerImpl datePicker;
+	//private JDatePickerImpl datePicker;
 
 	/**
 	 * constructor of the window
@@ -414,9 +414,9 @@ public class Window2DLibrary extends JFrame {
 		// choice.setOpaque(false);
 		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
 		
-        UtilDateModel model = new UtilDateModel();
-        JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        datePicker = new JDatePickerImpl(datePanel);
+        //UtilDateModel model = new UtilDateModel();
+        //JDatePanelImpl datePanel = new JDatePanelImpl(model);
+        //datePicker = new JDatePickerImpl(datePanel);
 
 		tse = new JTextField();
 		tse.setBounds(10, 10, 200, 200);
@@ -428,8 +428,8 @@ public class Window2DLibrary extends JFrame {
 		tln.setBounds(5, 5, 50, 25);
 		tti = new JTextField();//title
 		tti.setBounds(5, 5, 100, 50);
-		//tye = new JTextField();//year
-		//tye.setBounds(5, 5, 100, 50);
+		tye = new JTextField();//year
+		tye.setBounds(5, 5, 100, 50);
 		tdx = new JTextField();//dimension x
 		tdx.setBounds(5, 5, 100, 50);
 		tdy = new JTextField();//dimension y
@@ -452,7 +452,7 @@ public class Window2DLibrary extends JFrame {
 		tab.add(ti);
 		tab.add(tti);
 		tab.add(ye);
-		tab.add(datePicker);
+		tab.add(tye);
 		tab.add(dx);
 		tab.add(tdx);
 		tab.add(dy);
@@ -807,17 +807,31 @@ public class Window2DLibrary extends JFrame {
 			pBCenter = c;
 			tab = t;
 		}
+		
+		public boolean isInt(String chaine){
+			boolean valeur = true;
+			char[] tab = chaine.toCharArray();
+
+			for(char carac : tab){
+				if(!Character.isDigit(carac) && valeur){ valeur = false; }
+			}
+
+			return valeur;
+		}
 
 		public void actionPerformed(ActionEvent e) {
 			
-			Date selectedDate = (Date) datePicker.getModel().getValue();
-		    DateFormat df = new SimpleDateFormat("y");
-		    String reportDate = df.format(selectedDate);
+			//Date selectedDate = (Date) datePicker.getModel().getValue();
+		    //DateFormat df = new SimpleDateFormat("y");
+		    //String reportDate = df.format(selectedDate);
 		    
+			String year = tye.getText();
+			if(!isInt(year)) year = "2000";
+			
 			String line = tfn.getText() + ",";
 			line = line + tln.getText() + ",";
 			line = line + tti.getText() + ",";
-			line = line + reportDate + ",";
+			line = line + year + ",";
 			line = line + tdx.getText() + ",";
 			line = line + tdy.getText() + ",";
 			line = line + lco.getSelectedItem().toString() + ",";
