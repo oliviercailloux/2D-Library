@@ -50,13 +50,17 @@ public class SVGLibrary {
 		this.graphics = generateSVG();
 	}
 
+	public SVGLibrary() {
+		super();
+	}
+
 	public Library getLibrary() {
 		return library;
 	}
 
 	/***
 	 * Generate the borders of the library.
-	 * 
+	 *
 	 * @param dimCanvasX
 	 * @param dimCanvasY
 	 * @param thinknessEdges
@@ -77,7 +81,7 @@ public class SVGLibrary {
 
 	/***
 	 * Generate the SVG Library.
-	 * 
+	 *
 	 * @param leaning
 	 * @param Library
 	 * @param leaning
@@ -85,7 +89,7 @@ public class SVGLibrary {
 	public void generate(boolean leaning, String bkColor, String bColor, String sColor)
 			throws IOException, ParserConfigurationException {
 
-		int dimCanvasX = (int) ((int) library.getFrameSizeW() - (0.055 * library.getFrameSizeW()));
+		int dimCanvasX = (int) ((int) library.getFrameSizeW() - 0.055 * library.getFrameSizeW());
 		int dimCanvasY = 1500;
 		int thiknessEdges = 20;
 
@@ -93,9 +97,8 @@ public class SVGLibrary {
 
 		int nbShelves = library.getShelves().size();
 		int spaceBetweenShelves = 0;
-		if (nbShelves > 0) {
+		if (nbShelves > 0)
 			spaceBetweenShelves = (dimCanvasY - thiknessEdges * (2 + nbShelves - 1)) / nbShelves;
-		}
 
 		// define the back and the outlines of the library
 		drawBackOutlines(dimCanvasX, dimCanvasY, thiknessEdges, bkColor, sColor);
@@ -119,7 +122,7 @@ public class SVGLibrary {
 
 	/***
 	 * Draw the shelves
-	 * 
+	 *
 	 * @param graphics
 	 * @param nbShelves
 	 * @param thiknessEdges
@@ -142,7 +145,7 @@ public class SVGLibrary {
 			break;
 		}
 		for (int i = 1; i <= nbShelves; i++) {
-			Shape shelf = new Rectangle(0, thiknessEdges * i + (i) * spaceBetweenShelves, dimCanvasX, thiknessEdges);
+			Shape shelf = new Rectangle(0, thiknessEdges * i + i * spaceBetweenShelves, dimCanvasX, thiknessEdges);
 			shelves.add(shelf);
 			graphics.fill(shelf);
 		}
@@ -151,7 +154,7 @@ public class SVGLibrary {
 
 	/***
 	 * Generate the SVG
-	 * 
+	 *
 	 * @return the SVGGraphics2D on which we are drawing
 	 * @throws ParserConfigurationException
 	 */
@@ -174,7 +177,7 @@ public class SVGLibrary {
 
 	/***
 	 * Define the back and the outlines of the library.
-	 * 
+	 *
 	 * @param dimCanvasX
 	 * @param dimCanvasY
 	 * @param thiknessEdges
@@ -206,14 +209,13 @@ public class SVGLibrary {
 			graphics.setPaint(Color.decode("#8B4513"));
 			break;
 		}
-		for (Shape edge : edges) {
+		for (Shape edge : edges)
 			graphics.fill(edge);
-		}
 	}
 
 	/***
 	 * Draw the books
-	 * 
+	 *
 	 * @param randomGenerator
 	 * @param isLastBook
 	 * @param book
@@ -226,7 +228,7 @@ public class SVGLibrary {
 
 	/***
 	 * Draw the title of the book
-	 * 
+	 *
 	 * @param graphics
 	 * @param bookRotation
 	 * @param book
@@ -241,16 +243,11 @@ public class SVGLibrary {
 	private void drawBooksAndTitles(int spaceBetweenShelves, int dimCanvasX, int thiknessEdges, int shelfWidth,
 			boolean leaning, List<Shape> shelves, String bColor) {
 		List<Shape> bookShapes = new ArrayList<>();
-		int idealWidth = (int) (0.6 * (float) (shelfWidth / library.getShelves().get(0).getBooks().size()));
-		// int spaceBtwnTopBookVsTopEdge = 30;
-		// int height = spaceBetweenShelves - spaceBtwnTopBookVsTopEdge;
+		int idealWidth = (int) (0.6 * (shelfWidth / library.getShelves().get(0).getBooks().size()));
 		int idealHeight = (int) (0.8 * spaceBetweenShelves);
-		// int spaceBtwnTopBookVsTopEdge = spaceBetweenShelves - idealHeight;
-
 		int placeLeftInShelf = shelfWidth;
 		int shelfNumber = 1;
 		Random randomGenerator = new Random();
-		// int emptySpace = shelfWidth;
 		int counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
 		for (Book book : library.getListOfAllTheBooks()) {
 			Shape bookShape = null;
@@ -267,10 +264,9 @@ public class SVGLibrary {
 				// go to another shelf
 				placeLeftInShelf = shelfWidth;
 				shelfNumber++;
-				if (shelfNumber > library.getShelves().size()) {
+				if (shelfNumber > library.getShelves().size())
 					// no place in the lib
 					System.out.println("no place in the lib !!");
-				}
 			}
 			int bookX = dimCanvasX - thiknessEdges - placeLeftInShelf;
 			int bookY = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBetweenShelves
@@ -285,11 +281,9 @@ public class SVGLibrary {
 				shelfNumber++;
 				if (shelfNumber < library.getShelves().size())
 					counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
-			} else {
-				// stay in the current shelf
-				placeLeftInShelf -= width;
 			}
-			// emptySpace -= book.getBounds().getWidth();
+			else // stay in the current shelf
+				placeLeftInShelf -= width;
 		}
 
 		int indexShelf = 0;
@@ -309,9 +303,8 @@ public class SVGLibrary {
 			if (isLastBookOfTheShelf) {
 				bookY = table[1];
 				System.out.println("bookY : " + bookY);
-			} else {
+			} else
 				bookY = bookShape.getBounds().getY();
-			}
 			double bookHeight = bookShape.getBounds().getHeight();
 			double bookWidth = bookShape.getBounds().getWidth();
 			String bookTitle = library.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
@@ -384,9 +377,9 @@ public class SVGLibrary {
 		int colorIndex = -1;
 
 		// generate a random color for this book
-		do {
+		do
 			colorIndex = randomGenerator.nextInt(randomColors.size());
-		} while (colorIndex == lastColorIndex);
+		while (colorIndex == lastColorIndex);
 
 		lastColorIndex = colorIndex;
 
@@ -401,12 +394,11 @@ public class SVGLibrary {
 		if (isLastBook && leaning) {// on penche le dernier livre
 			bookRotation = -15 - randomGenerator.nextInt(50);
 			if(bookRotation < -45) bookRotation = -90;
-			while (emptySpace <= (getCos(bookRotation) * bookShape.getBounds().getWidth()
-					+ getSin(-bookRotation) * bookShape.getBounds().getHeight()) && bookRotation < 0) {
+			while (emptySpace <= getCos(bookRotation) * bookShape.getBounds().getWidth()
+					+ getSin(-bookRotation) * bookShape.getBounds().getHeight() && bookRotation < 0)
 				bookRotation += 1;
-			}
-				// Height between the top left corner of the book and the shelf
-				// when leaning
+			// Height between the top left corner of the book and the shelf
+			// when leaning
 			double hauteurRotation = bookShape.getBounds().getHeight() * getCos(bookRotation);
 			// The new Y coordinate of the leaning rectangle (so that it is
 			// placed on the shelf)
@@ -453,12 +445,12 @@ public class SVGLibrary {
 				graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 			}
 			graphics.drawString(bookString,
-					(float) (bookX + ((bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2)),
-					(float) (bookY - ((bookWidth) / 4)));
+					(float) (bookX + (bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2),
+					(float) (bookY - bookWidth / 4));
 		} else
 			graphics.drawString(bookString,
-					(float) (bookX + ((bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2)),
-					(float) (bookY - ((bookWidth) / 4)));
+					(float) (bookX + (bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2),
+					(float) (bookY - bookWidth / 4));
 
 		graphics.rotate(Math.toRadians(-90 - bookRotation), bookX, bookY);
 	}
@@ -466,44 +458,48 @@ public class SVGLibrary {
 	public void setSizeBook(int ShelfHeight, int ShelfWidth, Book book, int idealWidth, int idealHeight, int widthSup,
 			int heightSup) {
 
-		if (!(book.getWidth() >= idealWidth && book.getWidth() <= widthSup)) {
+		if (!(book.getWidth() >= idealWidth && book.getWidth() <= widthSup))
 			book.setWidth(widthSup);
-		}
-		if (!(book.getHeight() >= idealHeight && book.getHeight() <= heightSup)) {
+		if (!(book.getHeight() >= idealHeight && book.getHeight() <= heightSup))
 			book.setHeight(heightSup);
-		}
-		if (!(book.getWidth() >= book.getHeight() / 10 && book.getWidth() <= book.getHeight() / 8)) {
+		if (!(book.getWidth() >= book.getHeight() / 10 && book.getWidth() <= book.getHeight() / 8))
 			book.setWidth(book.getHeight() / 9);
-		}
 	}
 
 	public void setLibrary(Library library2) {
 		this.library = library2;
 	}
-
+	/***
+	 * Conversion .svg to .png for create a format more standard and print it
+	 *
+	 */
 	public void convert() throws Exception{
 		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
 		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);
-		this.setNewI(generate(20));
+		this.setNewI(generate(20));// Define the name of the file
 		OutputStream png_ostream = new FileOutputStream(newI);
-		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);              
+		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
 
-		PNGTranscoder my_converter = new PNGTranscoder();        
+		PNGTranscoder my_converter = new PNGTranscoder();
 		my_converter.transcode(input_svg_image, output_png_image);
 
 		png_ostream.flush();
-		png_ostream.close();   
-
-
-
+		png_ostream.close();
 	}
+
+	/***
+	 * Generate the file's name
+	 *
+	 * @param length : Number of file's name characters
+	 * @return a list of length characters
+	 */
 	public String generate(int length)
 	{
 		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 		String pass = "";
 		for(int x=0;x<length;x++)
 		{
-			int i = (int)Math.floor(Math.random() * 62); 
+			int i = (int)Math.floor(Math.random() * 62);
 			pass += chars.charAt(i);
 		}
 

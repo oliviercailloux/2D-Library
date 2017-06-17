@@ -48,8 +48,6 @@ import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
 
 public class Window2DLibrary extends JFrame {
 	public static final Logger LOGGER = LoggerFactory.getLogger(Window2DLibrary.class);
-
-	// final static Logger logger = Logger.getLogger(Wisndow2DLibrary.class);
 	private static final long serialVersionUID = 1L;
 	private JButton generate, lessBookPerS, moreBookPerS;
 	private JTextField presentation;
@@ -66,10 +64,10 @@ public class Window2DLibrary extends JFrame {
 	private JLabel libImage;
 	private ButtonGroup booksColor, shelvesColor, backgroundColor, leanButtonGroup, sortButtonGroup;
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk, bDarkS, bLightS,
-			bAutoS, sortAutoButton, sortYearButton, sortAuthorButton, sortTitleButton;
+	bAutoS, sortAutoButton, sortYearButton, sortAuthorButton, sortTitleButton;
 	private JCheckBox sortAscendingYearButton;
 	private JLabel backgroundColorTitleJLabel, booksColorTitleJLabel, shelvesColorTitleJLabel, leaningModeTitleJLabel,
-			sortTitleJLabel, numberBooksPerShelfTitleJLabel;
+	sortTitleJLabel, numberBooksPerShelfTitleJLabel;
 	private JLabel se, fn, ln, ti, ye, dx, dy, co;
 	private JTextField tse, tfn, tln, tti, tye, tdx, tdy;
 	private String bColor = "Auto", bkColor = "Auto", sColor = "Auto", sort = "Auto";
@@ -77,11 +75,10 @@ public class Window2DLibrary extends JFrame {
 	private int nbBooksPerShelf = 10;
 	private DataFile dataFile = new DataFile();
 	private SVGLibrary svgLibrary;
-	//private JDatePickerImpl datePicker;
 
 	/**
 	 * constructor of the window
-	 * 
+	 *
 	 * @param title
 	 */
 	public Window2DLibrary(String title, SVGLibrary svgLibrary2) {
@@ -120,7 +117,7 @@ public class Window2DLibrary extends JFrame {
 
 	/**
 	 * creates north panel : title
-	 * 
+	 *
 	 * @return
 	 */
 	public JPanel getPanelNord() {
@@ -139,7 +136,7 @@ public class Window2DLibrary extends JFrame {
 
 	/**
 	 * creates south panel : button to generate the library
-	 * 
+	 *
 	 * @return
 	 */
 	public JPanel getPanelSud() {
@@ -153,17 +150,13 @@ public class Window2DLibrary extends JFrame {
 
 	/**
 	 * creates center panel : options and layout of the library
-	 * 
+	 *
 	 * @return
 	 */
 	// TODO: modify color after validate ; horrible color only for help to
 	// identify space of
-	public JTabbedPane getPanelCentre() { // Une tab d'onglet avec 2 onglets, un
-		// pour les options et lautre pour
-		// afficher sa librairie
-
+	public JTabbedPane getPanelCentre() { 
 		this.tabPane = new JTabbedPane();
-
 		JPanel panOptions = new JPanel(new BorderLayout());
 		this.options = new JTextArea();
 		panOptions.setBackground(Color.orange);
@@ -199,7 +192,7 @@ public class Window2DLibrary extends JFrame {
 
 	/**
 	 * creates panel with the last updates library
-	 * 
+	 *
 	 * @return
 	 */
 	public JPanel getPanelCentreLib() {
@@ -215,13 +208,15 @@ public class Window2DLibrary extends JFrame {
 
 	}
 
+
 	/**
 	 * Update the picture of the library when we change parameters in our IHM
-	 * 
+	 *
 	 * @return nothing
+	 * @throws ParserConfigurationException 
 	 */
 
-	public void updateSVGLibrary() {
+	public void updateSVGLibrary() throws ParserConfigurationException {
 		generate.setText("Reload my library now");
 
 		switch (sort) {
@@ -236,23 +231,18 @@ public class Window2DLibrary extends JFrame {
 			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByYear(rising), nbBooksPerShelf));
 			break;
 		default:
-			try {
-				svgLibrary = new SVGLibrary(new Library(dataFile.read(), nbBooksPerShelf));
-			} catch (ParserConfigurationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			svgLibrary = new SVGLibrary(new Library(dataFile.read(), nbBooksPerShelf)); 
 			break;
 		}
 
 		try {
 			svgLibrary.generate(leaning, bkColor, bColor, sColor);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Error when we generate the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			System.out.println("Error when we generate the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
+			e.printStackTrace();
 		}
 
 		try {
@@ -279,45 +269,12 @@ public class Window2DLibrary extends JFrame {
 		List<Book> books = dataFile.read();
 		Library lib = new Library(books, 5);
 		int nbBooks = 0;
-		for (int i = 0; i < lib.getShelves().size(); i++) {
+		for (int i = 0; i < lib.getShelves().size(); i++)
 			nbBooks += lib.getShelves().get(i).getBooks().size();
-		}
-
 		pDCenter = new JPanel(new BorderLayout());
 		JPanel tab = new JPanel(new GridLayout(nbBooks, 2, 10, 10));
 		ButtonGroup bg = new ButtonGroup();
 		JButton removeBookButton = new JButton("Remove");
-
-		// List<JRadioButton> cbarr = new ArrayList<JRadioButton>();
-
-		/*
-		 * ActionListener listener = new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
-		 * if(e.getSource() == button) { ButtonGroup group = new ButtonGroup();
-		 * //JRadioButton btn = (JRadioButton) e.getSource(); + btn.getName()
-		 * group.getSelection().getActionCommand();
-		 * JOptionPane.showMessageDialog(pDCenter,"Selected Button = "+group.
-		 * getSelection().getActionCommand()); } } };
-		 */
-
-		/*
-		 * ActionListener listener = new ActionListener() { public void
-		 * actionPerformed(ActionEvent event) { if (event.getSource() == button)
-		 * { Enumeration<AbstractButton> allRadioButton = bg.getElements();
-		 * while (allRadioButton.hasMoreElements()) { JRadioButton temp =
-		 * (JRadioButton) allRadioButton.nextElement(); if (temp.isSelected()) {
-		 * JOptionPane.showMessageDialog(null, "You selected : " +
-		 * temp.getName());
-		 * io.github.oliviercailloux.y2017.my_2D_library.controller.deleteBook.
-		 * deleteB(temp.getName()); tab.removeAll(); pDCenter.removeAll();
-		 * bg.remove(temp);
-		 * 
-		 * tab.revalidate(); tab.setBackground(Color.BLUE); tab.repaint();
-		 * pDCenter.revalidate(); pDCenter.setBackground(Color.BLUE);
-		 * pDCenter.repaint(); } } } } };
-		 */
-
 		int indexShelf = 0;
 		int indexBook = 0;
 		for (@SuppressWarnings("unused")
@@ -333,7 +290,6 @@ public class Window2DLibrary extends JFrame {
 
 			JRadioButton cb = new JRadioButton(bookString);
 			cb.setName(bookString);
-			// cbarr.add(cb);
 			tab.add(cb);
 			bg.add(cb);
 
@@ -342,12 +298,12 @@ public class Window2DLibrary extends JFrame {
 				indexShelf++;
 				indexBook = 0;
 			} else if (!(indexShelf == lib.getShelves().size() - 1
-					&& indexBook == lib.getShelves().get(indexShelf).getBooks().size() - 1)) {
+					&& indexBook == lib.getShelves().get(indexShelf).getBooks().size() - 1))
 				indexBook++;
-			}
 		}
 
 		removeBookButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent event) {
 				if (event.getSource() == removeBookButton) {
 					Enumeration<AbstractButton> allRadioButton = bg.getElements();
@@ -356,15 +312,11 @@ public class Window2DLibrary extends JFrame {
 						if (temp.isSelected()) {
 							JOptionPane.showMessageDialog(null, "You selected : " + temp.getName());
 							dataFile.deleteLine(temp.getName());
-							// tab.removeAll();
-							// pDCenter.removeAll();
 							bg.remove(temp);
 							tab.remove(temp);
 							tab.revalidate();
-							// tab.setBackground(Color.BLUE);
 							tab.repaint();
 							pDCenter.revalidate();
-							// pDCenter.setBackground(Color.BLUE);
 							pDCenter.repaint();
 						}
 					}
@@ -388,11 +340,8 @@ public class Window2DLibrary extends JFrame {
 		JPanel search = new JPanel();
 
 		pBCenter.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
-		// JPanel param= new JPanel();
-		// JPanel choice= new JPanel();
 
 		JLabel titleFirstColumn = new JLabel("Add Book");
-		// param.setOpaque(false);
 		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
 
 		se = new JLabel("Search: ");
@@ -405,13 +354,7 @@ public class Window2DLibrary extends JFrame {
 		co = new JLabel("Color : ");
 
 		JLabel titleSecondColumn = new JLabel("");
-		// choice.setOpaque(false);
 		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
-		
-        //UtilDateModel model = new UtilDateModel();
-        //JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        //datePicker = new JDatePickerImpl(datePanel);
-
 		tse = new JTextField();
 		tse.setBounds(10, 10, 200, 200);
 		tse.setPreferredSize(new Dimension(160, 40));
@@ -454,24 +397,18 @@ public class Window2DLibrary extends JFrame {
 		tab.add(co);
 		tab.add(lco);
 		tab.setOpaque(false);
-		// tab.add(param);
-		// tab.add(choice);
 		JButton addBookButton = new JButton("Add");
 		tab.add(addBookButton);
 		pBCenter.add(tab);
-		
 		searchButton.addActionListener(new SearchButtonListener(pBCenter));
-
 		addBookButton.addActionListener(new AddBookButtonListener(lco, pBCenter, tab));
-
-		// pBCenter.setBackground(Color.decode("#51DAA8"));
 		return pBCenter;
 
 	}
 
 	/**
 	 * creates panel with the options for the user
-	 * 
+	 *
 	 * @return
 	 */
 	public JPanel getPanelCentreOptions() {
@@ -482,6 +419,7 @@ public class Window2DLibrary extends JFrame {
 			URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
 			image = ImageIO.read(url);
 		} catch (IOException e) {
+			System.out.println("Impossible to found the picture ok menu jpanel via url http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png ");
 			e.printStackTrace();
 		}
 		JLabel backG = new JLabel(new ImageIcon(image));
@@ -666,24 +604,25 @@ public class Window2DLibrary extends JFrame {
 		optName.add(numberBooksPerShelfJPanel);
 		optName.setOpaque(false);
 		centre.add(backG);
-		// centre.setBackground(Color.decode("#51DAA8"));
-
 		centre.add(optName);
 
 		return centre;
-
 	}
 
 	class GenerateButtonListener implements ActionListener {
 		/**
 		 * function launched when the user performs an action
 		 */
-
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			String s = e.getActionCommand();
-			if (s.equals("Generate my library") || s.equals("Reload my library now")) {
-				updateSVGLibrary();
-			}
+			if (s.equals("Generate my library") || s.equals("Reload my library now"))
+				try {
+					updateSVGLibrary();
+				} catch (ParserConfigurationException ex) {
+					System.out.println("Impossible to refresh the button after the last update of library");
+					ex.printStackTrace();
+				}
 
 		}
 	}
@@ -693,14 +632,14 @@ public class Window2DLibrary extends JFrame {
 		 * function launched when the user performs an action
 		 */
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (bAutoBk.isSelected()) {
+			if (bAutoBk.isSelected())
 				bkColor = bAutoBk.getActionCommand();
-			} else if (bLightBk.isSelected()) {
+			else if (bLightBk.isSelected())
 				bkColor = bLightBk.getActionCommand();
-			} else if (bDarkBk.isSelected()) {
+			else if (bDarkBk.isSelected())
 				bkColor = bDarkBk.getActionCommand();
-			}
 		}
 	}
 
@@ -709,14 +648,14 @@ public class Window2DLibrary extends JFrame {
 		 * function launched when the user performs an action
 		 */
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (bAutoS.isSelected()) {
+			if (bAutoS.isSelected())
 				sColor = bAutoS.getActionCommand();
-			} else if (bLightS.isSelected()) {
+			else if (bLightS.isSelected())
 				sColor = bLightS.getActionCommand();
-			} else if (bDarkS.isSelected()) {
+			else if (bDarkS.isSelected())
 				sColor = bDarkS.getActionCommand();
-			}
 		}
 	}
 
@@ -725,14 +664,14 @@ public class Window2DLibrary extends JFrame {
 		 * function launched when the user performs an action
 		 */
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (bAutoB.isSelected()) {
+			if (bAutoB.isSelected())
 				bColor = bAutoB.getActionCommand();
-			} else if (bLightB.isSelected()) {
+			else if (bLightB.isSelected())
 				bColor = bLightB.getActionCommand();
-			} else if (bDarkB.isSelected()) {
+			else if (bDarkB.isSelected())
 				bColor = bDarkB.getActionCommand();
-			}
 		}
 	}
 
@@ -741,15 +680,16 @@ public class Window2DLibrary extends JFrame {
 		 * function launched when the user performs an action
 		 */
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			leaning = bLeanS.isSelected();
 		}
 	}
 
 	class MoreBookPerShelfListener implements ActionListener {
-		
+
 		private SVGLibrary svgLibrary;
-		
+
 		public MoreBookPerShelfListener(SVGLibrary svgLibrary){
 			this.svgLibrary = svgLibrary;
 		}
@@ -757,12 +697,10 @@ public class Window2DLibrary extends JFrame {
 		 * function launched when the user performs an action
 		 */
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			//System.out.println("trucbidule : " + svgLibrary.getLibrary().getListOfAllTheBooks().size());
-			//if(nbBooksPerShelf != (svgLibrary.getLibrary().getListOfAllTheBooks().size()-1)){
-				nbBooksPerShelf++;
-				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
-			//}
+			nbBooksPerShelf++;
+			numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
 		}
 	}
 
@@ -770,7 +708,7 @@ public class Window2DLibrary extends JFrame {
 		/**
 		 * function launched when the user performs an action
 		 */
-
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(nbBooksPerShelf != 1){
 				nbBooksPerShelf--;
@@ -787,6 +725,7 @@ public class Window2DLibrary extends JFrame {
 			this.pBCenter = jpanel;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			String line = tse.getText();
 			ConnectionToCongressLibrary connexion = new ConnectionToCongressLibrary(line);
@@ -797,7 +736,6 @@ public class Window2DLibrary extends JFrame {
 			String[] np = tabResult[1].split(",");
 			tln.setText(np[0]);
 			tfn.setText(np[1]);
-			//tye.setText(tabResult[2]);
 			JOptionPane.showMessageDialog(pBCenter, "Search result");
 		}
 	}
@@ -812,27 +750,23 @@ public class Window2DLibrary extends JFrame {
 			pBCenter = c;
 			tab = t;
 		}
-		
+
 		public boolean isInt(String chaine){
 			boolean valeur = true;
 			char[] tab = chaine.toCharArray();
 
-			for(char carac : tab){
-				if(!Character.isDigit(carac) && valeur){ valeur = false; }
-			}
+			for(char carac : tab)
+				if(!Character.isDigit(carac) && valeur)
+					valeur = false;
 
 			return valeur;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			//Date selectedDate = (Date) datePicker.getModel().getValue();
-		    //DateFormat df = new SimpleDateFormat("y");
-		    //String reportDate = df.format(selectedDate);
-		    
 			String year = tye.getText();
 			if(!isInt(year)) year = "2000";
-			
+
 			String line = tfn.getText() + ",";
 			line = line + tln.getText() + ",";
 			line = line + tti.getText() + ",";
@@ -844,12 +778,11 @@ public class Window2DLibrary extends JFrame {
 			dataFile.addLine(line);
 			JOptionPane.showMessageDialog(pBCenter, "Book Added successfully");
 			Component[] components = tab.getComponents();
-			for (Component component : components) {
+			for (Component component : components)
 				if (component instanceof JTextField || component instanceof JTextArea) {
 					JTextComponent specificObject = (JTextComponent) component;
 					specificObject.setText("");
 				}
-			}
 			tabPane.remove(3);
 			tabPane.add("Delete Books from my Library", getPanelCentreDelete());
 			tabPane.add("Delete Books from my Library",new JScrollPane(pDCenter));
