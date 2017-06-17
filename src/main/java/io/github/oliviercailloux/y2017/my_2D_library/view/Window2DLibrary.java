@@ -627,7 +627,7 @@ public class Window2DLibrary extends JFrame {
 		lessBookPerS = new JButton("Less");
 		lessBookPerS.addActionListener(new LessBookPerShelfListener());
 		moreBookPerS = new JButton("More");
-		moreBookPerS.addActionListener(new MoreBookPerShelfListener());
+		moreBookPerS.addActionListener(new MoreBookPerShelfListener(this.svgLibrary));
 
 		backgroundColorTitleJPanel.add(backgroundColorTitleJLabel);
 		shelvesColorTitleJPanel.add(shelvesColorTitleJLabel);
@@ -753,13 +753,22 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	class MoreBookPerShelfListener implements ActionListener {
+		
+		private SVGLibrary svgLibrary;
+		
+		public MoreBookPerShelfListener(SVGLibrary svgLibrary){
+			this.svgLibrary = svgLibrary;
+		}
 		/**
 		 * function launched when the user performs an action
 		 */
 
 		public void actionPerformed(ActionEvent e) {
-			nbBooksPerShelf++;
-			numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			//System.out.println("trucbidule : " + svgLibrary.getLibrary().getListOfAllTheBooks().size());
+			//if(nbBooksPerShelf != (svgLibrary.getLibrary().getListOfAllTheBooks().size()-1)){
+				nbBooksPerShelf++;
+				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			//}
 		}
 	}
 
@@ -769,8 +778,10 @@ public class Window2DLibrary extends JFrame {
 		 */
 
 		public void actionPerformed(ActionEvent e) {
-			nbBooksPerShelf--;
-			numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			if(nbBooksPerShelf != 1){
+				nbBooksPerShelf--;
+				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			}
 		}
 	}
 
