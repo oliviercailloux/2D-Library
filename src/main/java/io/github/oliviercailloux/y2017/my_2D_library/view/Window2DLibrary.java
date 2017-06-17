@@ -15,6 +15,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -45,6 +48,9 @@ import io.github.oliviercailloux.y2017.my_2D_library.controller.ConnectionToCong
 import io.github.oliviercailloux.y2017.my_2D_library.controller.DataFile;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class Window2DLibrary extends JFrame {
 	public static final Logger LOGGER = LoggerFactory.getLogger(Window2DLibrary.class);
@@ -71,12 +77,13 @@ public class Window2DLibrary extends JFrame {
 	private JLabel backgroundColorTitleJLabel, booksColorTitleJLabel, shelvesColorTitleJLabel, leaningModeTitleJLabel,
 			sortTitleJLabel, numberBooksPerShelfTitleJLabel;
 	private JLabel se, fn, ln, ti, ye, dx, dy, co;
-	private JTextField tse, tfn, tln, tti, tye, tdx, tdy;
+	private JTextField tse, tfn, tln, tti, tdx, tdy;
 	private String bColor = "Auto", bkColor = "Auto", sColor = "Auto", sort = "Auto";
 	private boolean leaning = true;
 	private int nbBooksPerShelf = 10;
 	private DataFile dataFile = new DataFile();
 	private SVGLibrary svgLibrary;
+	private JDatePickerImpl datePicker;
 
 	/**
 	 * constructor of the window
@@ -406,25 +413,29 @@ public class Window2DLibrary extends JFrame {
 		JLabel titleSecondColumn = new JLabel("");
 		// choice.setOpaque(false);
 		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		
+        UtilDateModel model = new UtilDateModel();
+        JDatePanelImpl datePanel = new JDatePanelImpl(model);
+        datePicker = new JDatePickerImpl(datePanel);
 
 		tse = new JTextField();
 		tse.setBounds(10, 10, 200, 200);
 		tse.setPreferredSize(new Dimension(160, 40));
 
-		tfn = new JTextField();
+		tfn = new JTextField();//first name
 		tfn.setBounds(5, 5, 200, 200);
-		tln = new JTextField();
+		tln = new JTextField();//last name
 		tln.setBounds(5, 5, 50, 25);
-		tti = new JTextField();
+		tti = new JTextField();//title
 		tti.setBounds(5, 5, 100, 50);
-		tye = new JTextField();
-		tye.setBounds(5, 5, 100, 50);
-		tdx = new JTextField();
+		//tye = new JTextField();//year
+		//tye.setBounds(5, 5, 100, 50);
+		tdx = new JTextField();//dimension x
 		tdx.setBounds(5, 5, 100, 50);
-		tdy = new JTextField();
+		tdy = new JTextField();//dimension y
 		tdy.setBounds(5, 5, 100, 50);
 		String[] choices = { "rose", "violet", "bleu", "orange", "jaune", "vert", "rouge" };
-		final JComboBox<String> lco = new JComboBox<String>(choices);
+		final JComboBox<String> lco = new JComboBox<String>(choices);//colors
 
 		JButton searchButton = new JButton("Search");
 
@@ -441,7 +452,7 @@ public class Window2DLibrary extends JFrame {
 		tab.add(ti);
 		tab.add(tti);
 		tab.add(ye);
-		tab.add(tye);
+		tab.add(datePicker);
 		tab.add(dx);
 		tab.add(tdx);
 		tab.add(dy);
@@ -454,7 +465,7 @@ public class Window2DLibrary extends JFrame {
 		JButton addBookButton = new JButton("Add");
 		tab.add(addBookButton);
 		pBCenter.add(tab);
-
+		
 		searchButton.addActionListener(new SearchButtonListener(pBCenter));
 
 		addBookButton.addActionListener(new AddBookButtonListener(lco, pBCenter, tab));
@@ -781,7 +792,7 @@ public class Window2DLibrary extends JFrame {
 			String[] np = tabResult[1].split(",");
 			tln.setText(np[0]);
 			tfn.setText(np[1]);
-			tye.setText(tabResult[2]);
+			//tye.setText(tabResult[2]);
 			JOptionPane.showMessageDialog(pBCenter, "Search result");
 		}
 	}
@@ -798,16 +809,21 @@ public class Window2DLibrary extends JFrame {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			
+			Date selectedDate = (Date) datePicker.getModel().getValue();
+		    DateFormat df = new SimpleDateFormat("y");
+		    String reportDate = df.format(selectedDate);
+		    
 			String line = tfn.getText() + ",";
 			line = line + tln.getText() + ",";
 			line = line + tti.getText() + ",";
-			line = line + tye.getText() + ",";
+			line = line + reportDate + ",";
 			line = line + tdx.getText() + ",";
 			line = line + tdy.getText() + ",";
 			line = line + lco.getSelectedItem().toString() + ",";
 			line = line + "End";
 			dataFile.addNewBook(line);
-			JOptionPane.showMessageDialog(pBCenter, "Book Added succesfully");
+			JOptionPane.showMessageDialog(pBCenter, "Book Added successfully");
 			Component[] components = tab.getComponents();
 			for (Component component : components) {
 				if (component instanceof JTextField || component instanceof JTextArea) {

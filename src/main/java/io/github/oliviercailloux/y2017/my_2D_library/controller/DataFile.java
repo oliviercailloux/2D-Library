@@ -81,6 +81,7 @@ public class DataFile {
 				if (value == "" || value.isEmpty()) {
 					value = "";
 				}
+				System.out.println(value);
 				book.setBookAttribute(columnNo, value);
 				columnNo++;
 
