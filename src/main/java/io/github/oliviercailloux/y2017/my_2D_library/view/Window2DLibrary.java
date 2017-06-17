@@ -15,9 +15,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -48,9 +45,6 @@ import io.github.oliviercailloux.y2017.my_2D_library.controller.ConnectionToCong
 import io.github.oliviercailloux.y2017.my_2D_library.controller.DataFile;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
 import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class Window2DLibrary extends JFrame {
 	public static final Logger LOGGER = LoggerFactory.getLogger(Window2DLibrary.class);
@@ -361,7 +355,7 @@ public class Window2DLibrary extends JFrame {
 						JRadioButton temp = (JRadioButton) allRadioButton.nextElement();
 						if (temp.isSelected()) {
 							JOptionPane.showMessageDialog(null, "You selected : " + temp.getName());
-							dataFile.deleteBook(temp.getName());
+							dataFile.deleteLine(temp.getName());
 							// tab.removeAll();
 							// pDCenter.removeAll();
 							bg.remove(temp);
@@ -847,7 +841,7 @@ public class Window2DLibrary extends JFrame {
 			line = line + tdy.getText() + ",";
 			line = line + lco.getSelectedItem().toString() + ",";
 			line = line + "End";
-			dataFile.addNewBook(line);
+			dataFile.addLine(line);
 			JOptionPane.showMessageDialog(pBCenter, "Book Added successfully");
 			Component[] components = tab.getComponents();
 			for (Component component : components) {

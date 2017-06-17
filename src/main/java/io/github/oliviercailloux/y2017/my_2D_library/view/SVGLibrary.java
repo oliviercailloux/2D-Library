@@ -109,8 +109,6 @@ public class SVGLibrary {
 		// get books
 		drawBooksAndTitles(spaceBetweenShelves, dimCanvasX, thiknessEdges, shelfWidth, leaning, shelves, bColor);
 
-		// TODO : LINK SVG
-
 		// Finally, stream out SVG using UTF-8 encoding.
 		boolean useCSS = true; // we want to use CSS style attributes
 
@@ -262,8 +260,8 @@ public class SVGLibrary {
 			if (heightSup > spaceBetweenShelves)
 				heightSup = spaceBetweenShelves;
 			setSizeBook(spaceBetweenShelves, shelfWidth, book, idealWidth, idealHeight, randomWidth, heightSup);
-			int width = book.getwidth();
-			int height = book.getheight();
+			int width = book.getWidth();
+			int height = book.getHeight();
 
 			if (placeLeftInShelf <= width) {
 				// go to another shelf
@@ -468,14 +466,14 @@ public class SVGLibrary {
 	public void setSizeBook(int ShelfHeight, int ShelfWidth, Book book, int idealWidth, int idealHeight, int widthSup,
 			int heightSup) {
 
-		if (!(book.getwidth() >= idealWidth && book.getwidth() <= widthSup)) {
-			book.setwidth(widthSup);
+		if (!(book.getWidth() >= idealWidth && book.getWidth() <= widthSup)) {
+			book.setWidth(widthSup);
 		}
-		if (!(book.getheight() >= idealHeight && book.getheight() <= heightSup)) {
-			book.setheight(heightSup);
+		if (!(book.getHeight() >= idealHeight && book.getHeight() <= heightSup)) {
+			book.setHeight(heightSup);
 		}
-		if (!(book.getwidth() >= book.getheight() / 10 && book.getwidth() <= book.getheight() / 8)) {
-			book.setwidth(book.getheight() / 9);
+		if (!(book.getWidth() >= book.getHeight() / 10 && book.getWidth() <= book.getHeight() / 8)) {
+			book.setWidth(book.getHeight() / 9);
 		}
 	}
 

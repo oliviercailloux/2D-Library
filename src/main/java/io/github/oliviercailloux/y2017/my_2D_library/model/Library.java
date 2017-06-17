@@ -2,7 +2,6 @@
 
 package io.github.oliviercailloux.y2017.my_2D_library.model;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -141,25 +140,25 @@ public class Library {
 				sortedBooks.add(book);
 			else {
 				int size = sortedBooks.size();
-				boolean alreadAdded = false;
+				boolean alreadyAdded = false;
 				for (int index = 0; index <= size; index++) {
-					if (!alreadAdded) {
+					if (!alreadyAdded) {
 						if (index != size) {
 							Book bookToCompare = sortedBooks.get(index);
 							if (rising) {
 								if (book.compareYear(bookToCompare)) {
 									sortedBooks.add(index, book);
-									alreadAdded = true;
+									alreadyAdded = true;
 								}
 							} else {
 								if (bookToCompare.compareYear(book)) {
 									sortedBooks.add(index, book);
-									alreadAdded = true;
+									alreadyAdded = true;
 								}
 							}
 						} else {
 							sortedBooks.add(book);
-							alreadAdded = true;
+							alreadyAdded = true;
 						}
 					}
 				}
@@ -193,21 +192,10 @@ public class Library {
 		return toSort;
 	}
 
-	/**
-	 * changes the color of each book of the library
-	 * 
-	 * @param color
+	/***
+	 * Return the list of all the books of the library
+	 * @return the list of all the books
 	 */
-	public void changeBooksColor(Color color) {
-		for (int i = 0; i < this.shelves.size(); i++) {
-			Shelf shelf = this.shelves.get(i);
-			for (int j = 0; j < shelf.getBooks().size(); j++) {
-				Book book = shelf.getBooks().get(j);
-				book.setColor(color);
-			}
-		}
-	}
-
 	public List<Book> getListOfAllTheBooks() {
 		List<Book> result = new ArrayList<>();
 		for (Shelf shelf : shelves) {

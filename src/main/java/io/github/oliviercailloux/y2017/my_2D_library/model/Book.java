@@ -1,9 +1,7 @@
 package io.github.oliviercailloux.y2017.my_2D_library.model;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -28,20 +26,20 @@ public class Book {
 	private Author author;
 
 	/**
-	 * 
+	 * The year of the book
 	 */
 	private int year;
 
 	/**
-	 * 
+	 * The width of the book
 	 */
 	private int width;
 	/**
-	 * 
+	 * The height of the book
 	 */
 	private int height;
 	/**
-	 * 
+	 * the color of the book
 	 */
 	private Color color;
 
@@ -59,9 +57,7 @@ public class Book {
 		this.year = year;
 	}
 
-	public Book() {
-		// TODO Auto-generated constructor stub
-	}
+	public Book() {}
 
 	/**
 	 * Getter of the title of the book
@@ -120,26 +116,44 @@ public class Book {
 		this.year = year;
 	}
 
-	public int getwidth() {
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
 		return width;
 	}
 
-	public void setwidth(int width) {
+	/**
+	 * @param width the width to set
+	 */
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public int getheight() {
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
 		return height;
 	}
 
-	public void setheight(int height) {
+	/**
+	 * @param height the height to set
+	 */
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
+	/**
+	 * @return the color
+	 */
 	public Color getColor() {
 		return color;
 	}
 
+	/**
+	 * @param color the color to set
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -147,22 +161,22 @@ public class Book {
 	/***
 	 * 
 	 */
-	public void generatesizeX() {
+	public void generateSizeX() {
 		int width = 60;
 		Random randomGenerator = new Random();
 		int randomWidth = width + randomGenerator.nextInt(30);
-		setwidth(randomWidth);
+		setWidth(randomWidth);
 	}
 
 	/***
 	 * 
 	 */
-	public void generatesizeY() {
+	public void generateSizeY() {
 		int height = 30;
 		Random randomGenerator = new Random();
 		int randomHeightGap = randomGenerator.nextInt(100);
 		height = height - randomHeightGap;
-		setheight(height);
+		setHeight(height);
 	}
 
 	/***
@@ -219,7 +233,7 @@ public class Book {
 			break;
 		case 4:
 			if (word == "") {
-				this.generatesizeX();
+				this.generateSizeX();
 			} else {
 				int dimx = Integer.parseInt(word);
 				this.width = dimx;
@@ -227,7 +241,7 @@ public class Book {
 			break;
 		case 5:
 			if (word == "") {
-				this.generatesizeY();
+				this.generateSizeY();
 			} else {
 				int dimy = Integer.parseInt(word);
 				this.height = dimy;

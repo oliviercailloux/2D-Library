@@ -32,7 +32,7 @@ public class DataFile {
 
 	/***
 	 * 
-	 * @return
+	 * @return the list of books include in the csv file
 	 */
 	public List<Book> read() {
 
@@ -93,10 +93,10 @@ public class DataFile {
 	}
 	
 	/***
-	 * 
+	 * Add aline to the csv file
 	 * @param line
 	 */
-	public void addNewBook(String line) {
+	public void addLine(String line) {
 		try {
 			FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true);
 			wr.append(line);
@@ -108,10 +108,10 @@ public class DataFile {
 	}
 	
 	/**
-	 * 
+	 * Delete he line in the csv file
 	 * @param lineToDelete
 	 */
-	public void deleteBook(String lineToDelete) {
+	public void deleteLine(String lineToDelete) {
 
 		File file = new File(booksFilePath);
 
@@ -140,14 +140,14 @@ public class DataFile {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		add(lines);
+		addNotDeletedLines(lines);
 	}
 	
 	/**
-	 * 
+	 * Add all the lines in the csv file (these are the books that were not deleted)
 	 * @param lines
 	 */
-	private void add(List<List<String>> lines) {
+	private void addNotDeletedLines(List<List<String>> lines) {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(booksFilePath, false);

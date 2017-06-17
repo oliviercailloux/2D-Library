@@ -14,9 +14,7 @@ public class Main {
 	public static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) throws IOException, ParserConfigurationException {
-		
-		SVGLibrary svgLibrary = null;
-				
+		SVGLibrary svgLibrary = null;	
 		new Window2DLibrary("2D_LIBRARY PROJECT", svgLibrary);
 	}
 

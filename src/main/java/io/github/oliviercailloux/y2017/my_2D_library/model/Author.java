@@ -64,11 +64,17 @@ public class Author {
 		this.lastName = lastName;
 	}
 	
+	/***
+	 * @return the hashcode of the author
+	 */
 	public int hashCode(){
-		//return this.lastName.hashCode() + this.firstName.hashCode();
 		return Objects.hash(lastName, firstName);
 	}
 	
+	/***
+	 * @param the author to compare
+	 * @return true if the author is equal to the parameter
+	 */
 	public boolean equals(Object author){
 		if (author == null) return false;
 		if (author == this) return true;

@@ -72,10 +72,18 @@ public class Shelf {
 		return "Shelf [books=" + books.toString() + "]";
 	}
 	
+	/***
+	 * @return the hashcode of the shelf
+	 */
 	public int hashCode(){
 		return Objects.hash(books, heightSize);
 	}
 	
+	/***
+	 * 
+	 * @param shelf to compare
+	 * @return true if the shelves are equals
+	 */
 	public boolean isEqualTo(Object shelf){
 		if (shelf == null) return false;
 		if (shelf == this) return true;
