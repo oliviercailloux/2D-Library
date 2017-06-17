@@ -629,7 +629,6 @@ public class Window2DLibrary extends JFrame {
 		leaningModeTitleJPanel.add(leaningModeTitleJLabel);
 		sortTitleJPanel.add(sortTitleJLabel);
 		numberBooksPerShelfTitleJPanel.add(numberBooksPerShelfTitleJLabel);
-		numberBooksPerShelfTitleJPanel.add(numberBooksPerShelfTextField);
 		backgroundColorJPanel.add(bAutoBk);
 		backgroundColorJPanel.add(bLightBk);
 		backgroundColorJPanel.add(bDarkBk);
@@ -647,6 +646,7 @@ public class Window2DLibrary extends JFrame {
 		sortJPanel.add(sortAuthorButton);
 		sortJPanel.add(sortTitleButton);
 		numberBooksPerShelfJPanel.add(lessBookPerS);
+		numberBooksPerShelfJPanel.add(numberBooksPerShelfTextField);
 		numberBooksPerShelfJPanel.add(moreBookPerS);
 
 		param.add(titleFirstColumn);
