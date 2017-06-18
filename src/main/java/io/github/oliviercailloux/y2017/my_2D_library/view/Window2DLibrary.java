@@ -51,30 +51,52 @@ public class Window2DLibrary extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JButton generate, lessBookPerS, moreBookPerS;
 	private JTextField presentation;
-	private JFormattedTextField numberBooksPerShelfTextField;
+	JFormattedTextField numberBooksPerShelfTextField;
 	private JPanel pCenter, pBCenter, centre;
-	private JPanel pDCenter;
+	JPanel pDCenter;
 	private JPanel sud;
 	private JPanel panBooks;
-	private JTabbedPane tabPane;
+	JTabbedPane tabPane;
 	private JTextArea options;
 	private JTextArea visuG;
 	private JTextArea actions;
 	private ImageIcon myLibIcon;
 	private JLabel libImage;
 	private ButtonGroup booksColor, shelvesColor, backgroundColor, leanButtonGroup, sortButtonGroup;
-	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk, bDarkS, bLightS,
-	bAutoS, sortAutoButton, sortYearButton, sortAuthorButton, sortTitleButton;
+	JRadioButton bDarkB;
+	JRadioButton bLightB;
+	JRadioButton bAutoB;
+	JRadioButton bLeanS;
+	private JRadioButton bNotLeanS;
+	JRadioButton bDarkBk;
+	JRadioButton bLightBk;
+	JRadioButton bAutoBk;
+	JRadioButton bDarkS;
+	JRadioButton bLightS;
+	JRadioButton bAutoS;
+	private JRadioButton sortAutoButton;
+	JRadioButton sortYearButton;
+	JRadioButton sortAuthorButton;
+	JRadioButton sortTitleButton;
 	private JCheckBox sortAscendingYearButton;
 	private JLabel backgroundColorTitleJLabel, booksColorTitleJLabel, shelvesColorTitleJLabel, leaningModeTitleJLabel,
 	sortTitleJLabel, numberBooksPerShelfTitleJLabel;
 	private JLabel se, fn, ln, ti, ye, dx, dy, co;
-	private JTextField tse, tfn, tln, tti, tye, tdx, tdy;
-	private String bColor = "Auto", bkColor = "Auto", sColor = "Auto", sort = "Auto";
-	private boolean leaning = true;
-	private int nbBooksPerShelf = 10;
-	private DataFile dataFile = new DataFile();
-	private SVGLibrary svgLibrary;
+	JTextField tse;
+	JTextField tfn;
+	JTextField tln;
+	JTextField tti;
+	JTextField tye;
+	JTextField tdx;
+	JTextField tdy;
+	String bColor = "Auto";
+	String bkColor = "Auto";
+	String sColor = "Auto";
+	String sort = "Auto";
+	boolean leaning = true;
+	int nbBooksPerShelf = 10;
+	DataFile dataFile = new DataFile();
+	SVGLibrary svgLibrary;
 
 	/**
 	 * constructor of the window
@@ -559,7 +581,7 @@ public class Window2DLibrary extends JFrame {
 		lessBookPerS = new JButton("Less");
 		lessBookPerS.addActionListener(new LessBookPerShelfListener());
 		moreBookPerS = new JButton("More");
-		moreBookPerS.addActionListener(new MoreBookPerShelfListener(this.svgLibrary));
+		moreBookPerS.addActionListener(new MoreBookPerShelfListener());
 
 		backgroundColorTitleJPanel.add(backgroundColorTitleJLabel);
 		shelvesColorTitleJPanel.add(shelvesColorTitleJLabel);
@@ -687,12 +709,6 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	class MoreBookPerShelfListener implements ActionListener {
-
-		private SVGLibrary svgLibrary;
-
-		public MoreBookPerShelfListener(SVGLibrary svgLibrary){
-			this.svgLibrary = svgLibrary;
-		}
 		/**
 		 * function launched when the user performs an action
 		 */
@@ -766,7 +782,6 @@ public class Window2DLibrary extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			String year = tye.getText();
 			if(!isInt(year)) year = "2000";
-			System.out.println("GIRAFE : " + year); 
 			if(year.isEmpty()) year = "2013";
 
 			String line = tfn.getText() + ",";

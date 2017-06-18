@@ -44,6 +44,7 @@ public class SVGLibrary {
 	private Library library;
 	private String newI;
 	private SVGGraphics2D graphics;
+	private int lastColorIndex = -1;
 
 	public SVGLibrary(Library library) throws ParserConfigurationException {
 		this.library = library;
@@ -288,14 +289,13 @@ public class SVGLibrary {
 
 		int indexShelf = 0;
 		int indexBook = 0;
-		int lastColorIndex = -1;
 		placeLeftInShelf = shelfWidth;
 		for (Shape bookShape : bookShapes) {
 			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
 			boolean isLastBookOfTheShelf = (indexBook + 1)
 					% library.getShelves().get(indexShelf).getBooks().size() == 0;
 			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, bookShape, library.getShelves().get(indexShelf).getBooks().get(indexBook), placeLeftInShelf, YOfTheShelf,
-					leaning, bColor, lastColorIndex);
+					leaning, bColor);
 			lastColorIndex = table[2];
 			int bookRotation = table[0];
 			double bookX = bookShape.getBounds().getX();
@@ -328,7 +328,7 @@ public class SVGLibrary {
 	}
 
 	private int[] drawBook(Random randomGenerator, boolean isLastBook, Shape bookShape, Book book, double emptySpace,
-			double yOfTheShelf, boolean leaning, String bColor, int lastColorIndex) {
+			double yOfTheShelf, boolean leaning, String bColor) {
 
 		List<Color> randomColors = new ArrayList<>();
 		Color pink = null;
@@ -392,7 +392,7 @@ public class SVGLibrary {
 		result[2] = colorIndex;
 		int bookRotation = 0;
 		if (isLastBook && leaning) {// on penche le dernier livre
-			bookRotation = -15 - randomGenerator.nextInt(50);
+			bookRotation = -15 - randomGenerator.nextInt(40);
 			if(bookRotation < -45) bookRotation = -90;
 			while (emptySpace <= getCos(bookRotation) * bookShape.getBounds().getWidth()
 					+ getSin(-bookRotation) * bookShape.getBounds().getHeight() && bookRotation < 0)
@@ -435,7 +435,7 @@ public class SVGLibrary {
 		// draw the title with the same rotation as the book
 
 		graphics.rotate(Math.toRadians(+90 + bookRotation), bookX, bookY);
-		int fontSize = 70;
+		int fontSize = 30;
 		graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 
 		// change the size of the title if it is too long
@@ -444,11 +444,8 @@ public class SVGLibrary {
 				fontSize = fontSize - 3;
 				graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 			}
-			graphics.drawString(bookString,
-					(float) (bookX + (bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2),
-					(float) (bookY - bookWidth / 4));
-		} else
-			graphics.drawString(bookString,
+		}	
+		graphics.drawString(bookString,
 					(float) (bookX + (bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2),
 					(float) (bookY - bookWidth / 4));
 
@@ -477,14 +474,16 @@ public class SVGLibrary {
 		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
 		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);
 		this.setNewI(generate(20));// Define the name of the file
-		OutputStream png_ostream = new FileOutputStream(newI);
-		TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
+		try (OutputStream png_ostream = new FileOutputStream(newI)) {
+			TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
 
-		PNGTranscoder my_converter = new PNGTranscoder();
-		my_converter.transcode(input_svg_image, output_png_image);
+			PNGTranscoder my_converter = new PNGTranscoder();
+			my_converter.transcode(input_svg_image, output_png_image);
 
-		png_ostream.flush();
-		png_ostream.close();
+			png_ostream.flush();
+			png_ostream.close();	
+		}
+		
 	}
 
 	/***

@@ -93,12 +93,12 @@ public class DataFile {
 	}
 	
 	/***
-	 * Add aline to the csv file
+	 * Add a line to the csv file
 	 * @param line
 	 */
 	public void addLine(String line) {
-		try {
-			FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true);
+		try (FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true)) {
+			//FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true);
 			wr.append(line);
 			wr.append("\r\n");
 			wr.close();
