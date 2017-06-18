@@ -56,7 +56,7 @@ public class Window2DLibrary extends JFrame {
 	private JFormattedTextField numberBooksPerShelfTextField;
 	private JPanel pCenter, addBookJPanel, optionsJPanel;
 	JPanel pDCenter;
-	JTabbedPane tabPane;
+	private JTabbedPane tabPane;
 	private ImageIcon myLibIcon;
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk, bDarkS, bLightS,
 			bAutoS, sortAutoButton;
@@ -149,7 +149,7 @@ public class Window2DLibrary extends JFrame {
 	 * @return
 	 */
 	public JTabbedPane getCenterPanel() {
-		JTabbedPane tabPane = new JTabbedPane();
+		tabPane = new JTabbedPane();
 		JPanel panOptions = new JPanel(new BorderLayout());
 		JTextArea options = new JTextArea();
 		panOptions.setBackground(Color.orange);
@@ -367,7 +367,7 @@ public class Window2DLibrary extends JFrame {
 		bookFormJPanel.add(addBookButton);
 		addBookJPanel.add(bookFormJPanel);
 		searchButton.addActionListener(new SearchButtonListener(addBookJPanel, searchTextField, titleTextField, lastNameTextField, firstNameTextField));
-		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel, firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField));
+		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel, tabPane, firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField));
 		return addBookJPanel;
 
 	}
@@ -778,12 +778,14 @@ public class Window2DLibrary extends JFrame {
 
 		private JComboBox<String> colorComboBox;
 		private JPanel pBCenter, tab;
+		private JTabbedPane tabPane;
 		private JTextField firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField;
 
-		public AddBookButtonListener(JComboBox<String> j, JPanel c, JPanel t, JTextField firstNameTextField, JTextField lastNameTextField, JTextField titleTextField, JTextField yearTextField, JTextField dimXTextField, JTextField dimYTextField) {
+		public AddBookButtonListener(JComboBox<String> j, JPanel c, JPanel t, JTabbedPane tp, JTextField firstNameTextField, JTextField lastNameTextField, JTextField titleTextField, JTextField yearTextField, JTextField dimXTextField, JTextField dimYTextField) {
 			colorComboBox = j;
 			pBCenter = c;
 			tab = t;
+			tabPane = tp;
 			this.firstNameTextField = firstNameTextField;
 			this.lastNameTextField = lastNameTextField;
 			this.titleTextField = titleTextField;
@@ -858,9 +860,6 @@ public class Window2DLibrary extends JFrame {
 			tab.repaint();
 			pBCenter.revalidate();
 			pBCenter.repaint();
-			List<Book> books = dataFile.read();
-			Library library = new Library(books, nbBooksPerShelf);
-			svgLibrary.setLibrary(library);
 		}
 	}
 
