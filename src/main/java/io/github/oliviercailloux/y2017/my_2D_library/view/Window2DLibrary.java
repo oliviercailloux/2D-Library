@@ -766,6 +766,8 @@ public class Window2DLibrary extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			String year = tye.getText();
 			if(!isInt(year)) year = "2000";
+			System.out.println("GIRAFE : " + year); 
+			if(year.isEmpty()) year = "2013";
 
 			String line = tfn.getText() + ",";
 			line = line + tln.getText() + ",";
