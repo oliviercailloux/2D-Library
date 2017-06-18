@@ -54,17 +54,24 @@ public class Window2DLibrary extends JFrame {
 	private JTextField searchTextField, firstNameTextField, lastNameTextField, titleTextField,
 			yearTextField, dimXTextField, dimYTextField;
 	private JFormattedTextField numberBooksPerShelfTextField;
-	private JPanel pCenter, addBookJPanel, optionsJPanel, pDCenter;
-	private JTabbedPane tabPane;
+	private JPanel pCenter, addBookJPanel, optionsJPanel;
+	JPanel pDCenter;
+	JTabbedPane tabPane;
 	private ImageIcon myLibIcon;
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk, bDarkS, bLightS,
-			bAutoS, sortAutoButton, sortYearButton, sortAuthorButton, sortTitleButton;
+			bAutoS, sortAutoButton;
+	JRadioButton sortYearButton;
+	JRadioButton sortAuthorButton;
+	JRadioButton sortTitleButton;
 	private JCheckBox sortAscendingYearButton;
-	private String bookColor = "Auto", backgroundColor = "Auto", shelfColor = "Auto", sort = "Auto";
-	private boolean leaning = true;
-	private int nbBooksPerShelf = 20;
-	private DataFile dataFile = new DataFile();
-	private SVGLibrary svgLibrary;
+	String bookColor = "Auto";
+	String backgroundColor = "Auto";
+	String shelfColor = "Auto";
+	String sort = "Auto";
+	boolean leaning = true;
+	int nbBooksPerShelf = 18;
+	DataFile dataFile = new DataFile();
+	SVGLibrary svgLibrary;
 
 	/**
 	 * constructor of the window
@@ -359,8 +366,8 @@ public class Window2DLibrary extends JFrame {
 		JButton addBookButton = new JButton("Add");
 		bookFormJPanel.add(addBookButton);
 		addBookJPanel.add(bookFormJPanel);
-		searchButton.addActionListener(new SearchButtonListener(addBookJPanel, searchTextField));
-		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel));
+		searchButton.addActionListener(new SearchButtonListener(addBookJPanel, searchTextField, titleTextField, lastNameTextField, firstNameTextField));
+		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel, firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField));
 		return addBookJPanel;
 
 	}
@@ -436,7 +443,7 @@ public class Window2DLibrary extends JFrame {
 		JPanel numberBooksPerShelfJPanel = new JPanel();
 		numberBooksPerShelfJPanel.setOpaque(false);
 
-		ButtonGroup backgroundColor = new ButtonGroup();
+		ButtonGroup backgroundColorButtonGroup = new ButtonGroup();
 		ButtonGroup shelvesColor = new ButtonGroup();
 		ButtonGroup booksColor = new ButtonGroup();
 		ButtonGroup sortButtonGroup = new ButtonGroup();
@@ -445,9 +452,9 @@ public class Window2DLibrary extends JFrame {
 		bAutoBk = new JRadioButton("Auto");
 		bLightBk = new JRadioButton("Light");
 		bDarkBk = new JRadioButton("Dark");
-		bAutoBk.addActionListener(new BackgroundColorButtonListener());
-		bLightBk.addActionListener(new BackgroundColorButtonListener());
-		bDarkBk.addActionListener(new BackgroundColorButtonListener());
+		bAutoBk.addActionListener(new BackgroundColorButtonListener(bAutoBk, bLightBk, bDarkBk));
+		bLightBk.addActionListener(new BackgroundColorButtonListener(bAutoBk, bLightBk, bDarkBk));
+		bDarkBk.addActionListener(new BackgroundColorButtonListener(bAutoBk, bLightBk, bDarkBk));
 		bAutoBk.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bLightBk.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bDarkBk.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
@@ -455,16 +462,16 @@ public class Window2DLibrary extends JFrame {
 		bLightBk.setOpaque(false);
 		bDarkBk.setOpaque(false);
 		bAutoBk.setSelected(true);
-		backgroundColor.add(bAutoBk);
-		backgroundColor.add(bLightBk);
-		backgroundColor.add(bDarkBk);
+		backgroundColorButtonGroup.add(bAutoBk);
+		backgroundColorButtonGroup.add(bLightBk);
+		backgroundColorButtonGroup.add(bDarkBk);
 
 		bAutoS = new JRadioButton("Auto");
 		bLightS = new JRadioButton("Light");
 		bDarkS = new JRadioButton("Dark");
-		bAutoS.addActionListener(new ShelvesColorButtonListener());
-		bLightS.addActionListener(new ShelvesColorButtonListener());
-		bDarkS.addActionListener(new ShelvesColorButtonListener());
+		bAutoS.addActionListener(new ShelvesColorButtonListener(bAutoS, bLightS, bDarkS));
+		bLightS.addActionListener(new ShelvesColorButtonListener(bAutoS, bLightS, bDarkS));
+		bDarkS.addActionListener(new ShelvesColorButtonListener(bAutoS, bLightS, bDarkS));
 		bAutoS.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bLightS.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bDarkS.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
@@ -482,9 +489,9 @@ public class Window2DLibrary extends JFrame {
 		booksColor.add(bAutoB);
 		booksColor.add(bLightB);
 		booksColor.add(bDarkB);
-		bAutoB.addActionListener(new BooksColorButtonListener());
-		bLightB.addActionListener(new BooksColorButtonListener());
-		bDarkB.addActionListener(new BooksColorButtonListener());
+		bAutoB.addActionListener(new BooksColorButtonListener(bAutoB, bLightB, bDarkB));
+		bLightB.addActionListener(new BooksColorButtonListener(bAutoB, bLightB, bDarkB));
+		bDarkB.addActionListener(new BooksColorButtonListener(bAutoB, bLightB, bDarkB));
 		bAutoB.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bLightB.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bDarkB.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
@@ -495,8 +502,8 @@ public class Window2DLibrary extends JFrame {
 
 		bLeanS = new JRadioButton("Leaned");
 		bNotLeanS = new JRadioButton("Not leaned");
-		bLeanS.addActionListener(new LeaningButtonListener());
-		bNotLeanS.addActionListener(new LeaningButtonListener());
+		bLeanS.addActionListener(new LeaningButtonListener(bLeanS));
+		bNotLeanS.addActionListener(new LeaningButtonListener(bLeanS));
 		bLeanS.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bNotLeanS.setFont(new Font("Book Antiqua", Font.ITALIC, 20));
 		bLeanS.setOpaque(false);
@@ -531,9 +538,9 @@ public class Window2DLibrary extends JFrame {
 		sortAscendingYearButton.setOpaque(false);
 
 		JButton lessBookPerS = new JButton("Less");
-		lessBookPerS.addActionListener(new LessBookPerShelfListener());
+		lessBookPerS.addActionListener(new LessBookPerShelfListener(nbBooksPerShelf, numberBooksPerShelfTextField));
 		JButton moreBookPerS = new JButton("More");
-		moreBookPerS.addActionListener(new MoreBookPerShelfListener());
+		moreBookPerS.addActionListener(new MoreBookPerShelfListener(nbBooksPerShelf, numberBooksPerShelfTextField));
 
 		backgroundColorTitleJPanel.add(backgroundColorTitleJLabel);
 		shelvesColorTitleJPanel.add(shelvesColorTitleJLabel);
@@ -602,6 +609,15 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	class BackgroundColorButtonListener implements ActionListener {
+		
+		private JRadioButton bAutoBk, bLightBk, bDarkBk;
+		
+		public BackgroundColorButtonListener(JRadioButton bAutoBk, JRadioButton bLightBk, JRadioButton bDarkBk){
+			this.bAutoBk = bAutoBk;
+			this.bLightBk = bLightBk;
+			this.bDarkBk = bDarkBk;
+		}
+		
 		/**
 		 * function launched when the user performs an action
 		 */
@@ -618,6 +634,15 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	class ShelvesColorButtonListener implements ActionListener {
+		
+		private JRadioButton bAutoS, bLightS, bDarkS;
+		
+		public ShelvesColorButtonListener(JRadioButton bAutoS, JRadioButton bLightS, JRadioButton bDarkS){
+			this.bAutoS = bAutoS;
+			this.bLightS = bLightS;
+			this.bDarkS = bDarkS;
+		}
+		
 		/**
 		 * function launched when the user performs an action
 		 */
@@ -634,6 +659,15 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	class BooksColorButtonListener implements ActionListener {
+		
+		private JRadioButton bAutoB, bLightB, bDarkB;
+		
+		public BooksColorButtonListener(JRadioButton bAutoB,JRadioButton bLightB,JRadioButton bDarkB){
+			this.bAutoB = bAutoB;
+			this.bLightB = bLightB;
+			this.bDarkB = bDarkB;
+		}
+		
 		/**
 		 * function launched when the user performs an action
 		 */
@@ -650,6 +684,13 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	class LeaningButtonListener implements ActionListener {
+		
+		private JRadioButton bLeanS;
+		
+		public LeaningButtonListener(JRadioButton bLeanS){
+			this.bLeanS = bLeanS;
+		}
+		
 		/**
 		 * function launched when the user performs an action
 		 */
@@ -661,18 +702,38 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	class MoreBookPerShelfListener implements ActionListener {
+		
+		private int nbBooksPerShelf;
+		private JFormattedTextField numberBooksPerShelfTextField;
+		
+		public MoreBookPerShelfListener(int nbBooksPerShelf, JFormattedTextField numberBooksPerShelfTextField){
+			this.nbBooksPerShelf = nbBooksPerShelf;
+			this.numberBooksPerShelfTextField = numberBooksPerShelfTextField;
+		}
+		
 		/**
 		 * function launched when the user performs an action
 		 */
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			nbBooksPerShelf++;
-			numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			if (nbBooksPerShelf != 18){
+				nbBooksPerShelf++;
+				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			}
 		}
 	}
 
 	class LessBookPerShelfListener implements ActionListener {
+		
+		private int nbBooksPerShelf;
+		private JFormattedTextField numberBooksPerShelfTextField;
+		
+		public LessBookPerShelfListener(int nbBooksPerShelf, JFormattedTextField numberBooksPerShelfTextField){
+			this.nbBooksPerShelf = nbBooksPerShelf;
+			this.numberBooksPerShelfTextField = numberBooksPerShelfTextField;
+		}
+		
 		/**
 		 * function launched when the user performs an action
 		 */
@@ -688,11 +749,14 @@ public class Window2DLibrary extends JFrame {
 	class SearchButtonListener implements ActionListener {
 
 		private JPanel pBCenter;
-		private JTextField searchTextField;
+		private JTextField searchTextField, titleTextField, lastNameTextField, firstNameTextField;
 
-		public SearchButtonListener(JPanel jpanel, JTextField searchTextField) {
+		public SearchButtonListener(JPanel jpanel, JTextField searchTextField, JTextField titleTextField, JTextField lastNameTextField, JTextField firstNameTextField) {
 			this.pBCenter = jpanel;
 			this.searchTextField = searchTextField;
+			this.titleTextField = titleTextField;
+			this.lastNameTextField = lastNameTextField;
+			this.firstNameTextField = firstNameTextField;
 		}
 
 		@Override
@@ -714,11 +778,18 @@ public class Window2DLibrary extends JFrame {
 
 		private JComboBox<String> colorComboBox;
 		private JPanel pBCenter, tab;
+		private JTextField firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField;
 
-		public AddBookButtonListener(JComboBox<String> j, JPanel c, JPanel t) {
+		public AddBookButtonListener(JComboBox<String> j, JPanel c, JPanel t, JTextField firstNameTextField, JTextField lastNameTextField, JTextField titleTextField, JTextField yearTextField, JTextField dimXTextField, JTextField dimYTextField) {
 			colorComboBox = j;
 			pBCenter = c;
 			tab = t;
+			this.firstNameTextField = firstNameTextField;
+			this.lastNameTextField = lastNameTextField;
+			this.titleTextField = titleTextField;
+			this.yearTextField = yearTextField;
+			this.dimXTextField = dimXTextField;
+			this.dimYTextField = dimYTextField;
 		}
 
 		public boolean isInt(String chaine) {
