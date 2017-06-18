@@ -220,12 +220,10 @@ public class Window2DLibrary extends JFrame {
 		try {
 			svgLibrary.generate(leaning, backgroundColor, bookColor, shelfColor);
 		} catch (IOException e) {
-			System.out.println(
-					"Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
+			LOGGER.error("Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			System.out.println(
-					"Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
+			LOGGER.error("Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
 			e.printStackTrace();
 		}
 
@@ -361,7 +359,7 @@ public class Window2DLibrary extends JFrame {
 		JButton addBookButton = new JButton("Add");
 		bookFormJPanel.add(addBookButton);
 		addBookJPanel.add(bookFormJPanel);
-		searchButton.addActionListener(new SearchButtonListener(addBookJPanel));
+		searchButton.addActionListener(new SearchButtonListener(addBookJPanel, searchTextField));
 		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel));
 		return addBookJPanel;
 
@@ -380,8 +378,7 @@ public class Window2DLibrary extends JFrame {
 			URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
 			image = ImageIO.read(url);
 		} catch (IOException e) {
-			System.out.println(
-					"Impossible to found the picture ok menu jpanel via url http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png ");
+			LOGGER.error("Impossible to find the picture ok menu jpanel via url http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png ");
 			e.printStackTrace();
 		}
 		JLabel booksImage = new JLabel(new ImageIcon(image));
@@ -597,7 +594,7 @@ public class Window2DLibrary extends JFrame {
 				try {
 					updateSVGLibrary();
 				} catch (ParserConfigurationException ex) {
-					System.out.println("Impossible to refresh the button after the last update of library");
+					LOGGER.error("Impossible to refresh the button after the last update of library");
 					ex.printStackTrace();
 				}
 
@@ -691,9 +688,11 @@ public class Window2DLibrary extends JFrame {
 	class SearchButtonListener implements ActionListener {
 
 		private JPanel pBCenter;
+		private JTextField searchTextField;
 
-		public SearchButtonListener(JPanel jpanel) {
+		public SearchButtonListener(JPanel jpanel, JTextField searchTextField) {
 			this.pBCenter = jpanel;
+			this.searchTextField = searchTextField;
 		}
 
 		@Override

@@ -81,7 +81,7 @@ public class DataFile {
 				if (value == "" || value.isEmpty()) {
 					value = "";
 				}
-				//System.out.println("bla : " + value);
+				//LOGGER.info("bla : " + value);
 				book.setBookAttribute(columnNo, value);
 				columnNo++;
 
@@ -103,7 +103,7 @@ public class DataFile {
 			wr.append("\r\n");
 			wr.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 	}
 	
@@ -132,7 +132,7 @@ public class DataFile {
 				} else {
 					lines.add(Arrays.asList(values));
 				}
-				System.out.println(lines);
+				LOGGER.debug(lines.toString());
 			}
 
 			inputStream.close();
@@ -161,7 +161,7 @@ public class DataFile {
 						li = value;
 					}
 				}
-				System.out.println(li);
+				LOGGER.debug(li);
 				fw.write(li);
 				fw.write("\r\n");
 
