@@ -302,7 +302,6 @@ public class SVGLibrary {
 			double bookY;
 			if (isLastBookOfTheShelf) {
 				bookY = table[1];
-				System.out.println("bookY : " + bookY);
 			} else
 				bookY = bookShape.getBounds().getY();
 			double bookHeight = bookShape.getBounds().getHeight();

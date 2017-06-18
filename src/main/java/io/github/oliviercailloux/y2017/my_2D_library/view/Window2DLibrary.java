@@ -780,20 +780,46 @@ public class Window2DLibrary extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if(tfn.getText().isEmpty()){
+				JOptionPane.showMessageDialog(pBCenter, "You must enter a first name.");
+				return;
+			}
+			if(tln.getText().isEmpty()){
+				JOptionPane.showMessageDialog(pBCenter, "You must enter a last name.");
+				return;
+			}
+			if(tti.getText().isEmpty()){
+				JOptionPane.showMessageDialog(pBCenter, "You must enter a title.");
+				return;
+			}
 			String year = tye.getText();
 			if(!isInt(year)) year = "2000";
-			if(year.isEmpty()) year = "2013";
+			if(year.isEmpty()) year = "2000";
+			
+			String firstname = tfn.getText();
+			
+			String lastname = tln.getText();
+			
+			String title = tti.getText();
+			
+			String dimX = tdx.getText();
+			if(!isInt(dimX)) dimX = "200";
+			if(dimX.isEmpty()) dimX = "200";
 
-			String line = tfn.getText() + ",";
-			line = line + tln.getText() + ",";
-			line = line + tti.getText() + ",";
+			String dimY = tdy.getText();
+			if(!isInt(dimY)) dimY = "200";
+			if(dimY.isEmpty()) dimY = "200";
+			
+			String line = firstname + ",";
+			line = line + lastname + ",";
+			line = line + title + ",";
 			line = line + year + ",";
-			line = line + tdx.getText() + ",";
-			line = line + tdy.getText() + ",";
+			line = line + dimX + ",";
+			line = line + dimY + ",";
 			line = line + lco.getSelectedItem().toString() + ",";
 			line = line + "End";
 			dataFile.addLine(line);
-			JOptionPane.showMessageDialog(pBCenter, "Book Added successfully");
+			JOptionPane.showMessageDialog(pBCenter, "Book added successfully");
 			Component[] components = tab.getComponents();
 			for (Component component : components)
 				if (component instanceof JTextField || component instanceof JTextArea) {
@@ -809,7 +835,9 @@ public class Window2DLibrary extends JFrame {
 			pBCenter.repaint();
 			List<Book> books = dataFile.read();
 			Library library = new Library(books, nbBooksPerShelf);
+			if(library.getListOfAllTheBooks().size() == 0) System.out.println("pouet1");
 			svgLibrary.setLibrary(library);
+			if(svgLibrary == null) System.out.println("pouet2");
 		}
 	}
 
