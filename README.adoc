@@ -1,4 +1,5 @@
 = 2D Library
+
 A Java project developed during the https://github.com/oliviercailloux/java-course[Java course] taught at Université Paris-Dauphine (in http://www.mido.dauphine.fr/[MIDO] L3 Apprentissage). The code is jointly copyrighted by Olivier Cailloux and the following students:
 
 * Merlène Lejeune
