@@ -7,7 +7,7 @@ A Java project developed during the https://github.com/oliviercailloux/java-cour
 * Fanny Jammes
 * Thibaud Fremin du sartel 
 * Olympie Suquet
-* Elie El chartouni 
+* Elie El Chartouni 
 
 The code is hereby published under the MIT License, with their permission.
 
