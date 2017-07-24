@@ -1,9 +1,9 @@
-package io.github.oliviercailloux.y2017.my_2D_library.model;
+package io.github.oliviercailloux.twod_library.model;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2017.my_2D_library.model.Author;
+import io.github.oliviercailloux.twod_library.model.Author;
 
 public class AuthorTest {
 

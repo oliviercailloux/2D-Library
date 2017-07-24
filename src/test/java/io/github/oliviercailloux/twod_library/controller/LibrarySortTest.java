@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.controller;
+package io.github.oliviercailloux.twod_library.controller;
 
 import static org.junit.Assert.*;
 
@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2017.my_2D_library.model.Author;
-import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
-import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
+import io.github.oliviercailloux.twod_library.model.Author;
+import io.github.oliviercailloux.twod_library.model.Book;
+import io.github.oliviercailloux.twod_library.model.Library;
 
 public class LibrarySortTest {
 

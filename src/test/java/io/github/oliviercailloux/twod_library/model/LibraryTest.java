@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.model;
+package io.github.oliviercailloux.twod_library.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.github.oliviercailloux.twod_library.model.Author;
+import io.github.oliviercailloux.twod_library.model.Book;
+import io.github.oliviercailloux.twod_library.model.Library;
 
 /**
  * 

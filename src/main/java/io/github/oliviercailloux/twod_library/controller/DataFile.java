@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.controller;
+package io.github.oliviercailloux.twod_library.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,8 +12,8 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.oliviercailloux.y2017.my_2D_library.model.Author;
-import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
+import io.github.oliviercailloux.twod_library.model.Author;
+import io.github.oliviercailloux.twod_library.model.Book;
 
 public class DataFile {
 

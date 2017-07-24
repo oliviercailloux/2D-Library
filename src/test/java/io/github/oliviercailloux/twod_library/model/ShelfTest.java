@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.model;
+package io.github.oliviercailloux.twod_library.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2017.my_2D_library.model.Author;
-import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
-import io.github.oliviercailloux.y2017.my_2D_library.model.Shelf;
+import io.github.oliviercailloux.twod_library.model.Author;
+import io.github.oliviercailloux.twod_library.model.Book;
+import io.github.oliviercailloux.twod_library.model.Shelf;
 
 public class ShelfTest {
 	@Test

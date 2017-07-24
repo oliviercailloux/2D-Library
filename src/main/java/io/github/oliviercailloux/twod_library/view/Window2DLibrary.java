@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.view;
+package io.github.oliviercailloux.twod_library.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -41,10 +41,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.oliviercailloux.y2017.my_2D_library.controller.ConnectionToCongressLibrary;
-import io.github.oliviercailloux.y2017.my_2D_library.controller.DataFile;
-import io.github.oliviercailloux.y2017.my_2D_library.model.Book;
-import io.github.oliviercailloux.y2017.my_2D_library.model.Library;
+import io.github.oliviercailloux.twod_library.controller.ConnectionToCongressLibrary;
+import io.github.oliviercailloux.twod_library.controller.DataFile;
+import io.github.oliviercailloux.twod_library.model.Book;
+import io.github.oliviercailloux.twod_library.model.Library;
 
 public class Window2DLibrary extends JFrame {
 	

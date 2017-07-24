@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.model;
+package io.github.oliviercailloux.twod_library.model;
 
 import java.awt.Color;
 import java.util.Comparator;

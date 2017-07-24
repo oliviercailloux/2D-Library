@@ -1,10 +1,13 @@
-package io.github.oliviercailloux.y2017.my_2D_library.model;
+package io.github.oliviercailloux.twod_library.model;
 
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
 
 import org.junit.Test;
+
+import io.github.oliviercailloux.twod_library.model.Author;
+import io.github.oliviercailloux.twod_library.model.Book;
 
 public class BookTest {
 	

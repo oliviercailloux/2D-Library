@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.controller;
+package io.github.oliviercailloux.twod_library.controller;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.github.oliviercailloux.y2017.my_2D_library.controller.ConnectionToCongressLibrary;
+import io.github.oliviercailloux.twod_library.controller.ConnectionToCongressLibrary;
 
 /**
  * @author lejema160

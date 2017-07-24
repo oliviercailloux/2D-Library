@@ -1,4 +1,4 @@
-package io.github.oliviercailloux.y2017.my_2D_library.controller;
+package io.github.oliviercailloux.twod_library.controller;
 
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;

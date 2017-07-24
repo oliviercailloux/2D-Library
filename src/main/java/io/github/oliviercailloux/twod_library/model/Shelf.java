@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.github.oliviercailloux.y2017.my_2D_library.model;
+package io.github.oliviercailloux.twod_library.model;
 
 import java.util.List;
 import java.util.Objects;
