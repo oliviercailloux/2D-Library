@@ -47,30 +47,397 @@ import io.github.oliviercailloux.twod_library.model.Book;
 import io.github.oliviercailloux.twod_library.model.Library;
 
 public class Window2DLibrary extends JFrame {
-	
+
+	class AddBookButtonListener implements ActionListener {
+
+		private JComboBox<String> colorComboBox;
+
+		private JTextField firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField,
+				dimYTextField;
+
+		private JPanel pBCenter, tab;
+
+		private JTabbedPane tabPane;
+
+		public AddBookButtonListener(JComboBox<String> j, JPanel c, JPanel t, JTabbedPane tp,
+				JTextField firstNameTextField, JTextField lastNameTextField, JTextField titleTextField,
+				JTextField yearTextField, JTextField dimXTextField, JTextField dimYTextField) {
+			colorComboBox = j;
+			pBCenter = c;
+			tab = t;
+			tabPane = tp;
+			this.firstNameTextField = firstNameTextField;
+			this.lastNameTextField = lastNameTextField;
+			this.titleTextField = titleTextField;
+			this.yearTextField = yearTextField;
+			this.dimXTextField = dimXTextField;
+			this.dimYTextField = dimYTextField;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (firstNameTextField.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(pBCenter, "You must enter a first name.");
+				return;
+			}
+			if (lastNameTextField.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(pBCenter, "You must enter a last name.");
+				return;
+			}
+			if (titleTextField.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(pBCenter, "You must enter a title.");
+				return;
+			}
+			String year = yearTextField.getText();
+			if (!isInt(year)) {
+				year = "2000";
+			}
+			if (year.isEmpty()) {
+				year = "2000";
+			}
+			String firstName = firstNameTextField.getText();
+			String lastName = lastNameTextField.getText();
+			String title = titleTextField.getText();
+			String dimX = dimXTextField.getText();
+			if (!isInt(dimX)) {
+				dimX = "200";
+			}
+			if (dimX.isEmpty()) {
+				dimX = "200";
+			}
+			String dimY = dimYTextField.getText();
+			if (!isInt(dimY)) {
+				dimY = "200";
+			}
+			if (dimY.isEmpty()) {
+				dimY = "200";
+			}
+			String line = firstName + ",";
+			line = line + lastName + ",";
+			line = line + title + ",";
+			line = line + year + ",";
+			line = line + dimX + ",";
+			line = line + dimY + ",";
+			line = line + colorComboBox.getSelectedItem().toString() + ",";
+			line = line + "End";
+			dataFile.addLine(line);
+			JOptionPane.showMessageDialog(pBCenter, "Book added successfully");
+			Component[] components = tab.getComponents();
+			for (Component component : components) {
+				if (component instanceof JTextField || component instanceof JTextArea) {
+					JTextComponent specificObject = (JTextComponent) component;
+					specificObject.setText("");
+				}
+			}
+			tabPane.remove(3);
+			tabPane.add("Delete Books from my Library", getPanelCentreDelete());
+			tabPane.add("Delete Books from my Library", new JScrollPane(pDCenter));
+			tab.revalidate();
+			tab.repaint();
+			pBCenter.revalidate();
+			pBCenter.repaint();
+		}
+
+		public boolean isInt(String chaine) {
+			boolean valeur = true;
+			char[] tab = chaine.toCharArray();
+
+			for (char carac : tab) {
+				if (!Character.isDigit(carac) && valeur) {
+					valeur = false;
+				}
+			}
+
+			return valeur;
+		}
+	}
+
+	class BackgroundColorButtonListener implements ActionListener {
+
+		private JRadioButton bAutoBk, bLightBk, bDarkBk;
+
+		public BackgroundColorButtonListener(JRadioButton bAutoBk, JRadioButton bLightBk, JRadioButton bDarkBk) {
+			this.bAutoBk = bAutoBk;
+			this.bLightBk = bLightBk;
+			this.bDarkBk = bDarkBk;
+		}
+
+		/**
+		 * function launched when the user performs an action
+		 */
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (bAutoBk.isSelected()) {
+				backgroundColor = bAutoBk.getActionCommand();
+			} else if (bLightBk.isSelected()) {
+				backgroundColor = bLightBk.getActionCommand();
+			} else if (bDarkBk.isSelected()) {
+				backgroundColor = bDarkBk.getActionCommand();
+			}
+		}
+	}
+
+	class BooksColorButtonListener implements ActionListener {
+
+		private JRadioButton bAutoB, bLightB, bDarkB;
+
+		public BooksColorButtonListener(JRadioButton bAutoB, JRadioButton bLightB, JRadioButton bDarkB) {
+			this.bAutoB = bAutoB;
+			this.bLightB = bLightB;
+			this.bDarkB = bDarkB;
+		}
+
+		/**
+		 * function launched when the user performs an action
+		 */
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (bAutoB.isSelected()) {
+				bookColor = bAutoB.getActionCommand();
+			} else if (bLightB.isSelected()) {
+				bookColor = bLightB.getActionCommand();
+			} else if (bDarkB.isSelected()) {
+				bookColor = bDarkB.getActionCommand();
+			}
+		}
+	}
+
+	class GenerateButtonListener implements ActionListener {
+		/**
+		 * function launched when the user performs an action
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String s = e.getActionCommand();
+			if (s.equals("Generate my library") || s.equals("Reload my library now")) {
+				try {
+					updateSVGLibrary();
+				} catch (ParserConfigurationException ex) {
+					LOGGER.error("Impossible to refresh the button after the last update of library");
+					ex.printStackTrace();
+				}
+			}
+
+		}
+	}
+
+	class LeaningButtonListener implements ActionListener {
+
+		private JRadioButton bLeanS;
+
+		public LeaningButtonListener(JRadioButton bLeanS) {
+			this.bLeanS = bLeanS;
+		}
+
+		/**
+		 * function launched when the user performs an action
+		 */
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			leaning = bLeanS.isSelected();
+		}
+	}
+
+	class LessBookPerShelfListener implements ActionListener {
+
+		private int nbBooksPerShelf;
+
+		private JFormattedTextField numberBooksPerShelfTextField;
+
+		public LessBookPerShelfListener(int nbBooksPerShelf, JFormattedTextField numberBooksPerShelfTextField) {
+			this.nbBooksPerShelf = nbBooksPerShelf;
+			this.numberBooksPerShelfTextField = numberBooksPerShelfTextField;
+		}
+
+		/**
+		 * function launched when the user performs an action
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (nbBooksPerShelf != 1) {
+				nbBooksPerShelf--;
+				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			}
+		}
+	}
+
+	class MoreBookPerShelfListener implements ActionListener {
+
+		private int nbBooksPerShelf;
+
+		private JFormattedTextField numberBooksPerShelfTextField;
+
+		public MoreBookPerShelfListener(int nbBooksPerShelf, JFormattedTextField numberBooksPerShelfTextField) {
+			this.nbBooksPerShelf = nbBooksPerShelf;
+			this.numberBooksPerShelfTextField = numberBooksPerShelfTextField;
+		}
+
+		/**
+		 * function launched when the user performs an action
+		 */
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (nbBooksPerShelf != 18) {
+				nbBooksPerShelf++;
+				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			}
+		}
+	}
+
+	class removeBookButtonListener implements ActionListener {
+
+		private ButtonGroup booksButtonGroup;
+
+		private JPanel jPanel;
+
+		public removeBookButtonListener(ButtonGroup bg, JPanel jp) {
+			this.booksButtonGroup = bg;
+			this.jPanel = jp;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			Enumeration<AbstractButton> allRadioButton = booksButtonGroup.getElements();
+			while (allRadioButton.hasMoreElements()) {
+				JRadioButton temp = (JRadioButton) allRadioButton.nextElement();
+				if (temp.isSelected()) {
+					JOptionPane.showMessageDialog(null, "You selected : " + temp.getName());
+					dataFile.deleteLine(temp.getName());
+					booksButtonGroup.remove(temp);
+					jPanel.remove(temp);
+					jPanel.revalidate();
+					jPanel.repaint();
+					pDCenter.revalidate();
+					pDCenter.repaint();
+				}
+			}
+			List<Book> books = dataFile.read();
+			Library library = new Library(books, nbBooksPerShelf);
+			svgLibrary.setLibrary(library);
+		}
+	}
+
+	class SearchButtonListener implements ActionListener {
+
+		private JPanel pBCenter;
+
+		private JTextField searchTextField, titleTextField, lastNameTextField, firstNameTextField;
+
+		public SearchButtonListener(JPanel jpanel, JTextField searchTextField, JTextField titleTextField,
+				JTextField lastNameTextField, JTextField firstNameTextField) {
+			this.pBCenter = jpanel;
+			this.searchTextField = searchTextField;
+			this.titleTextField = titleTextField;
+			this.lastNameTextField = lastNameTextField;
+			this.firstNameTextField = firstNameTextField;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String line = searchTextField.getText();
+			ConnectionToCongressLibrary connexion = new ConnectionToCongressLibrary(line);
+
+			String tabResult[] = new String[3];
+			tabResult = connexion.extractData();
+			titleTextField.setText(tabResult[0]);
+			String[] np = tabResult[1].split(",");
+			lastNameTextField.setText(np[0]);
+			firstNameTextField.setText(np[1]);
+			JOptionPane.showMessageDialog(pBCenter, "Search result");
+		}
+	}
+
+	class ShelvesColorButtonListener implements ActionListener {
+
+		private JRadioButton bAutoS, bLightS, bDarkS;
+
+		public ShelvesColorButtonListener(JRadioButton bAutoS, JRadioButton bLightS, JRadioButton bDarkS) {
+			this.bAutoS = bAutoS;
+			this.bLightS = bLightS;
+			this.bDarkS = bDarkS;
+		}
+
+		/**
+		 * function launched when the user performs an action
+		 */
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (bAutoS.isSelected()) {
+				shelfColor = bAutoS.getActionCommand();
+			} else if (bLightS.isSelected()) {
+				shelfColor = bLightS.getActionCommand();
+			} else if (bDarkS.isSelected()) {
+				shelfColor = bDarkS.getActionCommand();
+			}
+		}
+	}
+
+	class SortButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (sortAuthorButton.isSelected()) {
+				sort = "Author";
+			} else if (sortTitleButton.isSelected()) {
+				sort = "Title";
+			} else if (sortYearButton.isSelected()) {
+				sort = "Year";
+			} else {
+				sort = "Auto";
+			}
+		}
+
+	}
+
 	public static final Logger LOGGER = LoggerFactory.getLogger(Window2DLibrary.class);
+
 	private static final long serialVersionUID = 1L;
-	private JButton generateButton;
-	private JTextField searchTextField, firstNameTextField, lastNameTextField, titleTextField,
-			yearTextField, dimXTextField, dimYTextField;
-	private JFormattedTextField numberBooksPerShelfTextField;
-	private JPanel pCenter, addBookJPanel, optionsJPanel;
-	JPanel pDCenter;
-	private JTabbedPane tabPane;
-	private ImageIcon myLibIcon;
+
 	private JRadioButton bDarkB, bLightB, bAutoB, bLeanS, bNotLeanS, bDarkBk, bLightBk, bAutoBk, bDarkS, bLightS,
 			bAutoS, sortAutoButton;
-	JRadioButton sortYearButton;
-	JRadioButton sortAuthorButton;
-	JRadioButton sortTitleButton;
+
+	private JButton generateButton;
+
+	private ImageIcon myLibIcon;
+
+	private JFormattedTextField numberBooksPerShelfTextField;
+
+	private JPanel pCenter, addBookJPanel, optionsJPanel;
+
+	private JTextField searchTextField, firstNameTextField, lastNameTextField, titleTextField, yearTextField,
+			dimXTextField, dimYTextField;
+
 	private JCheckBox sortAscendingYearButton;
-	String bookColor = "Auto";
+
+	private JTabbedPane tabPane;
+
 	String backgroundColor = "Auto";
-	String shelfColor = "Auto";
-	String sort = "Auto";
-	boolean leaning = true;
-	int nbBooksPerShelf = 18;
+
+	String bookColor = "Auto";
+
 	DataFile dataFile = new DataFile();
+
+	boolean leaning = true;
+
+	int nbBooksPerShelf = 18;
+
+	JPanel pDCenter;
+
+	String shelfColor = "Auto";
+
+	String sort = "Auto";
+
+	JRadioButton sortAuthorButton;
+
+	JRadioButton sortTitleButton;
+
+	JRadioButton sortYearButton;
+
 	SVGLibrary svgLibrary;
 
 	/**
@@ -100,47 +467,6 @@ public class Window2DLibrary extends JFrame {
 		int width = dimension.width;
 		setSize(width, height);
 
-	}
-
-	/**
-	 * creates the panels of the window
-	 */
-	public void initialise() {
-		Container container = this.getContentPane();
-		container.add(this.getSouthPanel(), BorderLayout.SOUTH);
-		container.add(this.getNorthPanel(), BorderLayout.NORTH);
-		container.add(this.getCenterPanel(), BorderLayout.CENTER);
-	}
-
-	/**
-	 * creates north panel : title
-	 *
-	 * @return
-	 */
-	public JPanel getNorthPanel() {
-		JPanel northPanel = new JPanel();
-		JPanel headPanel = new JPanel();
-		JLabel welcomeLabel = new JLabel("Welcome to your Library :-)  ");
-		JTextField presentation = new JTextField(10);
-		presentation.setEditable(false);
-		presentation.setVisible(false);
-		northPanel.add(headPanel);
-		headPanel.add(welcomeLabel);
-		headPanel.add(presentation);
-		return northPanel;
-	}
-
-	/**
-	 * creates south panel : button to generateButton the library
-	 *
-	 * @return
-	 */
-	public JPanel getSouthPanel() {
-		JPanel southPanel = new JPanel();
-		generateButton = new JButton("Generate my library");
-		generateButton.addActionListener(new GenerateButtonListener());
-		southPanel.add(generateButton);
-		return southPanel;
 	}
 
 	/**
@@ -184,195 +510,6 @@ public class Window2DLibrary extends JFrame {
 	}
 
 	/**
-	 * creates panel with the last updates library
-	 *
-	 * @return
-	 */
-	public JPanel getPanelCentreLib() {
-		pCenter = new JPanel(new BorderLayout());
-		JLabel libImage = new JLabel();
-		myLibIcon = new ImageIcon("");
-		libImage.setIcon(myLibIcon);
-		JScrollPane scrollPane = new JScrollPane(libImage);
-		pCenter.add(scrollPane);
-		return pCenter;
-	}
-
-	/**
-	 * Update the picture of the library when we change parameters in our IHM
-	 *
-	 * @return nothing
-	 * @throws ParserConfigurationException
-	 */
-
-	public void updateSVGLibrary() throws ParserConfigurationException {
-		generateButton.setText("Reload my library now");
-
-		switch (sort) {
-		case "Author":
-			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByAuthor(), nbBooksPerShelf));
-			break;
-		case "Title":
-			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByTitle(), nbBooksPerShelf));
-			break;
-		case "Year":
-			boolean rising = !sortAscendingYearButton.isSelected();
-			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByYear(rising), nbBooksPerShelf));
-			break;
-		default:
-			svgLibrary = new SVGLibrary(new Library(dataFile.read(), nbBooksPerShelf));
-			break;
-		}
-
-		try {
-			svgLibrary.generate(leaning, backgroundColor, bookColor, shelfColor);
-		} catch (IOException e) {
-			LOGGER.error("Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			LOGGER.error("Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
-			e.printStackTrace();
-		}
-
-		try {
-			svgLibrary.convert();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		pCenter.removeAll();
-		pCenter.revalidate();
-		JLabel libImage = new JLabel();
-		myLibIcon = new ImageIcon(svgLibrary.getNewImage());
-		libImage.setIcon(myLibIcon);
-		pCenter.add(libImage);
-		JScrollPane asc = new JScrollPane(libImage);
-		pCenter.add(asc);
-		pCenter.updateUI();
-		File fichier = new File(svgLibrary.getNewImage());
-		fichier.delete();
-
-	}
-
-	@SuppressWarnings("unused")
-	public JPanel getPanelCentreDelete() {
-		List<Book> books = dataFile.read();
-		Library lib = new Library(books, 5);
-		int nbBooks = 0;
-		for (int i = 0; i < lib.getShelves().size(); i++)
-			nbBooks += lib.getShelves().get(i).getBooks().size();
-		pDCenter = new JPanel(new BorderLayout());
-		JPanel tab = new JPanel(new GridLayout(nbBooks, 2, 10, 10));
-		ButtonGroup booksButtonGroup = new ButtonGroup();
-		JButton removeBookButton = new JButton("Remove");
-		int indexShelf = 0;
-		int indexBook = 0;
-		for (Book book : books) {
-			String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
-			String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
-					.getFirstName();
-			String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
-					.getLastName();
-			int bookyear = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
-			String bookString = authorLastName + "," + authorFirstName + "," + bookTitle + ","
-					+ String.valueOf(bookyear);
-
-			JRadioButton cb = new JRadioButton(bookString);
-			cb.setName(bookString);
-			tab.add(cb);
-			booksButtonGroup.add(cb);
-
-			if (indexBook == lib.getShelves().get(indexShelf).getBooks().size() - 1
-					&& !(indexShelf == lib.getShelves().size() - 1)) {
-				indexShelf++;
-				indexBook = 0;
-			} else if (!(indexShelf == lib.getShelves().size() - 1
-					&& indexBook == lib.getShelves().get(indexShelf).getBooks().size() - 1))
-				indexBook++;
-		}
-
-		removeBookButton.addActionListener(new removeBookButtonListener(booksButtonGroup, tab));
-		pDCenter.add(tab);
-		pDCenter.add(removeBookButton, BorderLayout.SOUTH);
-
-		return pDCenter;
-	}
-
-	public JPanel getPanelAddBook() {
-
-		addBookJPanel = new JPanel(new BorderLayout());
-
-		JPanel bookFormJPanel = new JPanel(new GridLayout(10, 2, 10, 10));
-		JPanel searchJPanel = new JPanel();
-
-		addBookJPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
-
-		JLabel titleFirstColumn = new JLabel("Add Book");
-		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
-
-		JLabel searchJLabel = new JLabel("Search: ");
-		JLabel firstNameJLabel = new JLabel("First Name : ");
-		JLabel lastNameJLabel = new JLabel("Last Name : ");
-		JLabel titleJLabel = new JLabel("Title : ");
-		JLabel yearJLabel = new JLabel("Year : ");
-		JLabel dimXJLabel = new JLabel("DimX : ");
-		JLabel dimYJLabel = new JLabel("DimY : ");
-		JLabel colorJLabel = new JLabel("Color : ");
-
-		JLabel titleSecondColumn = new JLabel("");
-		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
-		searchTextField = new JTextField();
-		searchTextField.setBounds(10, 10, 200, 200);
-		searchTextField.setPreferredSize(new Dimension(160, 40));
-
-		JButton searchButton = new JButton("Search");
-
-		firstNameTextField = new JTextField();
-		firstNameTextField.setBounds(5, 5, 200, 200);
-		lastNameTextField = new JTextField();
-		lastNameTextField.setBounds(5, 5, 50, 25);
-		titleTextField = new JTextField();
-		titleTextField.setBounds(5, 5, 100, 50);
-		yearTextField = new JTextField();
-		yearTextField.setBounds(5, 5, 100, 50);
-		dimXTextField = new JTextField();
-		dimXTextField.setBounds(5, 5, 100, 50);
-		dimYTextField = new JTextField();
-		dimYTextField.setBounds(5, 5, 100, 50);
-		String[] colors = { "rose", "violet", "bleu", "orange", "jaune", "vert", "rouge" };
-		final JComboBox<String> colorComboBox = new JComboBox<String>(colors);
-
-		bookFormJPanel.add(titleFirstColumn);
-		bookFormJPanel.add(titleSecondColumn);
-		bookFormJPanel.add(searchJLabel);
-		searchJPanel.add(searchTextField);
-		searchJPanel.add(searchButton);
-		bookFormJPanel.add(searchJPanel);
-		bookFormJPanel.add(firstNameJLabel);
-		bookFormJPanel.add(firstNameTextField);
-		bookFormJPanel.add(lastNameJLabel);
-		bookFormJPanel.add(lastNameTextField);
-		bookFormJPanel.add(titleJLabel);
-		bookFormJPanel.add(titleTextField);
-		bookFormJPanel.add(yearJLabel);
-		bookFormJPanel.add(yearTextField);
-		bookFormJPanel.add(dimXJLabel);
-		bookFormJPanel.add(dimXTextField);
-		bookFormJPanel.add(dimYJLabel);
-		bookFormJPanel.add(dimYTextField);
-		bookFormJPanel.add(colorJLabel);
-		bookFormJPanel.add(colorComboBox);
-		bookFormJPanel.setOpaque(false);
-		JButton addBookButton = new JButton("Add");
-		bookFormJPanel.add(addBookButton);
-		addBookJPanel.add(bookFormJPanel);
-		searchButton.addActionListener(new SearchButtonListener(addBookJPanel, searchTextField, titleTextField, lastNameTextField, firstNameTextField));
-		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel, tabPane, firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField));
-		return addBookJPanel;
-
-	}
-
-	/**
 	 * creates panel with the options for the user
 	 *
 	 * @return
@@ -385,7 +522,8 @@ public class Window2DLibrary extends JFrame {
 			URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
 			image = ImageIO.read(url);
 		} catch (IOException e) {
-			LOGGER.error("Impossible to find the picture ok menu jpanel via url http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png ");
+			LOGGER.error(
+					"Impossible to find the picture ok menu jpanel via url http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png ");
 			e.printStackTrace();
 		}
 		JLabel booksImage = new JLabel(new ImageIcon(image));
@@ -511,7 +649,7 @@ public class Window2DLibrary extends JFrame {
 		bLeanS.setSelected(true);
 		leanButtonGroup.add(bLeanS);
 		leanButtonGroup.add(bNotLeanS);
-		
+
 		sortAutoButton = new JRadioButton("Auto");
 		sortYearButton = new JRadioButton("Year");
 		sortAuthorButton = new JRadioButton("Author");
@@ -590,326 +728,240 @@ public class Window2DLibrary extends JFrame {
 		return optionsJPanel;
 	}
 
-	class GenerateButtonListener implements ActionListener {
-		/**
-		 * function launched when the user performs an action
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String s = e.getActionCommand();
-			if (s.equals("Generate my library") || s.equals("Reload my library now"))
-				try {
-					updateSVGLibrary();
-				} catch (ParserConfigurationException ex) {
-					LOGGER.error("Impossible to refresh the button after the last update of library");
-					ex.printStackTrace();
-				}
-
-		}
+	/**
+	 * creates north panel : title
+	 *
+	 * @return
+	 */
+	public JPanel getNorthPanel() {
+		JPanel northPanel = new JPanel();
+		JPanel headPanel = new JPanel();
+		JLabel welcomeLabel = new JLabel("Welcome to your Library :-)  ");
+		JTextField presentation = new JTextField(10);
+		presentation.setEditable(false);
+		presentation.setVisible(false);
+		northPanel.add(headPanel);
+		headPanel.add(welcomeLabel);
+		headPanel.add(presentation);
+		return northPanel;
 	}
 
-	class BackgroundColorButtonListener implements ActionListener {
-		
-		private JRadioButton bAutoBk, bLightBk, bDarkBk;
-		
-		public BackgroundColorButtonListener(JRadioButton bAutoBk, JRadioButton bLightBk, JRadioButton bDarkBk){
-			this.bAutoBk = bAutoBk;
-			this.bLightBk = bLightBk;
-			this.bDarkBk = bDarkBk;
-		}
-		
-		/**
-		 * function launched when the user performs an action
-		 */
+	public JPanel getPanelAddBook() {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (bAutoBk.isSelected())
-				backgroundColor = bAutoBk.getActionCommand();
-			else if (bLightBk.isSelected())
-				backgroundColor = bLightBk.getActionCommand();
-			else if (bDarkBk.isSelected())
-				backgroundColor = bDarkBk.getActionCommand();
-		}
+		addBookJPanel = new JPanel(new BorderLayout());
+
+		JPanel bookFormJPanel = new JPanel(new GridLayout(10, 2, 10, 10));
+		JPanel searchJPanel = new JPanel();
+
+		addBookJPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+
+		JLabel titleFirstColumn = new JLabel("Add Book");
+		titleFirstColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+
+		JLabel searchJLabel = new JLabel("Search: ");
+		JLabel firstNameJLabel = new JLabel("First Name : ");
+		JLabel lastNameJLabel = new JLabel("Last Name : ");
+		JLabel titleJLabel = new JLabel("Title : ");
+		JLabel yearJLabel = new JLabel("Year : ");
+		JLabel dimXJLabel = new JLabel("DimX : ");
+		JLabel dimYJLabel = new JLabel("DimY : ");
+		JLabel colorJLabel = new JLabel("Color : ");
+
+		JLabel titleSecondColumn = new JLabel("");
+		titleSecondColumn.setFont(new Font("Arial", Font.ITALIC, 50));
+		searchTextField = new JTextField();
+		searchTextField.setBounds(10, 10, 200, 200);
+		searchTextField.setPreferredSize(new Dimension(160, 40));
+
+		JButton searchButton = new JButton("Search");
+
+		firstNameTextField = new JTextField();
+		firstNameTextField.setBounds(5, 5, 200, 200);
+		lastNameTextField = new JTextField();
+		lastNameTextField.setBounds(5, 5, 50, 25);
+		titleTextField = new JTextField();
+		titleTextField.setBounds(5, 5, 100, 50);
+		yearTextField = new JTextField();
+		yearTextField.setBounds(5, 5, 100, 50);
+		dimXTextField = new JTextField();
+		dimXTextField.setBounds(5, 5, 100, 50);
+		dimYTextField = new JTextField();
+		dimYTextField.setBounds(5, 5, 100, 50);
+		String[] colors = { "rose", "violet", "bleu", "orange", "jaune", "vert", "rouge" };
+		final JComboBox<String> colorComboBox = new JComboBox<>(colors);
+
+		bookFormJPanel.add(titleFirstColumn);
+		bookFormJPanel.add(titleSecondColumn);
+		bookFormJPanel.add(searchJLabel);
+		searchJPanel.add(searchTextField);
+		searchJPanel.add(searchButton);
+		bookFormJPanel.add(searchJPanel);
+		bookFormJPanel.add(firstNameJLabel);
+		bookFormJPanel.add(firstNameTextField);
+		bookFormJPanel.add(lastNameJLabel);
+		bookFormJPanel.add(lastNameTextField);
+		bookFormJPanel.add(titleJLabel);
+		bookFormJPanel.add(titleTextField);
+		bookFormJPanel.add(yearJLabel);
+		bookFormJPanel.add(yearTextField);
+		bookFormJPanel.add(dimXJLabel);
+		bookFormJPanel.add(dimXTextField);
+		bookFormJPanel.add(dimYJLabel);
+		bookFormJPanel.add(dimYTextField);
+		bookFormJPanel.add(colorJLabel);
+		bookFormJPanel.add(colorComboBox);
+		bookFormJPanel.setOpaque(false);
+		JButton addBookButton = new JButton("Add");
+		bookFormJPanel.add(addBookButton);
+		addBookJPanel.add(bookFormJPanel);
+		searchButton.addActionListener(new SearchButtonListener(addBookJPanel, searchTextField, titleTextField,
+				lastNameTextField, firstNameTextField));
+		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel, tabPane,
+				firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField));
+		return addBookJPanel;
+
 	}
 
-	class ShelvesColorButtonListener implements ActionListener {
-		
-		private JRadioButton bAutoS, bLightS, bDarkS;
-		
-		public ShelvesColorButtonListener(JRadioButton bAutoS, JRadioButton bLightS, JRadioButton bDarkS){
-			this.bAutoS = bAutoS;
-			this.bLightS = bLightS;
-			this.bDarkS = bDarkS;
+	@SuppressWarnings("unused")
+	public JPanel getPanelCentreDelete() {
+		List<Book> books = dataFile.read();
+		Library lib = new Library(books, 5);
+		int nbBooks = 0;
+		for (int i = 0; i < lib.getShelves().size(); i++) {
+			nbBooks += lib.getShelves().get(i).getBooks().size();
 		}
-		
-		/**
-		 * function launched when the user performs an action
-		 */
+		pDCenter = new JPanel(new BorderLayout());
+		JPanel tab = new JPanel(new GridLayout(nbBooks, 2, 10, 10));
+		ButtonGroup booksButtonGroup = new ButtonGroup();
+		JButton removeBookButton = new JButton("Remove");
+		int indexShelf = 0;
+		int indexBook = 0;
+		for (Book book : books) {
+			String bookTitle = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
+			String authorFirstName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
+					.getFirstName();
+			String authorLastName = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
+					.getLastName();
+			int bookyear = lib.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
+			String bookString = authorLastName + "," + authorFirstName + "," + bookTitle + ","
+					+ String.valueOf(bookyear);
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (bAutoS.isSelected())
-				shelfColor = bAutoS.getActionCommand();
-			else if (bLightS.isSelected())
-				shelfColor = bLightS.getActionCommand();
-			else if (bDarkS.isSelected())
-				shelfColor = bDarkS.getActionCommand();
-		}
-	}
+			JRadioButton cb = new JRadioButton(bookString);
+			cb.setName(bookString);
+			tab.add(cb);
+			booksButtonGroup.add(cb);
 
-	class BooksColorButtonListener implements ActionListener {
-		
-		private JRadioButton bAutoB, bLightB, bDarkB;
-		
-		public BooksColorButtonListener(JRadioButton bAutoB,JRadioButton bLightB,JRadioButton bDarkB){
-			this.bAutoB = bAutoB;
-			this.bLightB = bLightB;
-			this.bDarkB = bDarkB;
-		}
-		
-		/**
-		 * function launched when the user performs an action
-		 */
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (bAutoB.isSelected())
-				bookColor = bAutoB.getActionCommand();
-			else if (bLightB.isSelected())
-				bookColor = bLightB.getActionCommand();
-			else if (bDarkB.isSelected())
-				bookColor = bDarkB.getActionCommand();
-		}
-	}
-
-	class LeaningButtonListener implements ActionListener {
-		
-		private JRadioButton bLeanS;
-		
-		public LeaningButtonListener(JRadioButton bLeanS){
-			this.bLeanS = bLeanS;
-		}
-		
-		/**
-		 * function launched when the user performs an action
-		 */
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			leaning = bLeanS.isSelected();
-		}
-	}
-
-	class MoreBookPerShelfListener implements ActionListener {
-		
-		private int nbBooksPerShelf;
-		private JFormattedTextField numberBooksPerShelfTextField;
-		
-		public MoreBookPerShelfListener(int nbBooksPerShelf, JFormattedTextField numberBooksPerShelfTextField){
-			this.nbBooksPerShelf = nbBooksPerShelf;
-			this.numberBooksPerShelfTextField = numberBooksPerShelfTextField;
-		}
-		
-		/**
-		 * function launched when the user performs an action
-		 */
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (nbBooksPerShelf != 18){
-				nbBooksPerShelf++;
-				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
+			if (indexBook == lib.getShelves().get(indexShelf).getBooks().size() - 1
+					&& !(indexShelf == lib.getShelves().size() - 1)) {
+				indexShelf++;
+				indexBook = 0;
+			} else if (!(indexShelf == lib.getShelves().size() - 1
+					&& indexBook == lib.getShelves().get(indexShelf).getBooks().size() - 1)) {
+				indexBook++;
 			}
 		}
+
+		removeBookButton.addActionListener(new removeBookButtonListener(booksButtonGroup, tab));
+		pDCenter.add(tab);
+		pDCenter.add(removeBookButton, BorderLayout.SOUTH);
+
+		return pDCenter;
 	}
 
-	class LessBookPerShelfListener implements ActionListener {
-		
-		private int nbBooksPerShelf;
-		private JFormattedTextField numberBooksPerShelfTextField;
-		
-		public LessBookPerShelfListener(int nbBooksPerShelf, JFormattedTextField numberBooksPerShelfTextField){
-			this.nbBooksPerShelf = nbBooksPerShelf;
-			this.numberBooksPerShelfTextField = numberBooksPerShelfTextField;
-		}
-		
-		/**
-		 * function launched when the user performs an action
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (nbBooksPerShelf != 1) {
-				nbBooksPerShelf--;
-				numberBooksPerShelfTextField.setValue(nbBooksPerShelf);
-			}
-		}
+	/**
+	 * creates panel with the last updates library
+	 *
+	 * @return
+	 */
+	public JPanel getPanelCentreLib() {
+		pCenter = new JPanel(new BorderLayout());
+		JLabel libImage = new JLabel();
+		myLibIcon = new ImageIcon("");
+		libImage.setIcon(myLibIcon);
+		JScrollPane scrollPane = new JScrollPane(libImage);
+		pCenter.add(scrollPane);
+		return pCenter;
 	}
 
-	class SearchButtonListener implements ActionListener {
-
-		private JPanel pBCenter;
-		private JTextField searchTextField, titleTextField, lastNameTextField, firstNameTextField;
-
-		public SearchButtonListener(JPanel jpanel, JTextField searchTextField, JTextField titleTextField, JTextField lastNameTextField, JTextField firstNameTextField) {
-			this.pBCenter = jpanel;
-			this.searchTextField = searchTextField;
-			this.titleTextField = titleTextField;
-			this.lastNameTextField = lastNameTextField;
-			this.firstNameTextField = firstNameTextField;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String line = searchTextField.getText();
-			ConnectionToCongressLibrary connexion = new ConnectionToCongressLibrary(line);
-
-			String tabResult[] = new String[3];
-			tabResult = connexion.extractData();
-			titleTextField.setText(tabResult[0]);
-			String[] np = tabResult[1].split(",");
-			lastNameTextField.setText(np[0]);
-			firstNameTextField.setText(np[1]);
-			JOptionPane.showMessageDialog(pBCenter, "Search result");
-		}
+	/**
+	 * creates south panel : button to generateButton the library
+	 *
+	 * @return
+	 */
+	public JPanel getSouthPanel() {
+		JPanel southPanel = new JPanel();
+		generateButton = new JButton("Generate my library");
+		generateButton.addActionListener(new GenerateButtonListener());
+		southPanel.add(generateButton);
+		return southPanel;
 	}
 
-	class AddBookButtonListener implements ActionListener {
-
-		private JComboBox<String> colorComboBox;
-		private JPanel pBCenter, tab;
-		private JTabbedPane tabPane;
-		private JTextField firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField;
-
-		public AddBookButtonListener(JComboBox<String> j, JPanel c, JPanel t, JTabbedPane tp, JTextField firstNameTextField, JTextField lastNameTextField, JTextField titleTextField, JTextField yearTextField, JTextField dimXTextField, JTextField dimYTextField) {
-			colorComboBox = j;
-			pBCenter = c;
-			tab = t;
-			tabPane = tp;
-			this.firstNameTextField = firstNameTextField;
-			this.lastNameTextField = lastNameTextField;
-			this.titleTextField = titleTextField;
-			this.yearTextField = yearTextField;
-			this.dimXTextField = dimXTextField;
-			this.dimYTextField = dimYTextField;
-		}
-
-		public boolean isInt(String chaine) {
-			boolean valeur = true;
-			char[] tab = chaine.toCharArray();
-
-			for (char carac : tab)
-				if (!Character.isDigit(carac) && valeur)
-					valeur = false;
-
-			return valeur;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (firstNameTextField.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(pBCenter, "You must enter a first name.");
-				return;
-			}
-			if (lastNameTextField.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(pBCenter, "You must enter a last name.");
-				return;
-			}
-			if (titleTextField.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(pBCenter, "You must enter a title.");
-				return;
-			}
-			String year = yearTextField.getText();
-			if (!isInt(year))
-				year = "2000";
-			if (year.isEmpty())
-				year = "2000";
-			String firstName = firstNameTextField.getText();
-			String lastName = lastNameTextField.getText();
-			String title = titleTextField.getText();
-			String dimX = dimXTextField.getText();
-			if (!isInt(dimX))
-				dimX = "200";
-			if (dimX.isEmpty())
-				dimX = "200";
-			String dimY = dimYTextField.getText();
-			if (!isInt(dimY))
-				dimY = "200";
-			if (dimY.isEmpty())
-				dimY = "200";
-			String line = firstName + ",";
-			line = line + lastName + ",";
-			line = line + title + ",";
-			line = line + year + ",";
-			line = line + dimX + ",";
-			line = line + dimY + ",";
-			line = line + colorComboBox.getSelectedItem().toString() + ",";
-			line = line + "End";
-			dataFile.addLine(line);
-			JOptionPane.showMessageDialog(pBCenter, "Book added successfully");
-			Component[] components = tab.getComponents();
-			for (Component component : components)
-				if (component instanceof JTextField || component instanceof JTextArea) {
-					JTextComponent specificObject = (JTextComponent) component;
-					specificObject.setText("");
-				}
-			tabPane.remove(3);
-			tabPane.add("Delete Books from my Library", getPanelCentreDelete());
-			tabPane.add("Delete Books from my Library", new JScrollPane(pDCenter));
-			tab.revalidate();
-			tab.repaint();
-			pBCenter.revalidate();
-			pBCenter.repaint();
-		}
+	/**
+	 * creates the panels of the window
+	 */
+	public void initialise() {
+		Container container = this.getContentPane();
+		container.add(this.getSouthPanel(), BorderLayout.SOUTH);
+		container.add(this.getNorthPanel(), BorderLayout.NORTH);
+		container.add(this.getCenterPanel(), BorderLayout.CENTER);
 	}
 
-	class SortButtonListener implements ActionListener {
+	/**
+	 * Update the picture of the library when we change parameters in our IHM
+	 *
+	 * @return nothing
+	 * @throws ParserConfigurationException
+	 */
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (sortAuthorButton.isSelected())
-				sort = "Author";
-			else if (sortTitleButton.isSelected())
-				sort = "Title";
-			else if (sortYearButton.isSelected())
-				sort = "Year";
-			else
-				sort = "Auto";
+	public void updateSVGLibrary() throws ParserConfigurationException {
+		generateButton.setText("Reload my library now");
+
+		switch (sort) {
+		case "Author":
+			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByAuthor(), nbBooksPerShelf));
+			break;
+		case "Title":
+			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByTitle(), nbBooksPerShelf));
+			break;
+		case "Year":
+			boolean rising = !sortAscendingYearButton.isSelected();
+			svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().sortByYear(rising), nbBooksPerShelf));
+			break;
+		default:
+			svgLibrary = new SVGLibrary(new Library(dataFile.read(), nbBooksPerShelf));
+			break;
 		}
 
-	}
-
-	class removeBookButtonListener implements ActionListener {
-
-		private ButtonGroup booksButtonGroup;
-
-		private JPanel jPanel;
-
-		public removeBookButtonListener(ButtonGroup bg, JPanel jp) {
-			this.booksButtonGroup = bg;
-			this.jPanel = jp;
+		try {
+			svgLibrary.generate(leaning, backgroundColor, bookColor, shelfColor);
+		} catch (IOException e) {
+			LOGGER.error(
+					"Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			LOGGER.error(
+					"Error when we generateButton the library with ordinary field : Some parameters seems npt ok PLEASE CHECK GENERATE METHOD");
+			e.printStackTrace();
 		}
 
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			Enumeration<AbstractButton> allRadioButton = booksButtonGroup.getElements();
-			while (allRadioButton.hasMoreElements()) {
-				JRadioButton temp = (JRadioButton) allRadioButton.nextElement();
-				if (temp.isSelected()) {
-					JOptionPane.showMessageDialog(null, "You selected : " + temp.getName());
-					dataFile.deleteLine(temp.getName());
-					booksButtonGroup.remove(temp);
-					jPanel.remove(temp);
-					jPanel.revalidate();
-					jPanel.repaint();
-					pDCenter.revalidate();
-					pDCenter.repaint();
-				}
-			}
-			List<Book> books = dataFile.read();
-			Library library = new Library(books, nbBooksPerShelf);
-			svgLibrary.setLibrary(library);
+		try {
+			svgLibrary.convert();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		pCenter.removeAll();
+		pCenter.revalidate();
+		JLabel libImage = new JLabel();
+		myLibIcon = new ImageIcon(svgLibrary.getNewImage());
+		libImage.setIcon(myLibIcon);
+		pCenter.add(libImage);
+		JScrollPane asc = new JScrollPane(libImage);
+		pCenter.add(asc);
+		pCenter.updateUI();
+		File fichier = new File(svgLibrary.getNewImage());
+		fichier.delete();
+
 	}
 
 }

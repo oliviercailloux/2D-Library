@@ -20,24 +20,77 @@ public class DataFile {
 	public static final Logger LOGGER = LoggerFactory.getLogger(DataFile.class);
 
 	private String booksFilePath;
-	
-	public DataFile(){
+
+	public DataFile() {
 		String path = new File("").getAbsolutePath();
 		booksFilePath = path + "/src/main/resources/controller/Books.csv";
 	}
-	
+
+	/***
+	 * Add a line to the csv file
+	 * 
+	 * @param line
+	 */
+	public void addLine(String line) {
+		try (FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true)) {
+			// FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true);
+			wr.append(line);
+			wr.append("\r\n");
+			wr.close();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+	}
+
+	/**
+	 * Delete he line in the csv file
+	 * 
+	 * @param lineToDelete
+	 */
+	public void deleteLine(String lineToDelete) {
+
+		File file = new File(booksFilePath);
+
+		List<List<String>> lines = new ArrayList<>();
+		Scanner inputStream;
+
+		try {
+			inputStream = new Scanner(file);
+
+			while (inputStream.hasNextLine()) {
+				String line = inputStream.nextLine();
+
+				String[] values = line.split(",");
+				String[] las = lineToDelete.split(",");
+				if (values[0].equals(las[0]) && values[1].equals(las[1]) && values[2].equals(las[2])
+						&& values[3].equals(las[3])) {
+					continue;
+				} else {
+					lines.add(Arrays.asList(values));
+				}
+				LOGGER.debug(lines.toString());
+			}
+
+			inputStream.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		addNotDeletedLines(lines);
+	}
+
 	public String getBooksFilePath() {
 		return booksFilePath;
 	}
 
 	/***
-	 * 
+	 *
 	 * @return the list of books include in the csv file
 	 */
 	public List<Book> read() {
 
 		File booksFile = new File(booksFilePath);
-		
+
 		List<Book> liste = new ArrayList<>();
 
 		// this gives you a 2-dimensional array of strings
@@ -81,7 +134,7 @@ public class DataFile {
 				if (value == "" || value.isEmpty()) {
 					value = "";
 				}
-				//LOGGER.info("bla : " + value);
+				// LOGGER.info("bla : " + value);
 				book.setBookAttribute(columnNo, value);
 				columnNo++;
 
@@ -91,60 +144,10 @@ public class DataFile {
 		}
 		return liste;
 	}
-	
-	/***
-	 * Add a line to the csv file
-	 * @param line
-	 */
-	public void addLine(String line) {
-		try (FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true)) {
-			//FileWriter wr = new FileWriter(booksFilePath.trim().toString(), true);
-			wr.append(line);
-			wr.append("\r\n");
-			wr.close();
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Delete he line in the csv file
-	 * @param lineToDelete
-	 */
-	public void deleteLine(String lineToDelete) {
 
-		File file = new File(booksFilePath);
-
-		List<List<String>> lines = new ArrayList<>();
-		Scanner inputStream;
-
-		try {
-			inputStream = new Scanner(file);
-
-			while (inputStream.hasNextLine()) {
-				String line = inputStream.nextLine();
-
-				String[] values = line.split(",");
-				String[] las = lineToDelete.split(",");
-				if (values[0].equals(las[0]) && values[1].equals(las[1]) && values[2].equals(las[2])
-						&& values[3].equals(las[3])) {
-					continue;
-				} else {
-					lines.add(Arrays.asList(values));
-				}
-				LOGGER.debug(lines.toString());
-			}
-
-			inputStream.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		addNotDeletedLines(lines);
-	}
-	
 	/**
 	 * Add all the lines in the csv file (these are the books that were not deleted)
+	 * 
 	 * @param lines
 	 */
 	private void addNotDeletedLines(List<List<String>> lines) {

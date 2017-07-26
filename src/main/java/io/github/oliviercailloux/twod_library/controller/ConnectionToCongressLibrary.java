@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * RESTConnection to the library of Congress
- * Extract the title, the author and the date of publication of the book.
+ * RESTConnection to the library of Congress Extract the title, the author and
+ * the date of publication of the book.
  *
  */
 public class ConnectionToCongressLibrary {
@@ -25,42 +25,19 @@ public class ConnectionToCongressLibrary {
 
 	/***
 	 * Constructor of the connection with the code of the book
-	 * 
+	 *
 	 * @param code
 	 */
 	public ConnectionToCongressLibrary(String code) {
 		this.bookCodeIdentifier = code;
 	}
 
-	/***
-	 * Make the connection with the site and get the book's datas marcxml in a
-	 * string
-	 * 
-	 * @return result, the code marcxml of the datas of the book
-	 * @throws ProcessingException
-	 */
-	public String getMarcXML() throws ProcessingException {
-		String result;
-		try {
-			Client client = ClientBuilder.newClient();
-			WebTarget t1 = client.target("https://lccn.loc.gov");
-			WebTarget t2 = t1.path("{idxml}");
-			WebTarget t3 = t2.resolveTemplate("idxml", bookCodeIdentifier + "/marcxml", false);
-			result = t3.request(MediaType.TEXT_PLAIN).get(String.class);
-			client.close();
-		} catch (ProcessingException e) { //FIXME
-			result = "ERROR - book code identifier does not exist";
-		}
-		return result;
-	}
-
 	/**
-	 * 
-	 * @return a table of 3 String named result. 
-	 * result[0] contains the title
-	 * result[1] contains the author 
-	 * result[2] contains the date of publication
-	 * 
+	 *
+	 * @return a table of 3 String named result. result[0] contains the title
+	 *         result[1] contains the author result[2] contains the date of
+	 *         publication
+	 *
 	 * @throws IllegalArgumentException
 	 */
 	public String[] extractData() throws IllegalArgumentException {
@@ -123,5 +100,27 @@ public class ConnectionToCongressLibrary {
 
 		return result;
 
+	}
+
+	/***
+	 * Make the connection with the site and get the book's datas marcxml in a
+	 * string
+	 *
+	 * @return result, the code marcxml of the datas of the book
+	 * @throws ProcessingException
+	 */
+	public String getMarcXML() throws ProcessingException {
+		String result;
+		try {
+			Client client = ClientBuilder.newClient();
+			WebTarget t1 = client.target("https://lccn.loc.gov");
+			WebTarget t2 = t1.path("{idxml}");
+			WebTarget t3 = t2.resolveTemplate("idxml", bookCodeIdentifier + "/marcxml", false);
+			result = t3.request(MediaType.TEXT_PLAIN).get(String.class);
+			client.close();
+		} catch (ProcessingException e) { // FIXME
+			result = "ERROR - book code identifier does not exist";
+		}
+		return result;
 	}
 }

@@ -39,71 +39,41 @@ public class SVGLibrary {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(SVGLibrary.class);
 
-	private Library library;
-	private String newImage;
 	private SVGGraphics2D graphics;
+
 	private int lastColorIndex = -1;
+
+	private Library library;
+
+	private String newImage;
+
+	public SVGLibrary() {
+		super();
+	}
 
 	public SVGLibrary(Library library) throws ParserConfigurationException {
 		this.library = library;
 		this.graphics = generateSVG();
 	}
 
-	public SVGLibrary() {
-		super();
-	}
-
 	/***
-	 * getter of the library
-	 * @return the library
-	 */
-	public Library getLibrary() {
-		return library;
-	}
-
-	/***
-	 * setter of the library
-	 * @param library2 the library to set
-	 */
-	public void setLibrary(Library library2) {
-		this.library = library2;
-	}
-
-	/***
-	 * getter of the new image
-	 * @return newTimage
-	 */
-	public String getNewImage() {
-		return newImage;
-	}
-
-	/***
-	 * setter of the new image
-	 * @param the newImage to set
-	 */
-	public void setNewImage(String newImage) {
-		this.newImage = newImage;
-	}
-	
-	/***
-	 * Generate the borders of the library.
+	 * Conversion .svg to .png for create a format more standard and print it
 	 *
-	 * @param dimCanvasX
-	 * @param dimCanvasY
-	 * @param thinknessEdges
-	 * @return List of the borders of the library.
 	 */
-	private List<Shape> getEdges(int dimCanvasX, int dimCanvasY, int thinknessEdges) {
-		List<Shape> res = new ArrayList<Shape>();
-		Shape left = new Rectangle(0, 0, thinknessEdges, dimCanvasY);
-		Shape right = new Rectangle(dimCanvasX - thinknessEdges, 0, thinknessEdges, dimCanvasY);
-		Shape top = new Rectangle(0, 0, dimCanvasX, thinknessEdges);
-		Shape bot = new Rectangle(0, dimCanvasY - thinknessEdges, dimCanvasX, thinknessEdges);
-		res.add(top);
-		res.add(bot);
-		res.add(right);
-		res.add(left);
-		return res;
+	public void convert() throws Exception {
+		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
+		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);
+		this.setNewImage(generate(20));// Define the name of the file
+		try (OutputStream png_ostream = new FileOutputStream(newImage)) {
+			TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
+
+			PNGTranscoder my_converter = new PNGTranscoder();
+			my_converter.transcode(input_svg_image, output_png_image);
+
+			png_ostream.flush();
+			png_ostream.close();
+		}
+
 	}
 
 	/***
@@ -124,8 +94,9 @@ public class SVGLibrary {
 
 		int nbShelves = library.getShelves().size();
 		int spaceBetweenShelves = 0;
-		if (nbShelves > 0)
+		if (nbShelves > 0) {
 			spaceBetweenShelves = (dimCanvasY - thiknessEdges * (2 + nbShelves - 1)) / nbShelves;
+		}
 
 		// define the back and the outlines of the library
 		drawBackOutlines(dimCanvasX, dimCanvasY, thiknessEdges, bkColor, sColor);
@@ -148,58 +119,84 @@ public class SVGLibrary {
 	}
 
 	/***
-	 * Draw the shelves
+	 * Generate the file's name
 	 *
-	 * @param graphics
-	 * @param nbShelves
-	 * @param thiknessEdges
-	 * @param spaceBetweenShelves
-	 * @param dimCanvasX
-	 * @return
+	 * @param length
+	 *            : Number of file's name characters
+	 * @return a list of length characters
 	 */
-	private List<Shape> drawShelves(int nbShelves, int thiknessEdges, int spaceBetweenShelves, int dimCanvasX,
-			String sColor) {
-		List<Shape> shelves = new ArrayList<>();
-		switch (sColor) {
-		case "Light":
-			graphics.setPaint(Color.decode("#CD853F"));
-			break;
-		case "Dark":
-			graphics.setPaint(Color.decode("#660000"));
-			break;
-		default:
-			graphics.setPaint(Color.decode("#8B4513"));
-			break;
+	public String generate(int length) {
+		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		String pass = "";
+		for (int x = 0; x < length; x++) {
+			int i = (int) Math.floor(Math.random() * 62);
+			pass += chars.charAt(i);
 		}
-		for (int i = 1; i <= nbShelves; i++) {
-			Shape shelf = new Rectangle(0, thiknessEdges * i + i * spaceBetweenShelves, dimCanvasX, thiknessEdges);
-			shelves.add(shelf);
-			graphics.fill(shelf);
-		}
-		return shelves;
+
+		return pass;
 	}
 
 	/***
-	 * Generate the SVG
-	 *
-	 * @return the SVGGraphics2D on which we are drawing
-	 * @throws ParserConfigurationException
+	 * getter of the library
+	 * 
+	 * @return the library
 	 */
-	private SVGGraphics2D generateSVG() throws ParserConfigurationException {
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
+	public Library getLibrary() {
+		return library;
+	}
 
-		// Get a DOMImplementation.
-		DOMImplementation domImpl = db.getDOMImplementation();
+	/***
+	 * getter of the new image
+	 * 
+	 * @return newTimage
+	 */
+	public String getNewImage() {
+		return newImage;
+	}
 
-		// Create an instance of org.w3c.dom.Document.
-		String svgNS = "http://www.w3.org/2000/svg";
-		Document document = domImpl.createDocument(svgNS, "svg", null);
+	/***
+	 * setter of the library
+	 * 
+	 * @param library2
+	 *            the library to set
+	 */
+	public void setLibrary(Library library2) {
+		this.library = library2;
+	}
 
-		// Create an instance of the SVG Generator.
-		SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
-		ctx.setEmbeddedFontsOn(true);
-		return new SVGGraphics2D(ctx, true);
+	/***
+	 * setter of the new image
+	 * 
+	 * @param the
+	 *            newImage to set
+	 */
+	public void setNewImage(String newImage) {
+		this.newImage = newImage;
+	}
+
+	/***
+	 * Set the size of the book
+	 * 
+	 * @param ShelfHeight
+	 * @param ShelfWidth
+	 * @param book
+	 * @param idealWidth
+	 * @param idealHeight
+	 * @param widthSup
+	 * @param heightSup
+	 */
+	public void setSizeBook(int ShelfHeight, int ShelfWidth, Book book, int idealWidth, int idealHeight, int widthSup,
+			int heightSup) {
+
+		if (!(book.getWidth() >= idealWidth && book.getWidth() <= widthSup)) {
+			book.setWidth(widthSup);
+		}
+		if (!(book.getHeight() >= idealHeight && book.getHeight() <= heightSup)) {
+			book.setHeight(heightSup);
+		}
+		if (!(book.getWidth() >= book.getHeight() / 10 && book.getWidth() <= book.getHeight() / 8)) {
+			book.setWidth(book.getHeight() / 9);
+		}
 	}
 
 	/***
@@ -236,103 +233,9 @@ public class SVGLibrary {
 			graphics.setPaint(Color.decode("#8B4513"));
 			break;
 		}
-		for (Shape edge : edges)
+		for (Shape edge : edges) {
 			graphics.fill(edge);
-	}
-
-	/***
-	 * Draw the title of the book
-	 *
-	 * @param graphics
-	 * @param bookRotation
-	 * @param book
-	 * @param library
-	 * @param bookX
-	 * @param bookY
-	 * @param indexBook
-	 * @param indexShelf
-	 * @param bookHeight
-	 */
-
-	private void drawBooksAndTitles(int spaceBetweenShelves, int dimCanvasX, int thiknessEdges, int shelfWidth,
-			boolean leaning, List<Shape> shelves, String bColor) {
-		List<Shape> bookShapes = new ArrayList<>();
-		int idealWidth = (int) (0.6 * (shelfWidth / library.getShelves().get(0).getBooks().size()));
-		int idealHeight = (int) (0.8 * spaceBetweenShelves);
-		int placeLeftInShelf = shelfWidth;
-		int shelfNumber = 1;
-		Random randomGenerator = new Random();
-		int counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
-		for (Book book : library.getListOfAllTheBooks()) {
-			Shape bookShape = null;
-			int randomWidth = idealWidth + randomGenerator.nextInt(30);
-			int randomHeightGap = randomGenerator.nextInt(50);
-			int heightSup = idealHeight + randomHeightGap;
-			if (heightSup > spaceBetweenShelves)
-				heightSup = spaceBetweenShelves;
-			setSizeBook(spaceBetweenShelves, shelfWidth, book, idealWidth, idealHeight, randomWidth, heightSup);
-			int width = book.getWidth();
-			int height = book.getHeight();
-
-			if (placeLeftInShelf <= width) {
-				// go to another shelf
-				placeLeftInShelf = shelfWidth;
-				shelfNumber++;
-			}
-			int bookX = dimCanvasX - thiknessEdges - placeLeftInShelf;
-			int bookY = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBetweenShelves
-					- height;
-			bookShape = new Rectangle(bookX, bookY, width, height);
-			bookShapes.add(bookShape);
-			counterBooks--;
-			if (counterBooks == 0) {
-				// go to another shelf
-				placeLeftInShelf = shelfWidth;
-				shelfNumber++;
-				if (shelfNumber < library.getShelves().size())
-					counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
-			}
-			else // stay in the current shelf
-				placeLeftInShelf -= width;
 		}
-
-		int indexShelf = 0;
-		int indexBook = 0;
-		placeLeftInShelf = shelfWidth;
-		for (Shape bookShape : bookShapes) {
-			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
-			boolean isLastBookOfTheShelf = (indexBook + 1)
-					% library.getShelves().get(indexShelf).getBooks().size() == 0;
-			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, bookShape, library.getShelves().get(indexShelf).getBooks().get(indexBook), placeLeftInShelf, YOfTheShelf,
-					leaning, bColor);
-			lastColorIndex = table[2];
-			int bookRotation = table[0];
-			double bookX = bookShape.getBounds().getX();
-			double bookY;
-			if (isLastBookOfTheShelf) {
-				bookY = table[1];
-			} else
-				bookY = bookShape.getBounds().getY();
-			double bookHeight = bookShape.getBounds().getHeight();
-			double bookWidth = bookShape.getBounds().getWidth();
-			String bookTitle = library.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
-			String authorFirstName = library.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
-					.getFirstName();
-			String authorLastName = library.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
-					.getLastName();
-			int bookYear = library.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
-			String bookString = bookTitle + " - " + authorFirstName + " " + authorLastName + " - " + bookYear;
-			drawTitle(bookRotation, bookString, bookShape, bookX, bookY, indexBook, bookHeight, bColor, bookWidth);
-			if (isLastBookOfTheShelf) {
-				indexShelf++;
-				indexBook = 0;
-				placeLeftInShelf = shelfWidth;
-			} else {
-				indexBook++;
-				placeLeftInShelf -= bookShape.getBounds().getWidth();
-			}
-		}
-
 	}
 
 	/***
@@ -397,15 +300,18 @@ public class SVGLibrary {
 		int colorIndex = -1;
 
 		// generate a random color for this book
-		do
+		do {
 			colorIndex = randomGenerator.nextInt(randomColors.size());
-		while (colorIndex == lastColorIndex);
+		} while (colorIndex == lastColorIndex);
 
 		lastColorIndex = colorIndex;
 
 		// select this color
-		if (book.getColor()==null) graphics.setPaint(randomColors.get(colorIndex));
-		else graphics.setPaint(book.getColor());
+		if (book.getColor() == null) {
+			graphics.setPaint(randomColors.get(colorIndex));
+		} else {
+			graphics.setPaint(book.getColor());
+		}
 
 		// paint the book (with rotation if the last book)
 		int[] result = new int[3];
@@ -413,13 +319,17 @@ public class SVGLibrary {
 		int bookRotation = 0;
 		if (isLastBook && leaning) {// on penche le dernier livre
 			bookRotation = -15 - randomGenerator.nextInt(40);
-			if(bookRotation < -45) bookRotation = -90;
+			if (bookRotation < -45) {
+				bookRotation = -90;
+			}
 			while (emptySpace <= getCos(bookRotation) * bookShape.getBounds().getWidth()
-					+ getSin(-bookRotation) * bookShape.getBounds().getHeight() && bookRotation < 0)
+					+ getSin(-bookRotation) * bookShape.getBounds().getHeight() && bookRotation < 0) {
 				bookRotation += 1;
+			}
 			// Height between the top left corner of the book and the shelf when leaning
 			double hauteurRotation = bookShape.getBounds().getHeight() * getCos(bookRotation);
-			// The new Y coordinate of the leaning rectangle (so that it is placed on the shelf)
+			// The new Y coordinate of the leaning rectangle (so that it is placed on the
+			// shelf)
 			double newY = yOfTheShelf - hauteurRotation;
 			Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
 					(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
@@ -443,6 +353,138 @@ public class SVGLibrary {
 
 	/***
 	 * Draw the title of the book
+	 *
+	 * @param graphics
+	 * @param bookRotation
+	 * @param book
+	 * @param library
+	 * @param bookX
+	 * @param bookY
+	 * @param indexBook
+	 * @param indexShelf
+	 * @param bookHeight
+	 */
+
+	private void drawBooksAndTitles(int spaceBetweenShelves, int dimCanvasX, int thiknessEdges, int shelfWidth,
+			boolean leaning, List<Shape> shelves, String bColor) {
+		List<Shape> bookShapes = new ArrayList<>();
+		int idealWidth = (int) (0.6 * (shelfWidth / library.getShelves().get(0).getBooks().size()));
+		int idealHeight = (int) (0.8 * spaceBetweenShelves);
+		int placeLeftInShelf = shelfWidth;
+		int shelfNumber = 1;
+		Random randomGenerator = new Random();
+		int counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
+		for (Book book : library.getListOfAllTheBooks()) {
+			Shape bookShape = null;
+			int randomWidth = idealWidth + randomGenerator.nextInt(30);
+			int randomHeightGap = randomGenerator.nextInt(50);
+			int heightSup = idealHeight + randomHeightGap;
+			if (heightSup > spaceBetweenShelves) {
+				heightSup = spaceBetweenShelves;
+			}
+			setSizeBook(spaceBetweenShelves, shelfWidth, book, idealWidth, idealHeight, randomWidth, heightSup);
+			int width = book.getWidth();
+			int height = book.getHeight();
+
+			if (placeLeftInShelf <= width) {
+				// go to another shelf
+				placeLeftInShelf = shelfWidth;
+				shelfNumber++;
+			}
+			int bookX = dimCanvasX - thiknessEdges - placeLeftInShelf;
+			int bookY = shelfNumber * thiknessEdges + (shelfNumber - 1) * spaceBetweenShelves + spaceBetweenShelves
+					- height;
+			bookShape = new Rectangle(bookX, bookY, width, height);
+			bookShapes.add(bookShape);
+			counterBooks--;
+			if (counterBooks == 0) {
+				// go to another shelf
+				placeLeftInShelf = shelfWidth;
+				shelfNumber++;
+				if (shelfNumber < library.getShelves().size()) {
+					counterBooks = library.getShelves().get(shelfNumber - 1).getBooks().size();
+				}
+			} else {
+				placeLeftInShelf -= width;
+			}
+		}
+
+		int indexShelf = 0;
+		int indexBook = 0;
+		placeLeftInShelf = shelfWidth;
+		for (Shape bookShape : bookShapes) {
+			double YOfTheShelf = shelves.get(indexShelf).getBounds().getY();
+			boolean isLastBookOfTheShelf = (indexBook + 1)
+					% library.getShelves().get(indexShelf).getBooks().size() == 0;
+			int[] table = drawBook(randomGenerator, isLastBookOfTheShelf, bookShape,
+					library.getShelves().get(indexShelf).getBooks().get(indexBook), placeLeftInShelf, YOfTheShelf,
+					leaning, bColor);
+			lastColorIndex = table[2];
+			int bookRotation = table[0];
+			double bookX = bookShape.getBounds().getX();
+			double bookY;
+			if (isLastBookOfTheShelf) {
+				bookY = table[1];
+			} else {
+				bookY = bookShape.getBounds().getY();
+			}
+			double bookHeight = bookShape.getBounds().getHeight();
+			double bookWidth = bookShape.getBounds().getWidth();
+			String bookTitle = library.getShelves().get(indexShelf).getBooks().get(indexBook).getTitle();
+			String authorFirstName = library.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
+					.getFirstName();
+			String authorLastName = library.getShelves().get(indexShelf).getBooks().get(indexBook).getAuthor()
+					.getLastName();
+			int bookYear = library.getShelves().get(indexShelf).getBooks().get(indexBook).getYear();
+			String bookString = bookTitle + " - " + authorFirstName + " " + authorLastName + " - " + bookYear;
+			drawTitle(bookRotation, bookString, bookShape, bookX, bookY, indexBook, bookHeight, bColor, bookWidth);
+			if (isLastBookOfTheShelf) {
+				indexShelf++;
+				indexBook = 0;
+				placeLeftInShelf = shelfWidth;
+			} else {
+				indexBook++;
+				placeLeftInShelf -= bookShape.getBounds().getWidth();
+			}
+		}
+
+	}
+
+	/***
+	 * Draw the shelves
+	 *
+	 * @param graphics
+	 * @param nbShelves
+	 * @param thiknessEdges
+	 * @param spaceBetweenShelves
+	 * @param dimCanvasX
+	 * @return
+	 */
+	private List<Shape> drawShelves(int nbShelves, int thiknessEdges, int spaceBetweenShelves, int dimCanvasX,
+			String sColor) {
+		List<Shape> shelves = new ArrayList<>();
+		switch (sColor) {
+		case "Light":
+			graphics.setPaint(Color.decode("#CD853F"));
+			break;
+		case "Dark":
+			graphics.setPaint(Color.decode("#660000"));
+			break;
+		default:
+			graphics.setPaint(Color.decode("#8B4513"));
+			break;
+		}
+		for (int i = 1; i <= nbShelves; i++) {
+			Shape shelf = new Rectangle(0, thiknessEdges * i + i * spaceBetweenShelves, dimCanvasX, thiknessEdges);
+			shelves.add(shelf);
+			graphics.fill(shelf);
+		}
+		return shelves;
+	}
+
+	/***
+	 * Draw the title of the book
+	 * 
 	 * @param bookRotation
 	 * @param bookString
 	 * @param book
@@ -457,10 +499,11 @@ public class SVGLibrary {
 			double bookHeight, String bColor, double bookWidth) {
 
 		// select the black color for the title
-		if (bColor.equals("Dark"))
+		if (bColor.equals("Dark")) {
 			graphics.setPaint(Color.white);
-		else
+		} else {
 			graphics.setPaint(Color.black);
+		}
 
 		// draw the title with the same rotation as the book
 
@@ -474,89 +517,75 @@ public class SVGLibrary {
 				fontSize = fontSize - 3;
 				graphics.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 			}
-		}	
+		}
 		graphics.drawString(bookString,
-					(float) (bookX + (bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2),
-					(float) (bookY - bookWidth / 4));
+				(float) (bookX + (bookHeight - graphics.getFontMetrics().stringWidth(bookString)) / 2),
+				(float) (bookY - bookWidth / 4));
 
 		graphics.rotate(Math.toRadians(-90 - bookRotation), bookX, bookY);
 	}
 
 	/***
-	 * Set the size of the book
-	 * @param ShelfHeight
-	 * @param ShelfWidth
-	 * @param book
-	 * @param idealWidth
-	 * @param idealHeight
-	 * @param widthSup
-	 * @param heightSup
-	 */
-	public void setSizeBook(int ShelfHeight, int ShelfWidth, Book book, int idealWidth, int idealHeight, int widthSup,
-			int heightSup) {
-
-		if (!(book.getWidth() >= idealWidth && book.getWidth() <= widthSup))
-			book.setWidth(widthSup);
-		if (!(book.getHeight() >= idealHeight && book.getHeight() <= heightSup))
-			book.setHeight(heightSup);
-		if (!(book.getWidth() >= book.getHeight() / 10 && book.getWidth() <= book.getHeight() / 8))
-			book.setWidth(book.getHeight() / 9);
-	}
-	
-	/***
-	 * Conversion .svg to .png for create a format more standard and print it
+	 * Generate the SVG
 	 *
+	 * @return the SVGGraphics2D on which we are drawing
+	 * @throws ParserConfigurationException
 	 */
-	public void convert() throws Exception{
-		String svg_URI_input = Paths.get("library.svg").toUri().toURL().toString();
-		TranscoderInput input_svg_image = new TranscoderInput(svg_URI_input);
-		this.setNewImage(generate(20));// Define the name of the file
-		try (OutputStream png_ostream = new FileOutputStream(newImage)) {
-			TranscoderOutput output_png_image = new TranscoderOutput(png_ostream);
+	private SVGGraphics2D generateSVG() throws ParserConfigurationException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
 
-			PNGTranscoder my_converter = new PNGTranscoder();
-			my_converter.transcode(input_svg_image, output_png_image);
+		// Get a DOMImplementation.
+		DOMImplementation domImpl = db.getDOMImplementation();
 
-			png_ostream.flush();
-			png_ostream.close();	
-		}
-		
-	}
+		// Create an instance of org.w3c.dom.Document.
+		String svgNS = "http://www.w3.org/2000/svg";
+		Document document = domImpl.createDocument(svgNS, "svg", null);
 
-	/***
-	 * Generate the file's name
-	 *
-	 * @param length : Number of file's name characters
-	 * @return a list of length characters
-	 */
-	public String generate(int length)
-	{
-		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		String pass = "";
-		for(int x=0;x<length;x++)
-		{
-			int i = (int)Math.floor(Math.random() * 62);
-			pass += chars.charAt(i);
-		}
-
-		return pass;
+		// Create an instance of the SVG Generator.
+		SVGGeneratorContext ctx = SVGGeneratorContext.createDefault(document);
+		ctx.setEmbeddedFontsOn(true);
+		return new SVGGraphics2D(ctx, true);
 	}
 
 	/**
 	 * get the cos of the angle by getting the degree in radian
+	 * 
 	 * @param rot
 	 * @return
 	 */
-	private double getCos(int rot){
+	private double getCos(int rot) {
 		return Math.cos(Math.toRadians(rot));
+	}
+
+	/***
+	 * Generate the borders of the library.
+	 *
+	 * @param dimCanvasX
+	 * @param dimCanvasY
+	 * @param thinknessEdges
+	 * @return List of the borders of the library.
+	 */
+	private List<Shape> getEdges(int dimCanvasX, int dimCanvasY, int thinknessEdges) {
+		List<Shape> res = new ArrayList<>();
+		Shape left = new Rectangle(0, 0, thinknessEdges, dimCanvasY);
+		Shape right = new Rectangle(dimCanvasX - thinknessEdges, 0, thinknessEdges, dimCanvasY);
+		Shape top = new Rectangle(0, 0, dimCanvasX, thinknessEdges);
+		Shape bot = new Rectangle(0, dimCanvasY - thinknessEdges, dimCanvasX, thinknessEdges);
+		res.add(top);
+		res.add(bot);
+		res.add(right);
+		res.add(left);
+		return res;
 	}
 
 	/**
 	 * get the sin of the angle by getting the degree in radian
+	 * 
 	 * @param rot
 	 * @return
 	 */
-	private double getSin(int rot){
+	private double getSin(int rot) {
 		return Math.sin(Math.toRadians(rot));
 	}
 }
