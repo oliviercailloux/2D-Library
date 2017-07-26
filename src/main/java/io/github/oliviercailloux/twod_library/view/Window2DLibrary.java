@@ -14,11 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -518,15 +516,6 @@ public class Window2DLibrary extends JFrame {
 
 		optionsJPanel = new JPanel();
 		Image image = null;
-		try {
-			URL url = new URL("http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png");
-			image = ImageIO.read(url);
-		} catch (IOException e) {
-			LOGGER.error(
-					"Impossible to find the picture ok menu jpanel via url http://www.fsgworkinprogress.com/wp-content/uploads/2013/04/MARKWEINER.png ");
-			e.printStackTrace();
-		}
-		JLabel booksImage = new JLabel(new ImageIcon(image));
 		JPanel optionsNames = new JPanel(new GridLayout(0, 2, 40, 30));
 		JPanel parameters = new JPanel();
 		JPanel choice = new JPanel();
@@ -722,7 +711,6 @@ public class Window2DLibrary extends JFrame {
 		optionsNames.add(numberBooksPerShelfTitleJPanel);
 		optionsNames.add(numberBooksPerShelfJPanel);
 		optionsNames.setOpaque(false);
-		optionsJPanel.add(booksImage);
 		optionsJPanel.add(optionsNames);
 
 		return optionsJPanel;
