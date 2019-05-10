@@ -4,3 +4,5 @@ A Java project developed by students during the https://github.com/oliviercaillo
 
 The code is hereby published under the MIT License, with their permission.
 
+https://travis-ci.com/CHARLONCyril/2D-Library.svg?branch=dev
+
