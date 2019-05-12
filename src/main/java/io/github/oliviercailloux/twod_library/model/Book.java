@@ -51,10 +51,8 @@ public class Book {
 	/**
 	 * Book's constructor with the title and the author of the book.
 	 *
-	 * @param the
-	 *            title of the book
-	 * @param the
-	 *            author of the book
+	 * @param the title of the book
+	 * @param the author of the book
 	 */
 	public Book(String title, Author author, int year) {
 		this.title = title;
@@ -65,8 +63,7 @@ public class Book {
 	/***
 	 * Return true if this book is older than the bookToCompare.
 	 *
-	 * @param book
-	 *            to compare.
+	 * @param book to compare.
 	 * @return true if this book is older than the book to compare.
 	 */
 	public boolean compareYear(Book bookToCompare) {
@@ -172,8 +169,7 @@ public class Book {
 	/**
 	 * Setter of the author of the book
 	 *
-	 * @param the
-	 *            author of the book
+	 * @param the author of the book
 	 */
 	public void setAuthor(Author author) {
 		this.author = author;
@@ -249,16 +245,14 @@ public class Book {
 	}
 
 	/**
-	 * @param color
-	 *            the color to set
+	 * @param color the color to set
 	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
 
 	/**
-	 * @param height
-	 *            the height to set
+	 * @param height the height to set
 	 */
 	public void setHeight(int height) {
 		this.height = height;
@@ -267,16 +261,14 @@ public class Book {
 	/**
 	 * Setter of the title of the book
 	 *
-	 * @param the
-	 *            title of the book
+	 * @param the title of the book
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
-	 * @param width
-	 *            the width to set
+	 * @param width the width to set
 	 */
 	public void setWidth(int width) {
 		this.width = width;
@@ -285,8 +277,7 @@ public class Book {
 	/**
 	 * Setter of the year of the book
 	 *
-	 * @param the
-	 *            year of the book
+	 * @param the year of the book
 	 */
 	public void setYear(int year) {
 		this.year = year;
@@ -307,8 +298,7 @@ class BookCompareByAuthor implements Comparator<Book> {
 	/**
 	 * implementation of the compare method of Comparator<>
 	 *
-	 * @param b1
-	 *            b2 the books we compare
+	 * @param b1 b2 the books we compare
 	 * @return an int, less than 0 if b1 is lexically after b2 more than 0 if b1 is
 	 *         lexically before b2 equal to 0 if b1 is equal to b2
 	 */
@@ -329,8 +319,7 @@ class BookCompareByTitle implements Comparator<Book> {
 	/**
 	 * implementation of the compare method of Comparator<>
 	 *
-	 * @param b1
-	 *            b2 the books we compare
+	 * @param b1 b2 the books we compare
 	 * @return an int, less than 0 if b1 is lexically after b2 more than 0 if b1 is
 	 *         lexically before b2 equal to 0 if b1 is equal to b2
 	 */

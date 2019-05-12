@@ -25,10 +25,8 @@ public class Author {
 	/**
 	 * Author's constructor.
 	 * 
-	 * @param author's
-	 *            first name
-	 * @param author's
-	 *            last name
+	 * @param author's first name
+	 * @param author's last name
 	 */
 	public Author(String lastName, String firstName) {
 		this.lastName = lastName;
@@ -36,8 +34,7 @@ public class Author {
 	}
 
 	/***
-	 * @param the
-	 *            author to compare
+	 * @param the author to compare
 	 * @return true if the author is equal to the parameter
 	 */
 	@Override
@@ -84,8 +81,7 @@ public class Author {
 	/**
 	 * Author's first name setter
 	 * 
-	 * @param author's
-	 *            first name
+	 * @param author's first name
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -94,8 +90,7 @@ public class Author {
 	/**
 	 * Author's last name setter
 	 * 
-	 * @param author's
-	 *            last name
+	 * @param author's last name
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;

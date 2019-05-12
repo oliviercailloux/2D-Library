@@ -10,10 +10,10 @@ import io.github.oliviercailloux.twod_library.model.Author;
 import io.github.oliviercailloux.twod_library.model.Book;
 
 public class BookTest {
-	
+
 	@Test
-	public void testEqual(){
-	    Author olympie = new Author("Olympie", "Suquet");
+	public void testEqual() {
+		Author olympie = new Author("Olympie", "Suquet");
 		Book x = new Book();
 		x.setAuthor(olympie);
 		x.setTitle("Titre popo");
@@ -29,13 +29,13 @@ public class BookTest {
 		y.setWidth(3);
 		y.setColor(Color.BLUE);
 
-	    assertTrue(x.isEqualTo(y) && y.isEqualTo(x));
-	    assertTrue(x.hashCode() == y.hashCode());
+		assertTrue(x.isEqualTo(y) && y.isEqualTo(x));
+		assertTrue(x.hashCode() == y.hashCode());
 	}
-	
+
 	@Test
-	public void compareBooksTest(){
-	    Author olympie = new Author("Olympie", "Suquet");
+	public void compareBooksTest() {
+		Author olympie = new Author("Olympie", "Suquet");
 		Book x = new Book();
 		x.setAuthor(olympie);
 		x.setTitle("Titre popo");
@@ -51,6 +51,6 @@ public class BookTest {
 		y.setWidth(3);
 		y.setColor(Color.BLUE);
 
-	    assertTrue(x.compareYear(y));
+		assertTrue(x.compareYear(y));
 	}
 }

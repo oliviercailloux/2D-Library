@@ -14,16 +14,17 @@ import io.github.oliviercailloux.twod_library.model.Library;
 public class LibrarySortTest {
 
 	Library library;
-	
+
 	public LibrarySortTest() {
 		library = new Library();
 	}
+
 	/**
 	 * Test method for BookSort.sortByYear(List<Book>, rising)
 	 */
 	@Test
 	public void sortByYear_Should_Return_A_Sorted_By_Year_List_Of_Books() {
-		//arrange
+		// arrange
 		List<Book> expected = new ArrayList<>();
 
 		Author a1 = new Author("CHUNG", "Hugo");
@@ -47,27 +48,27 @@ public class LibrarySortTest {
 		b3.setTitle("Les misérables");
 		b3.setYear(1860);
 		expected.add(b3);
-		
+
 		// act
 		List<Book> actual = new ArrayList<>();
 		actual = library.sortByYear(true);
-		
+
 		List<Book> actual2 = new ArrayList<>();
 		actual2 = library.sortByYear(false);
-		
-		//assert
-		for(int i = 0; i < actual.size(); i++){
-			if(i != actual.size()-1){
-				if(actual.get(i).getYear() <= actual.get(i+1).getYear()){
+
+		// assert
+		for (int i = 0; i < actual.size(); i++) {
+			if (i != actual.size() - 1) {
+				if (actual.get(i).getYear() <= actual.get(i + 1).getYear()) {
 					// good
 				} else {
 					fail("Not sorted as expected");
 				}
 			}
 		}
-		for(int i = 0; i < actual2.size(); i++){
-			if(i != actual.size()-1){
-				if(actual.get(i).getYear() >= actual.get(i+1).getYear()){
+		for (int i = 0; i < actual2.size(); i++) {
+			if (i != actual.size() - 1) {
+				if (actual.get(i).getYear() >= actual.get(i + 1).getYear()) {
 					// good
 				} else {
 					fail("Not sorted as expected");
@@ -75,14 +76,14 @@ public class LibrarySortTest {
 			}
 		}
 	}
-	
+
 	/**
 	 * Test method for BookSort.sortByTitle
 	 */
 	@Test
-	public void sortByTitle_Should_Sort_The_Books_By_Title_Alphabetically(){
+	public void sortByTitle_Should_Sort_The_Books_By_Title_Alphabetically() {
 		List<Book> expected = new ArrayList<>();
-		
+
 		Author a1 = new Author("CHUNG", "Hugo");
 		Author a2 = new Author("ROWLING", "JK");
 		Author a3 = new Author("BAUDELAIRE", "Charles");
@@ -104,22 +105,22 @@ public class LibrarySortTest {
 		b3.setTitle("Les misérables");
 		b3.setYear(1860);
 		expected.add(b3);
-		
+
 		expected = library.sortByTitle();
-		
+
 		assertEquals(3, expected.size());
 		assertEquals("Harry Poopper", expected.get(0).getTitle());
 		assertEquals("Les misérables", expected.get(1).getTitle());
 		assertEquals("Une vie de coccinelle", expected.get(2).getTitle());
 	}
-	
+
 	/**
 	 * Test method for BookSort.sortByAuthor
 	 */
 	@Test
-	public void sortByAuthor_Should_Sort_The_Books_By_Author_Alphabetically(){
+	public void sortByAuthor_Should_Sort_The_Books_By_Author_Alphabetically() {
 		List<Book> expected = new ArrayList<>();
-		
+
 		Author a1 = new Author("CHUNG", "Hugo");
 		Author a2 = new Author("ROWLING", "JK");
 		Author a3 = new Author("BAUDELAIRE", "Charles");
@@ -141,9 +142,9 @@ public class LibrarySortTest {
 		b3.setTitle("Les misérables");
 		b3.setYear(1860);
 		expected.add(b3);
-		
+
 		expected = library.sortByAuthor();
-		
+
 		assertEquals(3, expected.size());
 		assertEquals("BAUDELAIRE", expected.get(0).getAuthor().getLastName());
 		assertEquals("CHUNG", expected.get(1).getAuthor().getLastName());

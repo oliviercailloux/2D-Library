@@ -12,8 +12,8 @@ import io.github.oliviercailloux.twod_library.model.Shelf;
 
 public class ShelfTest {
 	@Test
-	public void testEqual(){
-	    Author olympie = new Author("Olympie", "Suquet");
+	public void testEqual() {
+		Author olympie = new Author("Olympie", "Suquet");
 		Author merlene = new Author("Merlène", "Lejeune");
 		Book book1 = new Book();
 		book1.setAuthor(olympie);
@@ -33,7 +33,7 @@ public class ShelfTest {
 		books.add(book3);
 		Shelf x = new Shelf(books);
 		Shelf y = new Shelf(books);
-	    Assert.assertTrue(x.isEqualTo(y) && y.isEqualTo(x));
-	    Assert.assertTrue(x.hashCode() == y.hashCode());
+		Assert.assertTrue(x.isEqualTo(y) && y.isEqualTo(x));
+		Assert.assertTrue(x.hashCode() == y.hashCode());
 	}
 }

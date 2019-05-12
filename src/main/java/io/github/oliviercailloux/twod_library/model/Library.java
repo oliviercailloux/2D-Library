@@ -126,8 +126,7 @@ public class Library {
 	/**
 	 * Setter of the list of shelves
 	 *
-	 * @param a
-	 *            list of shelves
+	 * @param a list of shelves
 	 */
 	public void setShelves(List<Shelf> shelves) {
 		this.shelves = shelves;

@@ -29,8 +29,7 @@ public class Shelf {
 	/**
 	 * Shelf constructor with a list of books
 	 * 
-	 * @param a
-	 *            list of books
+	 * @param a list of books
 	 */
 	public Shelf(List<Book> books) {
 		this.books = books;
@@ -64,8 +63,7 @@ public class Shelf {
 
 	/***
 	 *
-	 * @param shelf
-	 *            to compare
+	 * @param shelf to compare
 	 * @return true if the shelves are equals
 	 */
 	public boolean isEqualTo(Object shelf) {
@@ -85,8 +83,7 @@ public class Shelf {
 	/**
 	 * Setter of the list of books in the shelf
 	 * 
-	 * @param a
-	 *            list of books
+	 * @param a list of books
 	 */
 	public void setBooks(List<Book> books) {
 		this.books = books;
@@ -95,8 +92,7 @@ public class Shelf {
 	/**
 	 * Setter of the height of the shelf
 	 * 
-	 * @param a
-	 *            height
+	 * @param a height
 	 */
 	public void setHeightSize(double heightSize) {
 		this.heightSize = heightSize;
