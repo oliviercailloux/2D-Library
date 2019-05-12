@@ -6,3 +6,30 @@ The code is hereby published under the MIT License, with their permission.
 
 https://travis-ci.com/CHARLONCyril/2D-Library.svg?branch=dev
 
+Plan détaillé des différentes livraisons:
+
+Voici les objectifs à atteindre pour la 1ère livraison:
+
+ - Contract1: La classe a modifié semble être Windows2DLibrary. Pour l'instant nous pouvons modifier le fond de la bibliothèque la couleur des livres, néanmoins nous ne pouvons pas influé sur le nombre de livre par étagère.
+ - Contract2: Nous allons créer une classe search data qui permettra de faire une recherche sur un livre grâce au nom d'auteur, le titre...
+ - Interface1: Nous allons créer l'interface JavaSearcher de recherche des livres. Il est assez logique de la faire dans la même itération que contract2 car l'interface aura une instance de searchData
+ - Pour finir nous allons développer la fonctionnalité DrawBorder qui va permettre d'entourer les livres générés d'une bordure noire.
+ 
+ Objectif à atteindre pour la deuxième livraison:
+ 
+  -Interface2: Par peur de manque de temps nous avons décidé de mettre le développement de interface2 à la deuxième itération.
+  -Puis nous avons mis les fonctionnalités de WritePrefs, GuiPrefs,GuiBooks dans cette itération car ces 3 fonctionnalités sont liées. En effet pour éviter la duplication de code il semble évident de faire WritePrefs avant  GuiPrefs, car certaines fonctionnalités de WritePrefs devront être réutilisées. Puis pour GuiBooks nous aurons besoins de GuiPrefs pour récuperer les préférences des utilisateurs.
+ 
+ Tâches à réaliser pour la troisième livraison:
+ 
+  -File1 et File2. Ces deux tâches fonctionnent déjà mais nous voulons les améliorer. Pour file1  nous voulons qu'il soit possible d'afficher la première page de couverture des livres si elle est fournie. Puis pour file2 nous voulons qu'il soit possible de déterminer l'épaisseur de chaque livre au lieu de fournir une hauteur et largeur pour avoir une meilleure précision et remplir de façon plus efficace chaque étagère.
+  -Puis nous allons réaliser Ressource1 qui va permmettre d'inclure un fichier image illustrant le projet et Ressource2 qui permettra d'obtenir un aperçu d'une bibliothèque par défaut sans que l'utilisateur n'ai à cliquer sur "générer ma bibliothèque". 
+  - Pour finir chaque livre se verra transformé en hyperlien qui dirigera l'utilisateur sur une recherche google associée au titre du livre.
+ 
+ Tâches à réaliser pour la quatrième livraison:
+ 
+  -SearchCongress: Chaque utilisateur pourra faire une recherche sur le site de la bibliothèque du Congrès après avoir rentré ses critères de recherche.
+  -Puis nous allons modifier GuiSearch afin d'y inclure la fonctionalité ci-dessus.
+  - La bibliothèque ainsi généré pourra être imprimée par l'utilisateur en format poster ou autre grâce a une fonctionalité: PrintPoster.
+  - Enfin s'il nous reste du temps nous souhaitons que le livre recherché par l'utilisateur se mette en surbrillance s'il est présent dans la bibliothèque et développer un système de QR code qui permettra  à l'utilisateur d'avoir accèss à un résumé du livre.
+  
