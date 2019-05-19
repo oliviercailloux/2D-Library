@@ -1,8 +1,10 @@
 package io.github.oliviercailloux.twod_library.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.io.FileOutputStream;
@@ -28,6 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+
+import com.google.common.base.Preconditions;
 
 import io.github.oliviercailloux.twod_library.model.Book;
 import io.github.oliviercailloux.twod_library.model.Library;
@@ -82,14 +86,15 @@ public class SVGLibrary {
 	 * @param leaning
 	 * @param Library
 	 * @param leaning
+	 * @param nbBookPerShelve
 	 */
-	public void generate(boolean leaning, String bkColor, String bColor, String sColor)
+	public void generate(boolean leaning, String bkColor, String bColor, String sColor, String nbBookPerShelve)
 			throws IOException, ParserConfigurationException {
 
+		Preconditions.checkNotNull(nbBookPerShelve);
 		int dimCanvasX = (int) ((int) library.getFrameSizeW() - 0.055 * library.getFrameSizeW());
 		int dimCanvasY = 1500;
 		int thiknessEdges = 20;
-
 		graphics.setSVGCanvasSize(new Dimension(dimCanvasX, dimCanvasY));
 
 		int nbShelves = library.getShelves().size();
@@ -334,6 +339,7 @@ public class SVGLibrary {
 			int newBookY = (int) newRectangle.getBounds().getY();
 			graphics.rotate(Math.toRadians(bookRotation), newBookX, newBookY);
 			graphics.fill(newRectangle);
+			drawBorder(graphics, newRectangle);
 			graphics.rotate(Math.toRadians(-bookRotation), newBookX, newBookY);
 			result[1] = newBookY;
 		} else {
@@ -342,10 +348,23 @@ public class SVGLibrary {
 			Rectangle newRectangle = new Rectangle((int) bookShape.getBounds().getX(), (int) newY,
 					(int) bookShape.getBounds().getWidth(), (int) bookShape.getBounds().getHeight());
 			graphics.fill(newRectangle);
+			drawBorder(graphics, newRectangle);
 			result[1] = (int) newY;
 		}
 		result[0] = bookRotation;
 		return result;
+	}
+
+	/**
+	 * Draw surround of the shape.
+	 * 
+	 * @param g: Current graphics object
+	 * @param s: shape for which we draw border
+	 */
+	public void drawBorder(Graphics g, Shape s) {
+		graphics.setStroke(new BasicStroke(8f)); // set the surround size of the shape
+		graphics.setColor(Color.BLACK);
+		graphics.draw(s);
 	}
 
 	/***
