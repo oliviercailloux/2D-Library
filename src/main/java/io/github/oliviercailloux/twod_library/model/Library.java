@@ -5,17 +5,21 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Library is a class that describes the library, with several shelves and
  * books.
  */
-public class Library {
+public class Library implements JavaSearcher {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(Library.class);
 
@@ -198,6 +202,129 @@ public class Library {
 			}
 		}
 		return sortedBooks;
+	}
+
+	/**
+	 *
+	 * @param s <code>not null</code> set of key word entered by the user.
+	 * @return all book which have for author a person who contained at least one or
+	 *         several word containing by s.
+	 */
+	public ArrayList<Book> searchByAuthor(Set<String> s) {
+		Preconditions.checkArgument(!s.isEmpty());// We can't do a search if there is no criteria
+		ArrayList<Book> bookSearched = new ArrayList<Book>();
+		for (int i = 0; i < getListOfAllTheBooks().size(); i++) {
+			for (@SuppressWarnings("rawtypes")
+			Iterator it = s.iterator(); it.hasNext();) {
+				String t = (String) it.next(); // the current key word which is compared to all the firstname and
+												// and surename of every author
+				if (getListOfAllTheBooks().get(i).getAuthor().getFirstName().toLowerCase().contains(t.toLowerCase())
+						|| getListOfAllTheBooks().get(i).getAuthor().getLastName().toLowerCase()
+								.contains(t.toLowerCase())) {
+					// If firstname or surname contain t add the book
+					bookSearched.add(getListOfAllTheBooks().get(i));
+				}
+
+			}
+		}
+		return bookSearched;
+
+	}
+
+	/**
+	 *
+	 * @param s <code>not null</code> set of key word entered by the user.
+	 * @return all book which have for title letter contained in s.
+	 */
+	public ArrayList<Book> searchByTitle(Set<String> s) {
+		Preconditions.checkArgument(!s.isEmpty());// We can't do a search if there is no criteria
+		ArrayList<Book> bookSearched = new ArrayList<Book>();
+		for (int i = 0; i < getListOfAllTheBooks().size(); i++) {
+			for (@SuppressWarnings("rawtypes")
+			Iterator it = s.iterator(); it.hasNext();) {
+				String t = (String) it.next(); // the current key word which is compared to all the firstname and
+				// and surename of every author
+				if (getListOfAllTheBooks().get(i).getTitle().toLowerCase().contains(t.toLowerCase())) {
+					bookSearched.add(getListOfAllTheBooks().get(i));// If firstname or surname contain t add the book
+				}
+
+			}
+		}
+		return bookSearched;
+
+	}
+
+	/**
+	 *
+	 * @param s <code>not null</code> set of key word entered by the user.
+	 * @return all book which have for date number contained in s.
+	 */
+	public ArrayList<Book> searchByDate(Set<String> s) {
+		Preconditions.checkArgument(!s.isEmpty());// We can't do a search if there is no criteria
+		ArrayList<Book> bookSearched = new ArrayList<Book>();
+		for (int i = 0; i < getListOfAllTheBooks().size(); i++) {
+			for (@SuppressWarnings("rawtypes")
+			Iterator it = s.iterator(); it.hasNext();) {
+				String t = (String) it.next();
+				if (String.valueOf(getListOfAllTheBooks().get(i).getYear()).toLowerCase().contains(t.toLowerCase())) {
+					bookSearched.add(getListOfAllTheBooks().get(i));
+				}
+
+			}
+		}
+		return bookSearched;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	/**
+	 * This function call the good search function according to the user's choice
+	 */
+	public List<Book> getResultSearchData(SearchData s) {
+		Preconditions.checkArgument(!s.getSearchCriteria().isEmpty());// We can't do a search if there is no criteria
+		ArrayList<Book> resultSearching = new ArrayList<Book>();
+		switch (s.getTypeOfSearch()) {
+		case "auteur":
+			resultSearching = searchByAuthor(s.getSearchCriteria());
+			break;
+
+		case "titre":
+			resultSearching = searchByTitle(s.getSearchCriteria());
+			break;
+
+		case "date":
+			resultSearching = searchByDate(s.getSearchCriteria());
+			break;
+		case "tout":
+			resultSearching = searchByAuthor(s.getSearchCriteria());
+			resultSearching.addAll(searchByTitle(s.getSearchCriteria()));
+			resultSearching.addAll(searchByDate(s.getSearchCriteria()));
+			break;
+		}
+		return resultSearching;
+	}
+
+	@Override
+	/**
+	 * This function will call getResultSearchData but instead of return every books
+	 * find, we will just return the number of book according to user'choice
+	 */
+	public ArrayList<Book> getResultSearchDataLimited(SearchData s, String nbLivre) {
+		Preconditions.checkArgument(!s.getSearchCriteria().isEmpty());
+		Preconditions.checkArgument(Integer.parseInt(nbLivre) > 0);
+		ArrayList<Book> resultSearching = (ArrayList<Book>) getResultSearchData(s);
+		if (Integer.valueOf(nbLivre) > resultSearching.size()) { // We can't dispaly to much book because the search
+																	// find less book.
+			return resultSearching;
+		} else {
+			ArrayList<Book> resultSearchingLimited = new ArrayList<Book>();// We use nbLivre to know how much book will
+																			// we return
+			for (int i = 0; i < Integer.valueOf(nbLivre); i++) {
+				resultSearchingLimited.add(resultSearching.get(i));
+			}
+			return resultSearchingLimited;
+		}
+
 	}
 
 	/*

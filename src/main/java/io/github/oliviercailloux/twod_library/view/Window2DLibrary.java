@@ -48,7 +48,7 @@ import com.google.common.base.MoreObjects;
 import io.github.oliviercailloux.twod_library.controller.DataFile;
 import io.github.oliviercailloux.twod_library.model.Book;
 import io.github.oliviercailloux.twod_library.model.Library;
-
+import io.github.oliviercailloux.twod_library.model.SearchData;
 
 public class Window2DLibrary extends JFrame {
 
@@ -278,6 +278,80 @@ public class Window2DLibrary extends JFrame {
 		}
 	}
 
+	class SearchButtonListener implements ActionListener {
+
+		private JTextField searchTextField;
+		private JComboBox<String> searchParamComboBox;
+		private JFormattedTextField qteBookSerach;
+
+		public SearchButtonListener(JComboBox<String> searchParamComboBox2, JTextField searchTextField2,
+				JFormattedTextField qteBookSerach) {
+			this.setSearchParamComboBox(searchParamComboBox2);
+			this.setSearchTextField(searchTextField2);
+			this.setQteBookSerach(qteBookSerach);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (getSearchTextField().equals("")) {
+				JOptionPane.showMessageDialog(optionsJPanel, "Vous devez d'abord entrer des critères de recherches");
+			} else {
+				SearchData d = SearchData.createSearchDataFilter(
+						new ArrayList<String>(Arrays.asList(getSearchTextField().split(" "))),
+						getSearchParamComboBox());
+				try {
+					if (!getQteBookSerach().equals("Searching Not limitted")) {
+						svgLibrary.setLibrary(
+								new Library(svgLibrary.getLibrary().getResultSearchDataLimited(d, getQteBookSerach()),
+										Integer.parseInt(numberBooksPerShelfTextField.getText())));
+					} else {
+						svgLibrary.setLibrary(new Library(svgLibrary.getLibrary().getResultSearchData(d),
+								Integer.parseInt(numberBooksPerShelfTextField.getText())));
+					}
+					if (svgLibrary.getLibrary().getListOfAllTheBooks().size() == 0) {
+						JOptionPane.showMessageDialog(optionsJPanel,
+								"We didn't found anything in your library with these parameter. Library didn't change");
+					} else {
+						updateDrawingLibrary(svgLibrary);
+					}
+				} catch (ParserConfigurationException ex) {
+					LOGGER.error("Impossible to refresh the button after the last update of library");
+					ex.printStackTrace();
+				}
+			}
+		}
+
+		public String getSearchTextField() {
+			return searchTextField.getText();
+		}
+
+		public void setSearchTextField(JTextField searchTextField) {
+			this.searchTextField = searchTextField;
+		}
+
+		public String getSearchParamComboBox() {
+			return searchParamComboBox.getSelectedItem().toString();
+		}
+
+		public void setSearchParamComboBox(JComboBox<String> searchParamComboBox) {
+			this.searchParamComboBox = searchParamComboBox;
+		}
+
+		public String toString() {
+			return MoreObjects.toStringHelper(this).add("User Search", getSearchTextField())
+					.add("Type of search", getSearchParamComboBox()).toString();
+		}
+
+		public String getQteBookSerach() {
+			return qteBookSerach.getText();
+		}
+
+		public void setQteBookSerach(JFormattedTextField qteBookSerach) {
+			this.qteBookSerach = qteBookSerach;
+		}
+
+	}
+
 	class ShelvesColorButtonListener implements ActionListener {
 
 		private JRadioButton bAutoS, bLightS, bDarkS;
@@ -446,7 +520,6 @@ public class Window2DLibrary extends JFrame {
 		final int CAPACITY_MIN_PER_SHELF = 5;
 		final int CAPACITY_MAX_PER_SHELF = 20;
 		optionsJPanel = new JPanel();
-		Image image = null;
 		JPanel optionsNames = new JPanel(new GridLayout(0, 2, 40, 30));
 		JPanel parameters = new JPanel();
 		JPanel choice = new JPanel();
@@ -796,6 +869,7 @@ public class Window2DLibrary extends JFrame {
 		JButton addBookButton = new JButton("Add");
 		bookFormJPanel.add(addBookButton);
 		addBookJPanel.add(bookFormJPanel);
+		searchButton.addActionListener(new SearchButtonListener(searchParamComboBox, searchTextField, qteBookSerach));
 		addBookButton.addActionListener(new AddBookButtonListener(colorComboBox, addBookJPanel, bookFormJPanel, tabPane,
 				firstNameTextField, lastNameTextField, titleTextField, yearTextField, dimXTextField, dimYTextField));
 		return addBookJPanel;

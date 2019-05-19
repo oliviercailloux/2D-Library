@@ -96,4 +96,8 @@ public class Author {
 		this.lastName = lastName;
 	}
 
+	public String toString() {
+		return "Nom : " + getLastName() + " Prenom :" + getFirstName();
+	}
+
 }

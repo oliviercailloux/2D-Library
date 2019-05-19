@@ -12,10 +12,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.github.oliviercailloux.twod_library.model.Author;
-import io.github.oliviercailloux.twod_library.model.Book;
-import io.github.oliviercailloux.twod_library.model.Library;
-
 /**
  * 
  *
@@ -109,6 +105,68 @@ public class LibraryTest {
 		assertEquals("BAUDELAIRE", expected.get(0).getAuthor().getLastName());
 		assertEquals("CHUNG", expected.get(1).getAuthor().getLastName());
 		assertEquals("ROWLING", expected.get(2).getAuthor().getLastName());
+	}
+
+	/**
+	 * Test method for BookSearch.searchByAuthor. Should return book if the firstame
+	 * or surname contains user filter
+	 */
+	@Test
+	public void searchByAuthor_Should_Return_Books_found() {
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add("c");
+		SearchData s = SearchData.createSearchDataFilter(filter, "auteur");
+		List<Book> expected = library.getResultSearchData(s);
+		System.out.println(expected);
+		assertEquals(2, expected.size());
+		assertEquals("Une vie de coccinelle", expected.get(0).getTitle());
+		assertEquals("Les misérables", expected.get(0).getTitle());
+	}
+
+	/**
+	 * Test method for BookSearch.searchByAuthor. Should return book if the firstame
+	 * or surname contains user filter
+	 */
+	@Test
+	public void searchByTitle_Should_Return_Books_found() {
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add("y");
+		SearchData s = SearchData.createSearchDataFilter(filter, "titre");
+		List<Book> expected = library.getResultSearchData(s);
+		assertEquals(1, expected.size());
+		assertEquals("Harry Poopper", expected.get(0).getTitle());
+	}
+
+	/**
+	 * Test method for BookSearch.searchByAuthor. Should return book if the firstame
+	 * or surname contains user filter
+	 */
+	@Test
+	public void searchByDate_Should_Return_Books_found() {
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add("2");
+		SearchData s = SearchData.createSearchDataFilter(filter, "date");
+		List<Book> expected = library.getResultSearchData(s);
+		assertEquals(2, expected.size());
+		assertEquals("Une vie de coccinelle", expected.get(0).getTitle());
+		assertEquals("Harry Poopper", expected.get(1).getTitle());
+	}
+
+	/**
+	 * Test method for BookSearch.searchByAuthor. Should return book if the firstame
+	 * or surname contains user filter
+	 */
+	@Test
+	public void searchByTout_Should_Return_Books_found() {
+		ArrayList<String> filter = new ArrayList<String>();
+		filter.add("mis");
+		filter.add("2");
+		SearchData s = SearchData.createSearchDataFilter(filter, "tout");
+		List<Book> expected = library.getResultSearchData(s);
+		assertEquals(3, expected.size());
+		assertEquals("Une vie de coccinelle", expected.get(0).getTitle());
+		assertEquals("Les misérable", expected.get(1).getTitle());
+		assertEquals("Harry Poopper", expected.get(2).getTitle());
 	}
 
 	@After
